@@ -1,0 +1,61 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">QC Land Sale Property List</h3>
+              </div>
+              <div class="col text-right">
+                <a *ngIf="permission('read')" [routerLink]="['/property-management/qc-property-list']" class="btn btn-sm btn-default text-white">
+                  <i class="fa fa-list mr-2"></i>For Sale
+                </a>
+                <a *ngIf="permission('read')" [routerLink]="['/property-management/qc-rent-property-list']" class="btn btn-sm btn-default text-white">
+                  <i class="fa fa-list mr-2"></i>To Rent
+                </a>
+                <a *ngIf="permission('read')" [routerLink]="['/property-management/qc-land-sale-property-list']" class="btn btn-sm btn-warning text-white">
+                    <i class="fa fa-list mr-2"></i>For Land Sale
+                </a>
+                <a *ngIf="salePermission('create')" [routerLink]="['/property-management/for-land-sale']" class="btn btn-sm btn-default text-white">
+                  <i class="fa fa-plus mr-2"></i>Add Land Sale Property
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body border-0" *ngIf="permission('read')">
+            <nz-tabset nzType="card">
+              <nz-tab [nzTitle]="'Pending for QC ( '+pending_count+' )'">
+                <ng-template nz-tab>
+                  <app-qc-land-sale-property-pending-list></app-qc-land-sale-property-pending-list>
+                </ng-template>
+              </nz-tab>
+              <nz-tab [nzTitle]="'Rejected by QC ( '+reject_count+' )'">
+                <ng-template nz-tab>
+                  <app-qc-land-sale-property-rejected-list></app-qc-land-sale-property-rejected-list>
+                </ng-template>
+              </nz-tab>
+              <nz-tab [nzTitle]="'Deleted Property ( '+deleted_count+' )'">
+                <ng-template nz-tab>
+                  <app-qc-land-sale-property-deleted-list></app-qc-land-sale-property-deleted-list>
+                </ng-template>
+              </nz-tab>
+            </nz-tabset>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>

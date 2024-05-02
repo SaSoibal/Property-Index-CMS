@@ -1,0 +1,500 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Property Preview</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row">
+      <div class="col-md-12">
+        <nz-tabset nzType="editable-card" nzHideAdd >
+          <nz-tab [nzTitle]="'Basic Info'">
+            <table class="table table-sm">
+              <tr>
+                <td width="200">Property Id</td><td>:</td><td>{{data.details.property_id}}</td>
+              </tr>
+              <tr *ngIf="data.details.reference_id">
+                <td class="align-middle">Reference Id</td>
+                <td class="align-middle">:</td>
+                <td>
+                  Refer Id: {{data.details.reference_id?data.details.reference_id:'- - -'}} <br>
+                  DC Name: {{data.details.dc_info?.name}}  <br>
+                  DC Email: {{data.details.dc_info?.email}} <br>
+                  DC Phone: {{data.details.dc_info?.phone}}
+                </td>
+              </tr>
+              <tr>
+                <td>Listing Id</td><td>:</td><td>{{data.details.listing_id?data.details.listing_id:'- - -'}}</td>
+              </tr>
+              <tr>
+                <td>Property Title</td><td>:</td><td>{{data.details.title?data.details.title:''}}</td>
+              </tr>
+              <tr>
+                <td>Type</td><td>:</td><td>{{data.details.leads_type == 0 ?'Primary':'Secondary'}}</td>
+              </tr>
+              <tr>
+                <td>Product Type</td><td>:</td><td>
+                  {{data.details.product_type==1?'Residential':'Commercial'}} <span *ngIf="data.details.product">({{data.details.product}})</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Property Type</td><td>:</td><td>{{data.details.property_type==1?'Free Hold':''}}{{data.details.property_type==2?'Lease Hold':''}}</td>
+              </tr>
+              <tr *ngIf="data.details.leads_type == 0">
+                <td>Project Name</td><td>:</td><td>{{data.details.project_name?(data.details.project_name?.project_name):''}}</td>
+              </tr>
+              <tr *ngIf="data.details.leads_type == 0">
+                <td>Project Type</td><td>:</td><td>{{data.details.project_type?(data.details.project_type?.type):''}}</td>
+              </tr>
+              <tr>
+                <td>Property Location</td><td>:</td><td>{{data.details.location?data.details.location.location:''}}</td>
+              </tr>
+              <tr>
+                <td>City</td><td>:</td><td>{{data.details.cities?data.details.cities.city:''}}</td>
+              </tr>
+              <tr>
+                <td>Area</td><td>:</td><td>{{data.details.areas?data.details.areas.area_name:''}}</td>
+              </tr>
+              
+              <tr>
+                <td>Sector</td><td>:</td><td>{{data.details.sector}}</td>
+              </tr>
+              <tr>
+                <td>Block</td><td>:</td><td>{{data.details.block}}</td>
+              </tr>
+              <tr>
+                <td>Road</td><td>:</td><td>{{data.details.road}}</td>
+              </tr>
+              <tr>
+                <td>House No</td><td>:</td><td>{{data.details.house_no}}</td>
+              </tr>
+              <tr>
+                <td>Square Feet</td><td>:</td><td>{{data.details.square_feet}}</td>
+              </tr>
+              <tr>
+                <td>Bedroom</td><td>:</td><td>{{data.details.bedroom}}</td>
+              </tr>
+              <tr>
+                <td>Bathroom</td><td>:</td><td>{{data.details.bathroom}}</td>
+              </tr>
+              <tr>
+                <td>Balcony</td><td>:</td><td>{{data.details.balcony}}</td>
+              </tr>
+              <tr>
+                <td>Servant Room</td><td>:</td><td>{{data.details.servant_room}}</td>
+              </tr>
+              <tr>
+                <td>Available Floor</td><td>:</td><td>{{data.details.available_floor}}</td>
+              </tr>
+              <tr>
+                <td>Available Unit</td><td>:</td><td>{{data.details.available_unit}}</td>
+              </tr>
+              <tr>
+                <td>Facing</td><td>:</td><td>{{data.details.facing}}</td>
+              </tr>
+              <tr>
+                <td>Unit Per Floor</td><td>:</td><td>{{data.details.total_unit_per_floor}}</td>
+              </tr>
+              <tr>
+                <td>Building Storied</td><td>:</td><td>{{data.details.building_storied}}</td>
+              </tr>
+              <tr>
+                <td>Parking</td><td>:</td><td>{{data.details.parking}}</td>
+              </tr>
+              <tr>
+                <td>Covered Area</td><td>:</td><td>{{data.details.covered_area}}</td>
+              </tr>
+              <tr>
+                <td>Bank loan</td><td>:</td><td>{{data.details.bank_loan}}</td>
+              </tr>
+              <tr>
+                <td>Rajuk Approval</td><td>:</td><td>{{data.details.rajuk_approval}}</td>
+              </tr>
+              <tr>
+                <td>Construction Status</td><td>:</td><td>{{data.details.construction_status?data.details.construction_status.construction_status:''}}</td>
+              </tr>
+              <tr>
+                <td>Built In Year</td><td>:</td><td>{{data.details.built_in_year}}</td>
+              </tr>
+              <tr>
+                <td>Country</td><td>:</td><td>{{data.details.countrys?data.details.countrys.name:''}}</td>
+              </tr>
+              <tr>
+                <td>Developer name</td><td>:</td><td>{{data.details.developer_name}}</td>
+              </tr>
+              <tr>
+                <td>Handover Year</td><td>:</td><td>{{data.details.handover_year}}</td>
+              </tr>
+              <tr>
+                <td>Property Current Status</td><td>:</td><td>{{propertyCurrentStatus(data.details.property_current_status)}}</td>
+              </tr>
+              <tr *ngIf="data.details.property_registration">
+                <td>Property Registration</td><td>:</td><td>{{propertyRegistration(data.details.property_registration)}}</td>
+              </tr>
+              <tr *ngIf="data.details.paper_status">
+                <td>Paper status</td><td>:</td><td>{{paperStatus(data.details.paper_status)}}</td>
+              </tr>
+              <tr>
+                <td>Description</td><td>:</td><td>{{data.details.description}}</td>
+              </tr>
+              <tr>
+                <td>Property Address</td><td>:</td><td>{{data.details.property_address}}</td>
+              </tr>
+              <tr>
+                <td>lat & Long</td><td>:</td><td>{{data.details.latitude}} - {{data.details.longitude}}</td>
+              </tr>
+              <tr>
+                <td>Status</td><td>:</td><td>
+                <p class="badge status_btn text-wrap mb-0 badge-success" *ngIf="data.details.status == 3">Approved</p>
+              </td>
+              </tr>
+              <tr>
+                <td>Created By</td><td>:</td><td>{{data.details.created_by?data.details.created_by.name:''}} | {{data.details.created_at|date:"mediumDate"}}</td>
+              </tr>
+              <tr *ngIf="data.details.updated_by">
+                <td>Updated by</td><td>:</td><td>{{data.details.updated_by?data.details.updated_by.name:''}} | {{data.details.updated_at|date:"mediumDate"}}</td>
+              </tr>
+              <tr *ngIf="data.details.approved_by">
+                <td>Approved by</td><td>:</td><td>{{data.details.approved_by?data.details.approved_by.name:''}} | {{data.details.approved_at|date:"mediumDate"}}</td>
+              </tr>
+              <tr *ngIf="data.details.latitude && data.details.longitude">
+                <td colspan="3">
+                  <iframe width="100%" height="300" [src]="this.sanitizer.bypassSecurityTrustResourceUrl('https://maps.google.com/maps?q='+data.details.latitude+','+data.details.longitude+'&hl=en&z=14&amp;output=embed')" allowfullscreen >
+                  </iframe>
+                </td>
+              </tr>
+            </table>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Project Features'">
+            <nz-card nzTitle="MAIN FEATURES" class="property-details">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0  table-borderless">
+                    <tr><td width="50%">Belcony or Terrace</td><td>:</td><td> {{data.feature?(data.feature.belcony_or_terrace?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Lobby In Building</td><td>:</td><td> {{data.feature?(data.feature.lobby_in_building?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Double Giazed Windows</td><td>:</td><td> {{data.feature?(data.feature.double_giazed_windows?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Central Air Con</td><td>:</td><td> {{data.feature?(data.feature.central_air_con?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Central Heating</td><td>:</td><td> {{data.feature?(data.feature.central_heating?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Electricity Backup</td><td>:</td><td> {{data.feature?(data.feature.electricity_backup?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Waste Disposal</td><td>:</td><td> {{data.feature?(data.feature.waste_disposal?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Flooring</td><td>:</td><td> {{data.feature?data.feature.flooring:''}} </td></tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Elevators in Building</td><td>:</td><td> {{data.feature?(data.feature.elevator_in_building?'Yes':'No'):''}} </td></tr>
+                    <tr><td>No Of Elevator</td><td>:</td><td> {{data.feature?data.feature.no_of_elevator:''}} </td></tr>
+                    <tr><td>Service Elevator</td><td>:</td><td> {{data.feature?(data.feature.service_elevator?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Tenant</td><td>:</td><td> {{data.feature?(data.feature.tenant?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Furnished</td><td>:</td><td> {{data.feature?(data.feature.furnished?'Yes':'No'):''}} </td></tr>
+                    <tr><td>24 Hours Concierge</td><td>:</td><td> {{data.feature?(data.feature.twenty_four_hour_concierge?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Gas</td><td>:</td><td> {{data.feature?(data.feature.gas?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Electricity</td><td>:</td><td> {{data.feature?(data.feature.electricity?'Yes':'No'):''}} </td></tr>
+                  </table>
+                </div>
+              </div>
+            </nz-card>
+            <nz-card nzTitle="COMMON SPACES" class="property-details mt-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Prayer Room</td><td>:</td><td> {{data.feature?(data.feature.prayer_room?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Reception/Waiting Area</td><td>:</td><td> {{data.feature?(data.feature.waiting_area?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Community Space</td><td>:</td><td> {{data.feature?(data.feature.community_space?'Yes':'No'):''}} </td></tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Storage Area</td><td>:</td><td> {{data.feature?(data.feature.storage_area?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Other Rooms</td><td>:</td><td> {{data.feature?data.feature.other_rooms:''}} </td></tr>
+                  </table>
+                </div>
+              </div>
+            </nz-card>
+            <nz-card nzTitle="BUSINESS AND COMMUNICATION" class="property-details mt-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Broadband Internet</td><td>:</td><td> {{data.feature?(data.feature.broadband_internet?'Yes':'No'):''}}  </td></tr>
+                    <tr><td>Satellite/Cable TV</td><td>:</td><td> {{data.feature?(data.feature.satellite?'Yes':'No'):''}}  </td></tr>
+                    <tr><td>Business Center</td><td>:</td><td> {{data.feature?(data.feature.business_center?'Yes':'No'):''}}  </td></tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Conference Room</td><td>:</td><td> {{data.feature?(data.feature.conference_room?'Yes':'No'):''}}  </td></tr>
+                    <tr><td>Intercom</td><td>:</td><td> {{data.feature?(data.feature.intercom?'Yes':'No'):''}}  </td></tr>
+                    <tr><td>ATM Facility</td><td>:</td><td> {{data.feature?(data.feature.atm_facility?'Yes':'No'):''}}  </td></tr>
+                  </table>
+                </div>
+              </div>
+            </nz-card>
+            <nz-card nzTitle="HEALTHCARE AND RECREATION FACILITIES" class="property-details mt-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Barbecue Area</td><td>:</td><td>  {{data.feature?(data.feature.barbeque_area?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Day Care Center</td><td>:</td><td>  {{data.feature?(data.feature.day_care_center?'Yes':'No'):''}} </td></tr>
+                    <tr><td>First Aid Medical Center</td><td>:</td><td>  {{data.feature?(data.feature.first_aid_medical_center?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Gym or Health Club</td><td>:</td><td>  {{data.feature?(data.feature.gym?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Lawn or Garden</td><td>:</td><td>  {{data.feature?(data.feature.garden?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Swimming Pool</td><td>:</td><td>  {{data.feature?(data.feature.swimming_pool?'Yes':'No'):''}} </td></tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Steam Room</td><td>:</td><td>  {{data.feature?(data.feature.steam_room?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Sauna</td><td>:</td><td>  {{data.feature?(data.feature.sauna?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Jacuzzi</td><td>:</td><td>  {{data.feature?(data.feature.jacuzzi?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Game/Sports Area</td><td>:</td><td>  {{data.feature?(data.feature.sports_area?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Other Facilities</td><td>:</td><td>  {{data.feature?(data.feature.other_facilities?'Yes':'No'):''}} </td></tr>
+                  </table>
+                </div>
+              </div>
+            </nz-card>
+            <nz-card nzTitle="NEARBY LOCATIONS" class="property-details mt-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Nearby Schools</td><td>:</td><td>  {{data.feature?data.feature.nearby_schools:''}}  </td></tr>
+                    <tr><td>Nearby Hospitals</td><td>:</td><td>  {{data.feature?data.feature.nearby_hospitals:''}}  </td></tr>
+                    <tr><td>Nearby Shopping Malls</td><td>:</td><td>  {{data.feature?data.feature.nearby_shopping_mall:''}}  </td></tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Distance From Airport(kms)</td><td>:</td><td>  {{data.feature?data.feature.airport_distance:''}}  </td></tr>
+                    <tr><td>Nearby Public Transport</td><td>:</td><td>  {{data.feature?data.feature.nearby_public_transport:''}}  </td></tr>
+                    <tr><td>Other Nearby Places</td><td>:</td><td>  {{data.feature?data.feature.other_nearby_places:''}}  </td></tr>
+                  </table>
+                </div>
+              </div>
+            </nz-card>
+            <nz-card nzTitle="OTHER FACILITIES" class="property-details mt-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Pet Policy</td><td>:</td><td> {{data.feature?(data.feature.pet_policy?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Maintenance Staff</td><td>:</td><td> {{data.feature?(data.feature.maintenance_staff?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Cafeteria or Canteen</td><td>:</td><td> {{data.feature?(data.feature.canteen?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Laundry Facility</td><td>:</td><td> {{data.feature?(data.feature.laundry?'Yes':'No'):''}} </td></tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Shared Kitchen</td><td>:</td><td> {{data.feature?(data.feature.shared_kitchen?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Facilities for Disabled</td><td>:</td><td> {{data.feature?(data.feature.facilities_for_disabled?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Cleaning Services</td><td>:</td><td> {{data.feature?(data.feature.cleaning_services?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Change of Amentias/Interior</td><td>:</td><td> {{data.feature?(data.feature.change_interior?'Yes':'No'):''}} </td></tr>
+                  </table>
+                </div>
+              </div>
+            </nz-card>
+            <nz-card nzTitle="SECURITY" class="property-details mt-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">CCTV Security</td><td>:</td><td> {{data.feature?(data.feature.cctv_security?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Fire Exit</td><td>:</td><td> {{data.feature?(data.feature.fire_exit?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Fire Extinguisher</td><td>:</td><td> {{data.feature?(data.feature.fire_extinguisher?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Fire Hose</td><td>:</td><td> {{data.feature?(data.feature.fire_hose?'Yes':'No'):''}} </td></tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0 table-borderless">
+                    <tr><td width="50%">Sprinkler</td><td>:</td><td> {{data.feature?(data.feature.sprinkler?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Guard/Security Staff</td><td>:</td><td> {{data.feature?(data.feature.guard?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Visitor Log</td><td>:</td><td> {{data.feature?(data.feature.visitor_log?'Yes':'No'):''}} </td></tr>
+                    <tr><td>Fire Alarm</td><td>:</td><td> {{data.feature?(data.feature.fire_alarm?'Yes':'No'):''}} </td></tr>
+                  </table>
+                </div>
+              </div>
+            </nz-card>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Image & Video'">
+            <div class="row">
+              <div class="col-md-4  mb-3">
+                <div class="card">
+                  <img class="card-img-top" style="background: #0c1549;height:200px;" src="{{data.details.property_thumbnail?rootUrl+'/property/'+data.details.property_thumbnail.url:'./assets/img/brand/logo.png'}}"/>
+                  <div class="card-body  p-2">
+                    <p class="card-text">Thumbnail</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4  mb-3">
+                <div class="card">
+                  <img  class="card-img-top" style="background: #0c1549;height:200px;" src="{{data.details.floorplan?rootUrl+'/property/'+data.details.floorplan.url:'./assets/img/brand/logo.png'}}"/>
+                  <div class="card-body  p-2">
+                    <p class="card-text">Floor Plan</p>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="data.details.imagevideo.length > 0">
+                <div class="col-md-4 mb-3" *ngFor="let imgvdo of data.details.imagevideo">
+                  <div class="card">
+                    <ng-container *ngIf="getFileType(imgvdo) === 'image'">
+                      <img class="card-img-top" style="background: #0c1549;height:200px;" src="{{imgvdo.url?rootUrl+'/property/'+imgvdo.url:'./assets/img/brand/logo.png'}}"/>
+                    </ng-container>
+                    <ng-container *ngIf="getFileType(imgvdo) === 'video'">
+                      <video width="" height="200px" controls>
+                        <source [src]="rootUrl+'/property/'+imgvdo.url" type="video/mp4">
+                        <source [src]="rootUrl+'/property/'+imgvdo.url" type="video/3gp">
+                        <source [src]="rootUrl+'/property/'+imgvdo.url" type="video/mov">
+                        <source [src]="rootUrl+'/property/'+imgvdo.url" type="video/ogg">
+                      </video>
+                    </ng-container>
+                    <div class="card-body p-2">
+                      <p class="card-text">{{getFileType(imgvdo)|titlecase}}</p>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Price and Contact'">
+            <table class="table table-sm">
+              <tr><td width="50%">Offer price</td><td>:</td><td> {{data.price_contact?data.price_contact.offer_price:'0.00'}} </td></tr>
+              <tr><td>Bottom price</td><td>:</td><td> {{data.price_contact?data.price_contact.bottom_price:'0.00'}} </td></tr>
+              <tr><td>Property owner commission Fixed</td><td>:</td><td> {{data.price_contact?data.price_contact.property_owner_commission_fixed:'0'}} Fixed</td></tr>
+              <tr><td>Property owner commission percentage</td><td>:</td><td> {{data.price_contact?data.price_contact.property_owner_commission_percent:'0'}} %</td></tr>
+              <tr><td>Property owner commission Amount</td><td>:</td><td> {{data.price_contact?data.price_contact.property_owner_commission_amount:'0'}} </td></tr>
+              <tr>
+                <td>Property channel</td><td>:</td><td>
+                 <ng-container *ngIf="data.price_contact">
+                   {{data.price_contact?.property_channel==1?'In-house':''}}
+                   {{data.price_contact?.property_channel==2?'Company':''}}
+                   {{data.price_contact?.property_channel==3?'Agent & Media':''}}
+                 </ng-container>
+                </td>
+              </tr>
+              <tr><td>Product person</td><td>:</td><td> {{data.price_contact?data.price_contact.product_person:''}} </td></tr>
+              <tr><td>Source</td><td>:</td><td> {{data.price_contact?data.price_contact.source:''}} </td></tr>
+              <ng-container *ngIf="data.price_contact?.property_channel == 1 || data.price_contact?.property_channel == 2 || data.price_contact?.property_channel == 3">
+                <tr *ngIf="data.price_contact?.property_channel == 2"><td>Company name</td><td>:</td><td> {{data.price_contact?data.price_contact.company_name:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 2"><td>Company website</td><td>:</td><td> {{data.price_contact?data.price_contact.company_website:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 2"><td>Designation</td><td>:</td><td> {{data.price_contact?data.price_contact.designation:''}} </td></tr>
+                <tr><td>Contact person</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_person:''}} </td></tr>
+                <tr><td>Contact number</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_number:''}} </td></tr>
+                <tr><td>Contact address</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_address:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 2"><td>Zip Code</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_zipcode:''}} </td></tr>
+                <tr><td>Contact Email</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_email:''}} </td></tr>
+                <tr><td>Phone Number</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_phone_no:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 2 || data.price_contact?.property_channel == 3"><td>Alternative Contact</td><td>:</td><td> {{data.price_contact?data.price_contact.alternative_contact_no:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 1"><td>Representative Name</td><td>:</td><td> {{data.price_contact?data.price_contact.representative_name:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 1">
+                  <td>Agreement Upload</td>
+                  <td>:</td>
+                  <td>
+                    <ng-container *ngIf="data.price_contact?.agreement_upload.length > 0">
+                      <a *ngFor="let ag_file of data.price_contact.agreement_upload;index as i" [href]="rootUrl+'/property/'+ag_file.url" nz-button nzType="default" download target="_blank" class="mr-2"><i class="fa fa-download mr-2"> </i> File {{i+1}} </a>
+                    </ng-container>
+                  </td>
+                </tr>
+              </ng-container>
+            </table>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Extra Information'">
+            <h4><strong>Other Information:</strong></h4>
+            <div [innerHTML]="data.other?.others_info"></div>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Assign History'">
+            <ng-container *ngIf="data?.history?.length > 0">
+              <div *ngFor="let hist of data?.history" class="assign-history">
+                <table>
+                    <tr>
+                      <td width="130px">Branch Name</td>
+                      <td>:</td>
+                      <td width="300px">{{hist?.branch_info?.branch_name}}</td>
+                      <td rowspan="6" width="50%">
+                        <span *ngIf="hist?.note">
+                          <p class="mb-1 text-warning">Note:</p>
+                          <small class="mb-0">{{hist?.note}}</small>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Team Name</td><td>:</td><td>{{hist?.team_info?.name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Team Manager</td><td>:</td><td>{{hist?.manager_info?.name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Allocate To</td><td>:</td><td>{{hist?.allocated_info?.name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Allocate Date</td><td>:</td><td>{{hist?.created_at|date}}</td>
+                    </tr>
+                    <tr>
+                      <td>Assign By</td><td>:</td><td>{{hist?.created_by?.name}}</td>
+                    </tr>
+                </table>
+              </div>
+            </ng-container>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Step History'">
+            <ng-container *ngIf="data?.product_manage">
+              <div class="assign-history">
+                <table>
+                    <tr>
+                      <td width="130px">Step</td>
+                      <td>:</td>
+                      <td width="300px">{{common.getProductStepName(data?.product_manage?.step)}}</td>
+                      <td rowspan="6" width="50%">
+                        <span *ngIf="data?.product_manage?.note">
+                          <p class="mb-1 text-warning">Note:</p>
+                          <small class="mb-0">{{data?.product_manage?.note}}</small>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Update By</td><td>:</td><td>{{data?.product_manage?.created_by?.name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Update Date</td><td>:</td><td>{{data?.product_manage?.created_at|date}}</td>
+                    </tr>
+                    <tr *ngIf="data?.product_manage?.file">
+                      <td>Uploaded File</td><td>:</td><td>
+                        <a class="btn btn-sm btn-default text-white" href="{{rootUrl+data?.product_manage?.file}}" download>Uploaded File</a>
+                      </td>
+                    </tr>
+                </table>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="data?.product_manage?.product_manage_history.length > 0">
+              <div *ngFor="let hist of data?.product_manage?.product_manage_history" class="assign-history">
+                <table>
+                  <tr>
+                    <td width="130px">Step</td>
+                    <td>:</td>
+                    <td width="300px">{{common.getProductStepName(hist?.step)}}</td>
+                    <td rowspan="6" width="50%">
+                      <span *ngIf="hist?.note">
+                        <p class="mb-1 text-warning">Note:</p>
+                        <small class="mb-0">{{hist?.note}}</small>
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Update By</td><td>:</td><td>{{hist?.created_by?.name}}</td>
+                  </tr>
+                  <tr>
+                    <td>Update Date</td><td>:</td><td>{{hist?.created_at|date}}</td>
+                  </tr>
+                  <tr *ngIf="hist?.file">
+                    <td>Uploaded File</td><td>:</td><td>
+                      <a class="btn btn-sm btn-default text-white" href="{{rootUrl + hist?.file}}" download>Uploaded File</a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </ng-container>
+          </nz-tab>
+        </nz-tabset>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+  </mat-dialog-actions>

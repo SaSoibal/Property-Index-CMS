@@ -1,0 +1,159 @@
+<div  mat-dialog-title class="d-flex">
+  <h2># {{data.lead_id}} Lead Details</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+    <mat-dialog-content class="mat-typography pt-3">
+       <div class="row lead-details">
+          <div class="col-md-4">
+            <nz-card class="mb-3">
+              <img class="lead-icon" alt="lead icon" src="assets/img/theme/lead.png" />
+              <h3 class="mb-0"><strong>LEAD ID: {{data.lead_id}}</strong></h3>
+              <h5 class="mb-0"><i>
+                <i class="ni ni-mobile-button mr-1"></i>{{data.phone_code.phoneCode}} {{data.phone_no}}</i></h5>
+              <small class="details-complete">
+                {{data.task_name?(data.task_name|titlecase):'New Lead'}}
+              </small><br>
+              <small>
+                <i class="ni ni-calendar-grid-58 mr-1"></i>
+                {{data.created_date|date:'medium'}}
+              </small>
+            </nz-card>
+            <nz-card  nzTitle="CUSTOMER INFO">
+              <table class="lead-details table-sm">
+                <tr *ngIf="data.client_details.affiliate_name">
+                  <td>AFFILIATE NAME</td><td>:</td><td><small class="details-continue">{{data.client_details.affiliate_name}}</small></td></tr>
+                <tr><td>FULL NAME</td><td>:</td><td>{{data.client_details.full_name}}</td></tr>
+                <tr><td>GENDER</td><td>:</td><td class="text-capitalize">{{data.client_details.gender}}</td></tr>
+                <tr><td>DATE OF BIRTH</td><td>:</td><td>{{data.client_details.date_of_birth|date:'mediumDate'}}</td></tr>
+                <tr><td>EMAIL ADDRESS</td><td>:</td><td>{{data.client_details.email}}</td></tr>
+                <tr><td>PHONE NO</td><td>:</td><td>{{data.client_details.phone_code.phoneCode}} {{data.client_details.phone_no}}</td></tr>
+                <tr><td>GOVT ID</td><td>:</td><td>{{data.client_details.govt_id}}</td></tr>
+                <tr><td>PASSPORT NO</td><td>:</td><td>{{data.client_details.passport_no}}</td></tr>
+                <tr><td>COUNTRY</td><td>:</td><td>{{data.client_details.country?data.client_details.country.name:''}}</td></tr>
+                <tr><td>OCCUPATION</td><td>:</td><td>{{data.client_details.occupations?data.client_details.occupations.occupation:''}}</td></tr>
+                <!-- <tr><td>CLIENT RATING</td><td>:</td><td>{{data.client_details.client_rating?data.client_details.client_rating.rating:''}}</td></tr> -->
+                <tr><td>CLIENT TYPE</td><td>:</td><td>{{data.client_details.client_type?data.client_details.client_type.client_type:''}}</td></tr>
+                <tr><td>CLASSIFICATION</td><td>:</td><td>{{data.opportunity.classification?data.opportunity.classification.classification:''}}</td></tr>
+                <tr><td>SELECT SOURCE</td><td>:</td><td>{{data.opportunity.source?data.opportunity.source.source:''}}</td></tr>
+                <tr>
+                  <td>DOB Greetings</td><td>:</td><td>
+                    <nz-tag *ngIf="data.client_details.dob_greeting_email=='1'">Email</nz-tag>
+                    <nz-tag *ngIf="data.client_details.dob_greeting_sms=='1'">SMS</nz-tag>
+                  </td>
+                </tr>
+              </table>
+              <a class="mt-3" nz-button nzBlock *ngIf="data.client_details.attachment" nzType="dashed" nzDanger  href="{{rootUrl+data.client_details.attachment}}" download>
+                <i class="ni ni-cloud-download-95 pt-2 mr-2"></i> Download 
+              </a>
+            </nz-card>
+            <nz-card  nzTitle="LEAD / OPPORTUNITY" class="mt-3">
+              <table class="lead-details table-sm">
+                <tr><td>LEAD TYPE</td><td>:</td><td><small class="details-continue">{{data.opportunity.leads_type=='0'?'Primary':'Secondary'}}</small></td> </tr>
+                <tr><td>PRODUCT TYPE</td><td>:</td><td>{{data.client_details.buying_intent.buying_intent}}</td></tr>
+                <tr *ngIf="data.opportunity.project_info"><td>PROJECT</td><td>:</td><td>{{data.opportunity.project_info?data.opportunity.project_info.project_name:''}}</td></tr>
+                <tr><td>PROJECT TYPE</td><td>:</td><td>{{data.opportunity.project_type?data.opportunity.project_type.type:''}}</td></tr>
+                <tr><td>SUB TYPE</td><td>:</td><td>{{data.opportunity.project_sub_type?data.opportunity.project_sub_type.sub_type:''}}</td></tr>
+              </table>
+            </nz-card>
+            <nz-card  nzTitle="LEAD DETAILS" class="mt-3">
+              <table class="lead-details table-sm">
+                <tr ><td>BUDGET PRE</td><td>:</td><td>{{data.lead_details.budget_pre}}</td> </tr>
+                <tr><td>MIN</td><td>:</td><td>{{data.lead_details.budget_min}}</td></tr>
+                <tr><td>MAX</td><td>:</td><td>{{data.lead_details.budget_max}}</td></tr>
+                <tr *ngIf="data.lead_details.beds"><td>BEDS</td><td>:</td><td>{{data.lead_details.beds}}</td></tr>
+                <tr *ngIf="data.lead_details.baths"><td>BATHS</td><td>:</td><td>{{data.lead_details.baths}}</td></tr>
+                <tr><td>CONST STATUS</td><td>:</td><td><small class="details-continue">{{data.lead_details.construction_status?data.lead_details.construction_status.lead_status:''}}</small></td></tr>
+                <tr><td>SUBJECT</td><td>:</td><td>{{data.lead_details.subject}}</td></tr>
+                <tr><td>MESSAGE</td><td>:</td><td>{{data.lead_details.message}}</td></tr>
+              </table>
+            </nz-card>
+          </div>
+          <div class="col-md-8">
+            <div class="lead-progress py-4">
+              <ul class="progressbar p-0">
+                <ng-container *ngFor="let process of data.lead_process">
+                  <li class="{{process.complete?'active':''}}">{{process.step}}</li>
+                </ng-container>
+              </ul>
+            </div>
+            <nz-card class="mb-3" *ngIf="data.process_start.length > 0" nzTitle="New Lead" [nzExtra]="extra">
+              <nz-timeline>
+                <ng-container *ngFor="let process of data.process_start">
+                  <nz-timeline-item nzColor="{{process.reschedule=='0'?'green':'red'}}" [nzDot]="dotNew">
+                    <strong>{{process.reschedule=='0'?'Lead Create':'Reschedule'}} </strong>
+                    <small><i class="ni ni-calendar-grid-58 mr-1"></i>{{process.created_at|date:'short'}}</small>
+                    <p class="mb-0 font-12" *ngIf="process.team_name">Team Name: {{process.team_name.name}}</p>
+                    <p class="mb-0 font-12" *ngIf="process.allocate">Allocate To : {{process.allocate.name}}</p>
+                    <p class="mb-0 font-12" *ngIf="process.completed_by">{{process.reschedule=='1'?'Reschedule':'Complete'}} by : <strong>{{process.completed_by.name}}</strong></p>
+                    <p class="mb-0 font-12" *ngIf="process.reschedule_comments">Comments : {{process.reschedule_comments}}</p>
+                    <p class="mb-0 mt-1 font-12" *ngIf="process.complete_attachment">
+                      <a href="{{rootUrl + process.complete_attachment}}" target="blank" class="details-continue">
+                        <i class="fa fa-download mr-2"></i>Attachment
+                      </a>
+                    </p>
+                  </nz-timeline-item>
+                  <ng-template #dotNew>
+                    <i *ngIf="process.reschedule=='0' && process.complete_by > '0'" class="ni ni-check-bold"></i>
+                    <i *ngIf="process.reschedule=='0' && process.complete_by == '0'" class="ni ni-collection"></i>
+                    <i *ngIf="process.reschedule=='1' && process.complete_by > '0'" class="ni ni-time-alarm"></i>
+                  </ng-template>
+                </ng-container>
+              </nz-timeline>
+            </nz-card>
+            <ng-template #extra>
+              <span *ngIf="data.process_start.complete_by == 1" class="details-complete">Complete</span>
+              <span *ngIf="data.process_start.complete_by =='0'" class="details-continue">Continue</span>
+            </ng-template>
+
+              <ng-container *ngFor="let process of data.lead_process;index as i">
+                <nz-card class="mb-3" *ngIf="process.process_details.length > 0" nzTitle="{{process.step}}" [nzExtra]="extra_status">
+                  <nz-timeline>      
+                    <ng-container *ngFor="let details of process.process_details;index as j">       
+                      <nz-timeline-item nzColor="{{details.reschedule=='0'?'green':'red'}}" [nzDot]="dot_step">
+                        <strong>{{details.reschedule=='0'?'Lead process':'Reschedule'}} </strong>
+                        <small><i class="ni ni-calendar-grid-58 mr-1"></i>{{details.created_at|date:'short'}}</small>
+                        <p class="mb-0 font-12" *ngIf="details.team_name">Team Name: {{details.team_name.name}}</p>
+                        <p class="mb-0 font-12" *ngIf="details.allocate">Allocate To : {{details.allocate.name}}</p>
+                        <p class="mb-0 font-12" *ngIf="details.completed_by">{{details.reschedule=='1'?'Reschedule':'Complete'}} by : <strong>{{details.completed_by.name}}</strong></p>
+                        <p class="mb-0 font-12" *ngIf="details.transfer=='1'">
+                          Lead Type : <strong class="text-info">Transferred</strong>
+                        </p>
+                        <p class="mb-0 font-12" *ngIf="details.reschedule_comments">Comments : {{details.reschedule_comments}}</p>
+                        <p class="mb-0 font-12" *ngIf="details.complete_comments">Comments : {{details.complete_comments}}</p>
+                        <p class="mb-0 mt-1 font-12" *ngIf="details.complete_attachment">
+                          <a href="{{rootUrl + details.complete_attachment}}" target="blank" class="details-continue">
+                            <i class="fa fa-download mr-2"></i>Attachment
+                          </a>
+                        </p>
+                        <p *ngIf="details.transfer_status=='0'">
+                          <small class="transfer-pending">
+                            Transfer Pending
+                          </small>
+                        </p>
+                        <button nz-button nzType="dashed" *ngIf="details.deal_close==2" class="text-success">{{details.deal_close==2?'Success Lead':''}}</button>
+                        <button nz-button nzType="dashed" *ngIf="details.deal_close==3" nzDanger>{{details.deal_close==3?'Failed Lead':''}}</button>
+  
+                      </nz-timeline-item>
+                      <ng-template #dot_step>
+                        <i *ngIf="details.reschedule == '0' && details.complete_by > '0'" class="ni ni-check-bold"></i>
+                        <i *ngIf="details.reschedule == '0' && details.complete_by == '0'" class="ni ni-collection"></i>
+                        <i *ngIf="details.reschedule == '1' && details.complete_by > '0'" class="ni ni-time-alarm"></i>
+                      </ng-template>
+                    </ng-container>
+                  </nz-timeline>
+                </nz-card>
+                <ng-template #extra_status>
+                  <span *ngIf="process.complete == '1'" class="details-complete"><i class="ni ni-check-bold mr-1 font-12"></i>Complete</span>
+                  <span *ngIf="process.complete == '0'" class="details-continue"><i class="ni ni-user-run mr-1 font-12"></i>Continue</span>
+                </ng-template>
+              </ng-container>
+          </div>
+       </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+        <i class="fa fa-times mr-2"></i>Cancel
+      </button>
+    </mat-dialog-actions>

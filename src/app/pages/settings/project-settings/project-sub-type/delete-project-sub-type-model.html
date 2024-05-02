@@ -1,0 +1,26 @@
+
+<div  mat-dialog-title class="d-flex">
+  <h2>{{data.operation}} Project Sub Type</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form #roleForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography  pt-3">
+      <div class="row">
+        <div class="col-md-12">
+            <strong>Are you sure want to delete?</strong><br>
+            <i class="fa fa-text-width mr-2 text-danger"></i> <strong>Title :</strong> {{data.sub_type}}<br>
+        </div>
+      </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!roleForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-check mr-2"></i> Conform
+    </button>
+  </mat-dialog-actions>
+</form>

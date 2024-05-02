@@ -1,0 +1,117 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Lead {{leadNoGenerate(data.lead_id)}} Property Details</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row">
+      <div class="col-md-12">
+        <ng-container *ngIf="data.event.length > 0;else notSelectProperty">
+          <table class="table table-sm bg-white">
+            <thead>
+            <tr>
+              <td>Image</td>
+              <td>PID</td>
+              <td>Property Name</td>
+              <td>Type</td>
+              <td class="text-center">Property Price</td>
+              <td class="text-center">Negotiation Price</td>
+              <td class="text-center">Token Price</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let property of data.event">
+              <td class="align-middle">
+                <img *ngIf="property.property_type == 'for_sale'" [src]="rootUrl + property.details.property_thumbnail?.url" height="30px" width="30px">
+                <img *ngIf="property.property_type == 'for_rent'" [src]="rootUrl + property.details.property_thumbnail?.url" height="30px" width="30px">
+                <img *ngIf="property.property_type == 'for_land_sale'" [src]="rootUrl + property.details.property_thumbnail?.url" height="30px" width="30px">
+                <img *ngIf="property.property_type == 'website_sale_property'" [src]="rootUrl + property.details.property_images?.[0]?.url" height="30px" width="30px">
+                <img *ngIf="property.property_type == 'website_rent_property'" [src]="rootUrl + property.details.property_images?.[0]?.url" height="30px" width="30px">
+                <img *ngIf="property.property_type == 'website_land_sale'" [src]="rootUrl + property.details.property_thumbnail?.url" height="30px" width="30px">
+              </td>
+              <td class="align-middle">{{property.details.listing_id?property.details.listing_id:property.details.property_id}}</td>
+              <td class="align-middle">{{property.details.title}}</td>
+              <td class="align-middle">
+                <span *ngIf="property.property_type == 'for_sale'">FSP</span>
+                <span *ngIf="property.property_type == 'for_rent'">FRP</span>
+                <span *ngIf="property.property_type == 'for_land_sale'">FLSP</span>
+                <span *ngIf="property.property_type == 'website_sale_property'">WSP</span>
+                <span *ngIf="property.property_type == 'website_rent_property'">WRP</span>
+                <span *ngIf="property.property_type == 'website_land_sale'">WLSP</span>
+              </td>
+              <td class="align-middle text-right">
+                <strong *ngIf="property.property_type == 'for_sale'">
+                  <span *ngIf="property.details.price_contact?.offer_price">{{property.details.price_contact?.offer_price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'for_rent'">
+                  <span *ngIf="property.details.price_contact?.monthly_rent">{{property.details.price_contact?.monthly_rent|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'for_land_sale'">
+                  <span *ngIf="property.details.price_contact?.offer_price">{{property.details.price_contact?.offer_price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_sale_property'">
+                  <span *ngIf="property.details.price">{{property.details.price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_rent_property'">
+                  <span *ngIf="property.details.price">{{property.price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_land_sale'">
+                  <span *ngIf="property.details.price_contact?.offer_price">{{property.details.price_contact?.offer_price|number:'.2'}}</span>
+                </strong>
+              </td>
+              <td class="align-middle text-right">
+                <strong *ngIf="property.property_type == 'for_sale'">
+                  <span *ngIf="property.negotiation_price?.negotiation_price">{{property.negotiation_price?.negotiation_price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'for_rent'">
+                  <span *ngIf="property.negotiation_price?.negotiation_price">{{property.negotiation_price?.negotiation_price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'for_land_sale'">
+                  <span *ngIf="property.negotiation_price?.negotiation_price">{{property.negotiation_price?.negotiation_price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_sale_property'">
+                  <span *ngIf="property.negotiation_price?.negotiation_price">{{property.negotiation_price?.negotiation_price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_rent_property'">
+                  <span *ngIf="property.negotiation_price?.negotiation_price">{{property.negotiation_price?.negotiation_price|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_land_sale'">
+                  <span *ngIf="property.negotiation_price?.negotiation_price">{{property.negotiation_price?.negotiation_price|number:'.2'}}</span>
+                </strong>
+              </td>
+              <td class="align-middle text-right text-success">
+                <strong *ngIf="property.property_type == 'for_sale'">
+                  <span *ngIf="property.token_amount">{{property.token_amount|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'for_rent'">
+                  <span *ngIf="property.token_amount">{{property.token_amount|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'for_land_sale'">
+                  <span *ngIf="property.token_amount">{{property.token_amount|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_sale_property'">
+                  <span *ngIf="property.token_amount">{{property.token_amount|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_rent_property'">
+                  <span *ngIf="property.token_amount">{{property.token_amount|number:'.2'}}</span>
+                </strong>
+                <strong *ngIf="property.property_type == 'website_land_sale'">
+                  <span *ngIf="property.token_amount">{{property.token_amount|number:'.2'}}</span>
+                </strong>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-container>
+        <ng-template #notSelectProperty>
+          <tr><td colspan="100%"><strong>Property Not Selected ...</strong></td></tr>
+        </ng-template>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+  </mat-dialog-actions>

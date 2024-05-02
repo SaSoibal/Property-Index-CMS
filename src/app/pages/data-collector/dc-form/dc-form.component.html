@@ -1,0 +1,238 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <form (ngSubmit)="submitDcForm()" [formGroup]="createDcForm">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">DC Form</h3>
+              </div>
+              <div class="col text-right">
+                <a *ngIf="qcPermission('create')" [routerLink]="[ '/data-collector/qc-property-list']" class="btn btn-sm btn-default text-white">
+                  <i class="fa fa-list mr-2"></i>QC Property List
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body border-0" *ngIf="permission('create')">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="seller_name">Seller Name</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Seller Name is Required!">
+                <input nz-input formControlName="seller_name" id="seller_name" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="seller_number">Seller Number</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Seller Number is Required!">
+                <input nz-input formControlName="seller_number" id="seller_number" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="purpose">Purpose</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Purpose is Required!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Purpose" formControlName="purpose" id="purpose">
+                  <nz-option [nzLabel]="'Sale'" [nzValue]="1"></nz-option>
+                  <nz-option [nzLabel]="'Rent'" [nzValue]="2"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired class="ant-label" nzFor="type_of_Product">
+                  <span>Product Type</span>
+              </nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24">
+                  <div class="card">
+                      <div class="card-header pb-2">
+                        <nz-radio-group  formControlName="type_of_Product" id="type_of_Product" (ngModelChange)="changeProductName($event)">
+                          <label nz-radio [nzValue]="1">Residential</label>
+                          <label nz-radio [nzValue]="2">Commercial</label>
+                        </nz-radio-group>
+                      </div>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item pl-4">
+                            <nz-radio-group  formControlName="product" id="product">
+                              <ng-container *ngIf="show_type_of_product == 1">
+                                <label nz-radio [nzValue]="'apartments'">Apartments</label><br>
+                                <label nz-radio [nzValue]="'rooms'">Rooms</label><br>
+                                <label nz-radio [nzValue]="'penthouses'">Penthouses</label><br>
+                              </ng-container>
+                              <ng-container *ngIf="show_type_of_product == 2">
+                                  <label nz-radio [nzValue]="'offices'">Offices</label><br>
+                                  <label nz-radio [nzValue]="'shops'">Shops</label><br>
+                                  <label nz-radio [nzValue]="'open floor'">Open floor</label><br>
+                                  <label nz-radio [nzValue]="'office apartments'">Office apartments</label><br>
+                              </ng-container>   
+                                  <label nz-radio [nzValue]="'duplex'">Duplex</label><br>
+                                  <label nz-radio [nzValue]="'triplex'">Triplex</label><br>
+                                  <label nz-radio [nzValue]="'plazas'">Plazas</label><br>
+                                  <label nz-radio [nzValue]="'buildings'">Buildings</label><br>
+                                  <label nz-radio [nzValue]="'plots'">Plots</label><br>
+                              <ng-container *ngIf="show_type_of_product == 2">
+                                <label nz-radio [nzValue]="'warehouse'">Warehouse</label><br>
+                                <label nz-radio [nzValue]="'factory'">Factory</label><br>
+                              </ng-container>
+                          </nz-radio-group>
+                        </li>
+                      </ul>
+                  </div>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="city">City</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="City is Required!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select City" (ngModelChange)="changeCity($event)" formControlName="city" id="city">
+                  <nz-option *ngFor="let cities of city_list" [nzLabel]="cities.city" [nzValue]="cities.id"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="area">Area</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Area is Required!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Area" formControlName="area" id="area" (ngModelChange)="changeArea($event)">
+                  <nz-option *ngFor="let area of area_list" [nzLabel]="area.area_name" [nzValue]="area.id"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="property_location">Property Location</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24"  nzErrorTip="Property Location is required!">
+                <nz-select nzShowSearch nzAllowClear formControlName="property_location" id="property_location">
+                  <nz-option *ngFor="let loc of location_list" [nzLabel]="loc.location" [nzValue]="loc.id"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-divider nzText="Information"></nz-divider>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="block">Block</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Block is Required!">
+                <input nz-input formControlName="block" id="block" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="sector">Sector</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Sector is Required!">
+                <input nz-input formControlName="sector" id="sector" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="road">Road</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Road is Required!">
+                <input nz-input formControlName="road" id="road" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="house_no">House No</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="House No is Required!">
+                <input nz-input formControlName="house_no" id="house_no" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="square_feet">Square Feet (Sqft)</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Square Feet (Sqft) is Required!">
+                <input nz-input formControlName="square_feet" id="square_feet" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="bedroom">Bedroom</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Bedroom is Required!">
+                <input nz-input formControlName="bedroom" id="bedroom" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="bathroom">Bathroom</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Bathroom is Required!">
+                <input nz-input formControlName="bathroom" id="bathroom" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="balcony">Balcony</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Balcony is Required!">
+                <input nz-input formControlName="balcony" id="balcony" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="servant_room">Servant Room</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Servant Room is Required!">
+                <input nz-input formControlName="servant_room" id="servant_room" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="available_floor">Available Floor</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Available Floor is Required!">
+                <input nz-input formControlName="available_floor" id="available_floor" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="facing">Facing</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Facing is Required!">
+                <input nz-input formControlName="facing" id="facing" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="unit_per_floor">Unit per Floor</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Unit per Floor is Required!">
+                <input nz-input formControlName="unit_per_floor" id="unit_per_floor" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="total_unit">Total Unit</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Total Unit is Required!">
+                <input nz-input formControlName="total_unit" id="total_unit" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="construction_status">Construction Status</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Construction Status is Required!">
+                <nz-select nzShowSearch nzAllowClear  formControlName="construction_status" id="construction_status">
+                  <nz-option *ngFor="let status of const_status" [nzLabel]="status.construction_status" [nzValue]="status.id"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="developer_name">Developer Name</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Developer Name is Required!">
+                <input nz-input formControlName="developer_name" id="developer_name" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24"  nzFor="description">Description</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Description is Required!">
+                <textarea nz-input formControlName="description" id="description" [nzAutosize]="{ minRows: 4 }"></textarea>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="property_address">Property Address</nz-form-label>
+              <nz-form-control [nzSm]="12" [nzXs]="24" nzErrorTip="Description is Required!">
+                <textarea nz-input formControlName="property_address" id="property_address" [nzAutosize]="{ minRows: 4 }"></textarea>
+              </nz-form-control>
+            </nz-form-item>
+
+          </div>
+          <div class="card-footer" align="end">
+            <button type="submit" [disabled]="submitButton" class="btn btn-sm btn-default text-white">
+              <i class="fa fa-save mr-2"></i> {{submitTitle}}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+.ant-menu-horizontal {
+  line-height: 25px;
+  border: 0;
+  border-bottom: none;
+  box-shadow: none;
+  margin: auto;
+  display: block;
+}
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu {
+  margin-top: -1px;
+  margin-bottom: 0;
+  padding: 5px 5px;
+  font-size: 11px;
+  font-weight: 600;
+  border: .5px solid #ededed;
+  letter-spacing: .5px;
+  background: #ededed38;
+}
+.shorting-menu{
+    margin-bottom: 20px;
+}
+.shorting-menu li{
+    border: 1px solid #ededed;
+    border-radius: 30px;
+    margin-right: 5px;
+    padding: 0px 20px!important;
+    font-size: 12px!important;
+    font-weight: 600;
+}
+.font-12 {
+    font-size: 12px!important;
+    border-radius: 2px;
+}
+.ant-menu-horizontal>.ant-menu-item::after {
+  position: absolute;
+  right: 8px;
+  bottom: 0;
+  left: 8px;
+  content: '';
+}

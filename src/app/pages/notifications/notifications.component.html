@@ -1,0 +1,86 @@
+
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Notifications</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <div class="card notify-card" *ngFor="let notify of collection">
+            <div class="card-body p-2 d-flex justify-content-between" (click)="openModel(notify)">
+              <div style="width: 50px;">
+                <i class="ni ni-bell-55 {{notify?.is_checked == 0?'text-info':'text-muted'}}"></i>
+              </div>
+              <div style="width: 100px;float: left;">
+                <strong>Lead ID: {{notify.lead_id}}<br></strong>
+              </div>
+              <div  style="width: 300px;float: left;">
+                <i class="ni ni-shop text-success mr-2"></i>
+                <strong>
+                  <span *ngIf="notify?.sale_property?.title">{{notify?.sale_property?.title}}</span>
+                  <span *ngIf="notify?.rent_property?.title">{{notify?.rent_property?.title}}</span>
+                  <span *ngIf="notify?.land_sale_property?.title">{{notify?.land_sale_property?.title}}</span>
+                </strong>
+              </div>
+              <div>
+                <i class="ni ni-chat-round text-success mr-2"></i><strong>{{notify.note}}</strong>
+              </div>
+              <div style="width: 150px; text-align: right;">
+                <strong>{{notify.created_at|date}}</strong>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="card notify-card" *ngFor="let notify of collection">
+            <div class="card-body p-2 d-flex justify-content-between">
+              <div style="width: 50px;">
+                <i class="ni ni-bell-55 text-muted"></i>
+              </div>
+              <div style="width: 100px;float: left;">
+                <strong>Lead ID: {{notify.lead_id}}<br></strong>
+              </div>
+              <div  style="width: 300px;float: left;">
+                <i class="ni ni-shop text-success mr-2"></i>
+                <strong>
+                  <span *ngIf="notify?.sale_property?.title">{{notify?.sale_property?.title}}</span>
+                  <span *ngIf="notify?.rent_property?.title">{{notify?.rent_property?.title}}</span>
+                  <span *ngIf="notify?.land_sale_property?.title">{{notify?.land_sale_property?.title}}</span>
+                </strong>
+              </div>
+              <div>
+                <i class="ni ni-chat-round text-success mr-2"></i><strong>{{notify.note}}</strong>
+              </div>
+              <div style="width: 150px; text-align: right;">
+                <strong>{{notify.created_at|date}}</strong>
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <div class="card-footer">
+          <mat-paginator
+            [length]="totalrow"
+            [pageSize]="itemPerPage"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="pageEvent($event)">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

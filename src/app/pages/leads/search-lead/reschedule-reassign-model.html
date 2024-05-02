@@ -1,0 +1,48 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>TRANSFER TASK</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form #stepForm="ngForm" (ngSubmit)="onClick()">
+    <mat-dialog-content class="mat-typography pt-3">
+      <nz-form-item>
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="team_id">TRANSFER TO</nz-form-label>
+        <nz-form-control nzErrorTip="Transfer To is required!">
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Transfer To" [(ngModel)]="data.team_id" name="team_id" id="team_id" (ngModelChange)="changeTeam($event)" required>
+            <nz-option *ngFor="let team of data.reallocated_team" [nzLabel]="team.name" [nzValue]="team.id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="team_input">
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="team_manager">TEAM MANAGER</nz-form-label>
+        <nz-form-control >
+          <input nz-input  [(ngModel)]="data.team_manager" name="team_manager" id="team_manager"  [disabled]="true" />
+          <input  type="hidden" nz-input [(ngModel)]="data.team_manager_id" name="team_manager_id" id="team_manager"/>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="team_input">
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="allocated_to">ALLOCATED TO</nz-form-label>
+        <nz-form-control nzErrorTip="Please input allocated to!">
+          <nz-select  nzShowSearch nzAllowClear [(ngModel)]="data.allocated_to"  name="allocated_to" id="allocated_to" required>
+            <nz-option *ngFor="let allocated of team_member_list" selected [nzLabel]="allocated.member.name" [nzValue]="allocated.systemuser_id"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="reschedule_comments">TRANSFER NOTE</nz-form-label>
+        <nz-form-control nzErrorTip="Reschedule Note is required!">
+          <textarea rows="3" [(ngModel)]="data.reschedule_comments" name="reschedule_comments" id="reschedule_comments" nz-input required></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+        <i class="fa fa-times mr-2"></i>Cancel
+      </button>
+      <button type="submit" [disabled]="!stepForm.form.valid" class="btn btn-sm btn-default text-white">
+        <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+      </button>
+    </mat-dialog-actions>
+</form>

@@ -1,0 +1,43 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>{{data.operation}} Construction Status</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form #typeForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row mt-3">
+      <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-label  [nzSm]="10" [nzXs]="24" nzFor="construction_status" nzRequired>Const status EN</nz-form-label>
+            <nz-form-control nzErrorTip="Const status EN is required!">
+              <input nz-input [(ngModel)]="data.construction_status" name="construction_status" id="construction_status"  #construction_status="ngModel" required placeholder="Const status EN"/>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label  [nzSm]="10" [nzXs]="24" nzFor="construction_status_bn" nzRequired>Const status BN</nz-form-label>
+            <nz-form-control nzErrorTip="Const status BN is required!">
+              <input nz-input [(ngModel)]="data.construction_status_bn" name="construction_status_bn" id="construction_status_bn"  #construction_status_bn="ngModel" required placeholder="Const status BN"/>
+            </nz-form-control>
+          </nz-form-item>
+          
+          <nz-form-item>
+            <nz-form-label  [nzSm]="10" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
+              <nz-form-control  nzErrorTip="Status is required!">
+                    <nz-switch id="status" required [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+              </nz-form-control>
+          </nz-form-item>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!typeForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+    </button>
+  </mat-dialog-actions>
+</form>

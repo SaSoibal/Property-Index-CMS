@@ -1,0 +1,51 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Lone Calculate Instruction</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <form (ngSubmit)="submitLoneForm()" [formGroup]="createLoneForm">
+            <nz-form-item>
+              <nz-form-label [nzSm]="24" [nzXs]="24"  class="text-left" nzFor="description_en">Lone Description  (EN) </nz-form-label>
+              <nz-form-control>
+                <app-tinymce nz-input formControlName="description_en" #tinymce='tinymce' required id="description_en"  placeholder="Description (EN)"></app-tinymce>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="24" [nzXs]="24" class="text-left" nzFor="description_bn">Lone Description  (BN) </nz-form-label>
+
+              <nz-form-control>
+                <app-tinymce nz-input formControlName="description_bn" #tinymce='tinymce' required id="description_bn"  placeholder="Description (BN)"></app-tinymce>
+              </nz-form-control>
+            </nz-form-item>
+            <div  align="end">
+              <button type="submit" [disabled]="!this.createLoneForm.valid || disabledSubmitBtn" class="btn btn-sm btn-default text-white">
+                <i class="fa fa-save mr-2"></i> Submit
+              </button>
+            </div>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

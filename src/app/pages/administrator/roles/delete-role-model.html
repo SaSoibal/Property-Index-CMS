@@ -1,0 +1,26 @@
+
+<div  mat-dialog-title class="d-flex">
+  <h2>{{data.operation}} Role</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form #roleForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography  pt-4">
+      <div class="row">
+        <div class="col-md-12">
+            <strong>Are you sure want to delete?</strong><br>
+            <i class="fa fa-key mr-2 text-danger"></i> <strong>Role :</strong> {{data.role_name}}<br>
+        </div>
+      </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!roleForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-check mr-2"></i> Conform
+    </button>
+  </mat-dialog-actions>
+</form>

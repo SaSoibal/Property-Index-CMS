@@ -1,0 +1,41 @@
+.mat-expansion-panel {
+    background: #f8f7f78a;
+    color: rgba(0,0,0,.87);
+}
+.mat-radio-button {
+    margin-right: 25px;
+}
+
+.drag-drop{
+    border: 2px dashed #9a9a9a;
+    height: 224px;
+    width: 100%;
+    border-radius: 5px;
+  }
+  .drag-drop input{
+    height: 100%;
+    color: #ffff;
+    border: none;
+  }
+  .preview-area .preview {
+    border: 2px dashed #9a9a9a;
+    height: 86px;
+    width: 86px;
+    padding: 3px;
+    border-radius: 5px;
+    margin-right: 8.5px;
+    margin-bottom: 7.5px;
+  }
+   .preview-area{
+    position: relative;
+    /* pointer-events: none; */
+  }
+  .preview-area button{
+    position: absolute;
+    right: 7px;
+  }
+  .img-gallery{
+    width: 100%;
+    display: inline-block;
+    padding: 0;
+  }

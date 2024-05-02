@@ -1,0 +1,38 @@
+<div class="card shadow">
+  <div class="card-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="mb-0">Lone Calculate Instruction</h3>
+      </div>
+    </div>
+  </div>
+  <div class="card-body border-0" *ngIf="permission('read')">
+    <form (ngSubmit)="submitJustCallForm()" [formGroup]="createJustCallForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="details_en">Details  (EN) </nz-form-label>
+        <nz-form-control [nzSm]="18" [nzXs]="24">
+          <textarea nz-input formControlName="details_en" required id="details_en"  placeholder="Details (EN)"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="details_bn">Details  (BN) </nz-form-label>
+        <nz-form-control [nzSm]="18" [nzXs]="24">
+          <textarea nz-input formControlName="details_bn" required id="details_bn"  placeholder="Details (BN)"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="phone_no">Phone No </nz-form-label>
+        <nz-form-control [nzSm]="18" [nzXs]="24">
+          <input nz-input formControlName="phone_no" required id="phone_no" placeholder="Phone No"/>
+        </nz-form-control>
+      </nz-form-item>
+      <div  align="end">
+        <button type="submit" class="btn btn-sm btn-default text-white">
+          <i class="fa fa-save mr-2"></i> Submit
+        </button>
+      </div>
+    </form>
+  </div>
+
+
+</div>

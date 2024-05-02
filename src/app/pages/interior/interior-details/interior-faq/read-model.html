@@ -1,0 +1,45 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Interior FAQ Details</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <table class="table table-sm">
+          <tr>
+            <th>Title (EN)</th>
+            <td>:</td>
+            <td>{{data.title_en}}</td>
+          </tr>
+          <tr>
+            <th>Title (BN)</th>
+            <td>:</td>
+            <td>{{data.title_bn}}</td>
+          </tr>
+          <tr>
+            <th>Description (EN)</th>
+            <td>:</td>
+            <td>{{data.description_en}}</td>
+          </tr>
+          <tr>
+            <th>Description (BN)</th>
+            <td>:</td>
+            <td>{{data.description_bn}}</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>:</td>
+            <td>{{data.status?'Active':'In-active' }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+  </mat-dialog-actions>

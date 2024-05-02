@@ -1,0 +1,335 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Browse Property</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form #stepForm="ngForm" (ngSubmit)="onClick()">
+    <mat-dialog-content class="mat-typography pt-3">
+      <div class="row">
+
+        <div class="col-md-4">
+          <nz-form-item  class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left" nzFor="product_type">Product Type</nz-form-label>
+            <nz-form-control  [nzSm]="16" [nzXs]="24">
+              <nz-select nzShowSearch  nzPlaceHolder="Product Type" [(ngModel)]="data.product_type" name="product_type" id="product_type">
+                <nz-option *ngFor="let type of product_type_list" [nzLabel]="type.name" [nzValue]="type.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4">
+          <nz-form-item  class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left" nzFor="project_type">Project Type</nz-form-label>
+            <nz-form-control  [nzSm]="16" [nzXs]="24">
+              <nz-select nzShowSearch  nzPlaceHolder="Project Type" [(ngModel)]="data.project_type" name="project_type" id="project_type" (ngModelChange)="changeProjectType($event)">
+                <nz-option *ngFor="let type of project_type_list" [nzLabel]="type.type" [nzValue]="type.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4">
+          <nz-form-item class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left" nzFor="location">Location</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+              <nz-select nzShowSearch  nzPlaceHolder="Location" [(ngModel)]="data.location" name="location" id="location">
+                <nz-option *ngFor="let loc of location_list" [nzLabel]="loc.location" [nzValue]="loc.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4">
+          <nz-form-item  class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left" nzFor="city">City</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+              <nz-select nzShowSearch nzPlaceHolder="City" [(ngModel)]="data.city" name="city" id="city" (ngModelChange)="changeCity($event)">
+                <nz-option *ngFor="let cit of city_list" [nzLabel]="cit.city" [nzValue]="cit.id" ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4">
+          <nz-form-item  class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left" nzFor="area">Area</nz-form-label>
+            <nz-form-control  [nzSm]="16" [nzXs]="24">
+              <nz-select nzShowSearch nzPlaceHolder="Area" [(ngModel)]="data.area" name="area" id="area">
+                <nz-option *ngFor="let list of area_list" [nzLabel]="list.area_name" [nzValue]="list.id" ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4" *ngIf="typeWiseInput=='flat'" >
+          <nz-form-item  class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="beds">Beds</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+              <nz-select nzShowSearch nzPlaceHolder="Beds" [(ngModel)]="data.beds" name="beds" id="beds">
+                <nz-option [nzValue]="1" nzLabel="01"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="02"></nz-option>
+                <nz-option [nzValue]="3" nzLabel="03"></nz-option>
+                <nz-option [nzValue]="4" nzLabel="04"></nz-option>
+                <nz-option [nzValue]="5" nzLabel="05"></nz-option>
+                <nz-option [nzValue]="6" nzLabel="06"></nz-option>
+                <nz-option [nzValue]="7" nzLabel="07"></nz-option>
+                <nz-option [nzValue]="8" nzLabel="08"></nz-option>
+                <nz-option [nzValue]="9" nzLabel="09"></nz-option>
+                <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div *ngIf="pageBuffer" class="loader"></div>
+        <div class="col-md-4" *ngIf="typeWiseInput=='flat'" >
+          <nz-form-item class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="baths">Baths</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+              <nz-select nzShowSearch nzPlaceHolder="Baths" [(ngModel)]="data.baths" name="baths" id="baths">
+                <nz-option [nzValue]="1" nzLabel="01"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="02"></nz-option>
+                <nz-option [nzValue]="3" nzLabel="03"></nz-option>
+                <nz-option [nzValue]="4" nzLabel="04"></nz-option>
+                <nz-option [nzValue]="5" nzLabel="05"></nz-option>
+                <nz-option [nzValue]="6" nzLabel="06"></nz-option>
+                <nz-option [nzValue]="7" nzLabel="07"></nz-option>
+                <nz-option [nzValue]="8" nzLabel="08"></nz-option>
+                <nz-option [nzValue]="9" nzLabel="09"></nz-option>
+                <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4">
+          <nz-form-item class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left"  nzFor="min_price">Min Price</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+              <input type="number" nz-input [(ngModel)]="data.min_price" name="min_price" id="min_price" placeholder="0" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4">
+          <nz-form-item class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left"  nzFor="max_price">Max Price</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+              <input type="number" nz-input [(ngModel)]="data.max_price" name="max_price" id="max_price"  placeholder="0" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4">
+          <nz-form-item class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left"  nzFor="property_id">Property ID</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+              <input type="text" nz-input [(ngModel)]="data.property_id" name="property_id" id="property_id"  placeholder="Property ID" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-4">
+          <nz-form-item class="mb-2">
+            <nz-form-label [nzSm]="8" [nzXs]="24"  class="text-left"  nzFor="property_name">Search Name</nz-form-label>
+            <nz-form-control [nzSm]="16" [nzXs]="24">
+              <input type="text" nz-input [(ngModel)]="data.property_name" name="property_name" id="property_name"  placeholder="Property Name" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="col-md-12 text-right mb-3 mt-2">
+          <a nz-button nzType="default" class="mr-2" (click)="clearFilter()"><i class="fa fa-bolt mr-1"></i>Clear</a>
+          <a nz-button nzType="primary" class="text-white mr-2" (click)="clickFilter()"><i class="fa fa-search mr-1"></i>Search</a>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-sm mb-0">
+            <thead>
+              <tr>
+                <th colSpan="100%">Filter Property</th>
+              </tr>
+              <tr>
+                <th>Photo</th>
+                <th>#PID</th>
+                <th>Property Name</th>
+                <th>Type</th>
+                <th width="50px">. . . </th>
+              </tr>
+            </thead>
+          </table>
+          <div style="height: 250px;overflow-y: auto;border: 1px solid #ededed;background: #ededed;">
+            <table class="table table-sm bg-white">
+              <tbody>
+               <ng-container *ngIf="for_sale.length > 0 || for_rent.length > 0 || for_land_sale.length > 0 || website_sale_property.length > 0 || website_rent_property.length > 0 || website_land_sale.length > 0;else notFondProperty">
+                    <tr *ngFor="let forsale of for_sale">
+                      <td class="align-middle"><img [src]="rootUrl + forsale.property_thumbnail?.url" height="30px" width="30px"></td>
+                      <td class="align-middle">
+                        {{forsale.listing_id?forsale.listing_id:forsale.property_id}}
+                      </td>
+                      <td class="align-middle">
+                        {{forsale.title}}<br>
+                        <small>Price:
+                          <strong *ngIf="forsale.price_contact?.offer_price">{{forsale.price_contact?.offer_price|number:'.2'}}</strong>
+                        </small>
+                      </td>
+                      <td class="align-middle">FSP</td>
+                      <td width="50px" class="align-middle">
+                        <a nz-button nzType="default" (click)="clickToSelectProperty(forsale,'for_sale')"><i class="fa fa-arrow-right"></i> </a>
+                      </td>
+                    </tr>
+                   <tr *ngFor="let forrent of for_rent">
+                     <td class="align-middle"><img [src]="rootUrl + forrent.property_thumbnail?.url" height="30px" width="30px"></td>
+                     <td class="align-middle">{{forrent.listing_id?forrent.listing_id:forrent.property_id}}</td>
+                     <td class="align-middle">
+                       {{forrent.title}}<br>
+                       <small>Price:
+                         <strong *ngIf="forrent.price_contact?.monthly_rent">{{forrent.price_contact?.monthly_rent|number:'.2'}}</strong>
+                       </small>
+                     </td>
+                     <td class="align-middle">FRP</td>
+                     <td width="50px" class="align-middle">
+                       <a nz-button nzType="default" (click)="clickToSelectProperty(forrent,'for_rent')"><i class="fa fa-arrow-right"></i> </a>
+                     </td>
+                   </tr>
+                   <tr *ngFor="let forlandsale of for_land_sale">
+                     <td class="align-middle"><img [src]="rootUrl + forlandsale.property_thumbnail?.url" height="30px" width="30px"></td>
+                     <td class="align-middle">{{forlandsale.listing_id?forlandsale.listing_id:forlandsale.property_id}}</td>
+                     <td class="align-middle">
+                       {{forlandsale.title}}
+                       <br>
+                       <small>Price:
+                         <strong *ngIf="forlandsale.price_contact?.offer_price">{{forlandsale.price_contact?.offer_price|number:'.2'}}</strong>
+                       </small>
+                     </td>
+                     <td class="align-middle">FLSP</td>
+                     <td width="50px" class="align-middle">
+                       <a nz-button nzType="default" (click)="clickToSelectProperty(forlandsale,'for_land_sale')"><i class="fa fa-arrow-right"></i> </a>
+                     </td>
+                   </tr>
+                   <!-- <tr *ngFor="let website_sale of website_sale_property">
+                     <td class="align-middle"><img [src]="rootUrl + website_sale.property_images?.[0]?.url" height="30px" width="30px"></td>
+                     <td class="align-middle">{{website_sale.listing_id?website_sale.listing_id:website_sale.property_id}}</td>
+                     <td class="align-middle">
+                       {{website_sale.title}} <br>
+                       <small>Price:
+                          <strong *ngIf="website_sale.price">{{website_sale.price|number:'.2'}}</strong>
+                       </small>
+
+                     </td>
+                     <td class="align-middle">WSP</td>
+                     <td width="50px" class="align-middle">
+                       <a nz-button nzType="default" (click)="clickToSelectProperty(website_sale,'website_sale_property')"><i class="fa fa-arrow-right"></i> </a>
+                     </td>
+                   </tr>
+                   <tr *ngFor="let website_rent of website_rent_property">
+                     <td class="align-middle"><img [src]="rootUrl + website_rent.property_images?.[0]?.url" height="30px" width="30px"></td>
+                     <td class="align-middle">{{website_rent.listing_id?website_rent.listing_id:website_rent.property_id}}</td>
+                     <td class="align-middle">
+                       {{website_rent.title}} <br>
+                       <small>Price:
+                         <strong *ngIf="website_rent.price">{{website_rent.price|number:'.2'}}</strong>
+                       </small>
+                     </td>
+                     <td class="align-middle">WRP</td>
+                     <td width="50px" class="align-middle">
+                       <a nz-button nzType="default" (click)="clickToSelectProperty(website_rent,'website_rent_property')"><i class="fa fa-arrow-right"></i> </a>
+                     </td>
+                   </tr>
+                   <tr *ngFor="let websitelandsale of website_land_sale">
+                     <td class="align-middle"><img [src]="rootUrl + websitelandsale.property_thumbnail?.url" height="30px" width="30px"></td>
+                     <td class="align-middle">{{websitelandsale.listing_id?websitelandsale.listing_id:websitelandsale.property_id}}</td>
+                     <td class="align-middle">
+                       {{websitelandsale.title}}
+                       <br>
+                       <small>Price:
+                         <strong *ngIf="websitelandsale.price_contact?.offer_price">{{websitelandsale.price_contact?.offer_price|number:'.2'}}</strong>
+                       </small>
+                     </td>
+                     <td class="align-middle">WLSP</td>
+                     <td width="50px" class="align-middle">
+                       <a nz-button nzType="default" (click)="clickToSelectProperty(websitelandsale,'website_land_sale')"><i class="fa fa-arrow-right"></i> </a>
+                     </td>
+                   </tr> -->
+               </ng-container>
+              <ng-template #notFondProperty>
+                <tr><td colspan="100%"><strong>Property Not Found ...</strong></td></tr>
+              </ng-template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-sm mb-0">
+            <thead>
+              <tr>
+                <th colSpan="100%">Selected Property</th>
+              </tr>
+              <tr>
+                <th>#ID</th>
+                <th>Property Name</th>
+                <th width="50px">. . .</th>
+              </tr>
+            </thead>
+          </table>
+          <div style="height: 250px;overflow-y: auto;border: 1px solid #ededed;background: #ededed;">
+            <table class="table table-sm bg-white">
+              <tbody>
+                <ng-container *ngIf="selected_property.length > 0 ;else notSelectProperty">
+                  <tr *ngFor="let property of selected_property">
+                    <td class="align-middle">
+                      <img *ngIf="property.save_type == 'for_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                      <img *ngIf="property.save_type == 'for_rent'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                      <img *ngIf="property.save_type == 'for_land_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                      <img *ngIf="property.save_type == 'website_sale_property'" [src]="rootUrl + property.property_images?.[0]?.url" height="30px" width="30px">
+                      <img *ngIf="property.save_type == 'website_rent_property'" [src]="rootUrl + property.property_images?.[0]?.url" height="30px" width="30px">
+                      <img *ngIf="property.save_type == 'website_land_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                    </td>
+                    <td class="align-middle">{{property.listing_id?property.listing_id:property.property_id}}</td>
+                    <td class="align-middle">{{property.title}}<br>
+                       <small>Price:
+                          <strong *ngIf="property.save_type == 'for_sale'">
+                            <span *ngIf="property.price_contact?.offer_price">{{property.price_contact?.offer_price|number:'.2'}}</span>
+                          </strong>
+                          <strong *ngIf="property.save_type == 'for_rent'">
+                            <span *ngIf="property.price_contact?.monthly_rent">{{property.price_contact?.monthly_rent|number:'.2'}}</span>
+                          </strong>
+                          <strong *ngIf="property.save_type == 'for_land_sale'">
+                            <span *ngIf="property.price_contact?.offer_price">{{property.price_contact?.offer_price|number:'.2'}}</span>
+                          </strong>
+                          <strong *ngIf="property.save_type == 'website_sale_property'">
+                            <span *ngIf="property.price">{{property.price|number:'.2'}}</span>
+                          </strong>
+                          <strong *ngIf="property.save_type == 'website_rent_property'">
+                            <span *ngIf="property.price">{{property.price|number:'.2'}}</span>
+                          </strong>
+                          <strong *ngIf="property.save_type == 'website_land_sale'">
+                            <span *ngIf="property.price_contact?.offer_price">{{property.price_contact?.offer_price|number:'.2'}}</span>
+                          </strong>
+                       </small>
+                    </td>
+                    <td class="align-middle">
+                      <span *ngIf="property.save_type == 'for_sale'">FSP</span>
+                      <span *ngIf="property.save_type == 'for_rent'">FRP</span>
+                      <span *ngIf="property.save_type == 'for_land_sale'">FLSP</span>
+                      <span *ngIf="property.save_type == 'website_sale_property'">WSP</span>
+                      <span *ngIf="property.save_type == 'website_rent_property'">WRP</span>
+                      <span *ngIf="property.save_type == 'website_land_sale'">WLSP</span>
+                    </td>
+                    <td width="50px" class="align-middle">
+                      <a nz-button nzType="default" (click)="removeSelectProperty(property)">
+                        <i class="fa fa-times"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-template #notSelectProperty>
+                  <tr><td colspan="100%"><strong>Property Not Found ...</strong></td></tr>
+                </ng-template>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="btn btn-sm btn-danger text-white" (click)="closeModel()" mat-dialog-close>
+        <i class="fa fa-times mr-2"></i>Cancel
+      </button>
+      <button type="submit" [disabled]="!stepForm.form.valid" class="btn btn-sm btn-default text-white">
+        <i class="fa fa-save mr-2"></i> {{selected_property.length > 0?'Changed':'Selected'}}
+      </button>
+    </mat-dialog-actions>
+</form>

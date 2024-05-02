@@ -1,0 +1,32 @@
+<div  mat-dialog-title class="d-flex">
+    <h2>Product View Type</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #stepForm="ngForm" (ngSubmit)="onClick()">
+    <mat-dialog-content class="mat-typography pt-3">
+      <div class="row">
+        <div class="col-md-12">
+            <nz-form-item>
+                <nz-form-label  [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="view_type">View Type</nz-form-label>
+                <nz-form-control  [nzSm]="18" [nzXs]="24"  nzErrorTip="View Type is Required!">
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="View Type" [(ngModel)]="data.view_type" name="view_type" required>
+                        <nz-option [nzLabel]="'In-House'" [nzValue]="1"></nz-option>
+                        <nz-option [nzLabel]="'Website'" [nzValue]="2"></nz-option>
+                        <nz-option [nzLabel]="'Both'" [nzValue]="3"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!stepForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+    </button>
+  </mat-dialog-actions>
+</form>

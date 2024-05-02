@@ -1,0 +1,174 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+    <div *ngIf="pageBuffer" class="loader"></div>
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">For Sale Product Manage</h3>
+                        </div>
+                        <div class="col text-right" *ngIf="permission('create')">
+                            <a [routerLink]="['/property-management/product']" class="btn btn-sm btn-warning text-white">
+                              <i class="fa fa-list mr-2"></i>For Sale
+                            </a>
+                           <a [routerLink]="['/property-management/product/rent-product']" class="btn btn-sm btn-default text-white">
+                              <i class="fa fa-list mr-2"></i>To Rent
+                            </a>
+                           <a [routerLink]="['/property-management/product/land-sale-product']" class="btn btn-sm btn-default text-white">
+                              <i class="fa fa-list mr-2"></i>For Land Sale
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <ul nz-menu nzMode="horizontal">
+                  <li nz-menu-item nzSelected="{{activeStep==0?'true':'false'}}" (click)="setStep(0)">
+                    All ( <span class="text-danger">{{property_count?.all}}</span> )
+                  </li>
+                  <li nz-menu-item nzSelected="{{activeStep==1?'true':'false'}}" (click)="setStep(1)">
+                    First Call ( <span class="text-danger">{{property_count?.first_call}}</span> )
+                  </li>
+                  <li nz-menu-item nzSelected="{{activeStep==2?'true':'false'}}" (click)="setStep(2)">
+                    Follow up Call ( <span class="text-danger">{{property_count?.follow_up_call}}</span> )
+                  </li>
+                  <li nz-menu-item nzSelected="{{activeStep==3?'true':'false'}}" (click)="setStep(3)">
+                    MOU  ( <span class="text-danger">{{property_count?.mou}}</span> )
+                  </li>
+                  <li nz-menu-item nzSelected="{{activeStep==4?'true':'false'}}" (click)="setStep(4)">
+                    Viewing ( <span class="text-danger">{{property_count?.viewing}}</span> )
+                  </li>
+                  <li nz-menu-item nzSelected="{{activeStep==5?'true':'false'}}" (click)="setStep(5)">
+                    Token Received  ( <span class="text-danger">{{property_count?.token_received}}</span> )
+                  </li>
+                  <li nz-menu-item nzSelected="{{activeStep==6?'true':'false'}}" (click)="setStep(6)">
+                    Registration Appeared  ( <span class="text-danger">{{property_count?.registration_appeared}}</span> )
+                  </li>
+                  <li nz-menu-item nzSelected="{{activeStep==7?'true':'false'}}" (click)="setStep(7)">
+                    Registration Complete  ( <span class="text-danger">{{property_count?.registration_complete}}</span> )
+                  </li>
+                  <li nz-menu-item nzSelected="{{activeStep==8?'true':'false'}}" (click)="setStep(8)">
+                    Deal Close  ( <span class="text-danger">{{property_count?.deal_close}}</span> )
+                  </li>
+                </ul>
+                <hr class="m-0">
+                <div class="card-body border-0" *ngIf="permission('create')">
+
+                  <div *ngIf="permission('read')">
+                    <input  nz-input  placeholder="Search by Id, Title, Project name, Built in year, Handover year, Developer name, Description, Address, Created By, Updated By, Rejected By" type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+                    <div class="table-responsive" >
+                      <table class="table table-hover table-bordered table-sm  table--darker">
+                        <thead>
+                        <tr>
+                          <th class="text-center align-middle" *ngIf="permission('update') || permission('delete')">Action</th>
+                          <th class="align-middle">Listing ID</th>
+                          <th class="align-middle">Property ID </th>
+                          <th class="align-middle">Image</th>
+                          <th class="align-middle">Name</th>
+                          <th class="align-middle">Address</th>
+                          <th class="align-middle">Sector</th>
+                          <th class="align-middle">Block</th>
+                          <th class="align-middle">Road</th>
+                          <th class="align-middle">House No</th>
+                          <th class="align-middle">Plot Size</th>
+                          <th class="align-middle">Square Feet (sqft)</th>
+                          <th class="align-middle">Bedroom</th>
+                          <th class="align-middle">Bathroom</th>
+                          <th class="align-middle">Balcony</th>
+                          <th class="align-middle">Servant Room</th>
+                          <th class="align-middle">Available Floor</th>
+                          <th class="align-middle">Facing</th>
+                          <th class="align-middle">Parking</th>
+                          <th class="align-middle">Total/Unit per floor</th>
+                          <th class="align-middle"> Building Storied</th>
+                          <th class="align-middle">Construction Status</th>
+                          <th class="align-middle"> Developer Name</th>
+                          <th class="align-middle">Hand over year</th>
+                          <th class="align-middle">Bank Loan</th>
+                          <th class="align-middle">Rajuk Approval</th>
+                          <th class="align-middle">Price</th>
+                          <th class="align-middle">Added by</th>
+                          <th class="align-middle">Approved by</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <ng-container *ngIf="collection.length > 0;else notFound">
+                          <tr *ngFor="let property of collection| paginate: {
+                                        currentPage: pageNumber,
+                                        itemsPerPage: itemPerPage,
+                                        totalItems: totalrow
+                                        } ; index as i;">
+                            <td class="align-middle text-center" *ngIf="permission('read')||permission('update')">
+                              <div class="d-flex" style="width:80px">
+                                <a *ngIf="permission('read')" (click)="openRedModel(property)" class="btn btn-sm btn-default text-white  mr-2" placement="top" ngbTooltip="View"><i class="fas fa-eye"></i></a>
+                                <a *ngIf="permission('update') && property?.step !== 8 && activeStep!==0" (click)="openStepModel(property)" class="btn btn-sm btn-default text-white  mr-2" placement="top" ngbTooltip="Step"><i class="fas fa-plus"></i></a>
+                              </div>
+                            </td>
+                            <td class="align-middle text-center">{{property?.sale_property?.listing_id?property?.sale_property?.listing_id:'- - -'}}</td>
+                            <td class="align-middle text-center"><strong>{{property?.property_id}}</strong></td>
+                            <td class="align-middle">
+                              <img style="background: #0c1549;height:45px;width:55px;border-radius:3px;padding: 2px;" src="{{property.sale_thumbnail?rootUrl+'/property/'+property.sale_thumbnail.url:'./assets/img/brand/logo.png'}}"/>
+                            </td>
+                            <td class="align-middle m-width-200">{{property?.sale_property?.title}}</td>
+                            <td class="align-middle m-width-150">{{property?.sale_property?.property_address}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.sector}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.block}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.road}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.house_no}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.plot_size}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.square_feet}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.bedroom}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.bathroom}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.balcony}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.servant_room}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.available_floor}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.facing}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.parking}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.total_unit_per_floor}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.building_storied}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.construction_status?(property?.sale_property?.construction_status?.construction_status):''}}</td>
+                            <td class="align-middle m-width-150">{{property?.sale_property?.developer_name}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.handover_year}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.bank_loan}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.rajuk_approval}}</td>
+                            <td class="align-middle m-width-100">{{property?.sale_property?.price_contact?(property?.sale_property?.price_contact.offer_price):'0.00'}}</td>
+                            <td class="align-middle m-width-150">
+                              {{property?.sale_property?.created_by?property?.sale_property?.created_by?.name:''}}<br>
+                              {{property?.sale_property?.created_at|date:'shortDate'}}
+                            </td>
+                            <td class="align-middle m-width-150">
+                              {{property?.sale_property?.approved_by?property?.sale_property?.approved_by.name:''}}<br>
+                              {{property?.sale_property?.approved_at|date:'shortDate'}}
+                            </td>
+                          </tr>
+                        </ng-container>
+                        <ng-template  #notFound>
+                          <tr>
+                            <td colspan="100%" class="text-danger">Data Not Found ...</td>
+                          </tr>
+                        </ng-template>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div><br>
+                    <mat-paginator
+                      [length]="totalrow"
+                      [pageSize]="itemPerPage"
+                      [pageSizeOptions]="pageSizeOptions"
+                      (page)="pageEvent($event)">
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

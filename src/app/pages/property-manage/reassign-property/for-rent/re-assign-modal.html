@@ -1,0 +1,59 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Re-Assign Property</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form #assignForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="branch_id">Select Branch</nz-form-label>
+          <nz-form-control nzErrorTip="Branch is required!">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Branch" [(ngModel)]="data.branch_id" (ngModelChange)="changeBranch($event)" name="branch_id" id="branch_id" required>
+              <nz-option *ngFor="let branch of data.branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="team_id">Select Team</nz-form-label>
+          <nz-form-control nzErrorTip="Team is required!">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Team" [(ngModel)]="data.team_id" (ngModelChange)="teamWiseMember($event)" name="team_id" id="team_id" required>
+              <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="team_manager">Team Manager</nz-form-label>
+          <nz-form-control nzErrorTip="Team Manager is required!">
+            <input nz-input [(ngModel)]="data.team_manager" name="team_manager" id="team_manager"  #team_manager="ngModel" readonly placeholder="Team Manager"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="user_id">Select Member</nz-form-label>
+          <nz-form-control nzErrorTip="Member is required!">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Member" [(ngModel)]="data.user_id" name="user_id" id="user_id" required>
+              <nz-option *ngFor="let user of team_member" [nzLabel]="user?.member?.name" [nzValue]="user.systemuser_id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="note">Note</nz-form-label>
+          <nz-form-control nzErrorTip="Note is required!">
+            <textarea nz-input placeholder="Note" [(ngModel)]="data.note" name="note" id="note" [nzAutosize]="{ minRows: 3, maxRows: 5 }" required></textarea>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!assignForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-check mr-2"></i> Conform
+    </button>
+  </mat-dialog-actions>
+</form>

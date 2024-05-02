@@ -1,0 +1,60 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Today's Lead Details</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<mat-dialog-content class="mat-typography pt-3">
+  <ng-container *ngIf="data.leads.length > 0;else NotFound">
+    <div class="row pt-2 mb-3" *ngIf="data.show_filter">
+      <div class="col-md-4">
+        <nz-select style="width: 100%;"  nzShowSearch nzAllowClear [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
+            <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
+        </nz-select>
+      </div>
+      <div class="col-md-4">
+        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="team_id" (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
+          <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
+        </nz-select>
+      </div>
+      <div class="col-md-4">
+        <nz-select style="width: 100%;" nzShowSearch nzAllowClear [(ngModel)]="member_id"  (ngModelChange)="clickMemberData($event)" nzPlaceHolder="Select Member">
+          <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id" [nzLabel]="member?.member?.name"></nz-option>
+        </nz-select>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="col-md-3 mb-4" *ngFor="let lead of data.leads">
+        <div class="card" style="border-bottom: 4px solid #f5365c;box-shadow: 0px 0px 12px #e3e3e3;cursor: pointer;">
+          <div class="card-body p-2 pt-3">
+            <a [routerLink]="['leads/go-to-do-list/'+lead.id]" mat-dialog-close style="width: 100%;">
+              <div class="row align-items-center gx-0">
+                <div class="col text-center">
+                  <h5 class="text-uppercase mb-2">
+                  <strong> {{lead.step|uppercase}}</strong>
+                  </h5>
+                  <span class="h1 mb-0">
+                    {{lead.tasks_count|number}}
+                  </span>
+                </div>
+              </div> <!-- / .row -->
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #NotFound>
+    <div class="spin-style">
+      <nz-spin nzSimple></nz-spin>
+    </div>
+  </ng-template>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+    <i class="fa fa-times mr-2"></i>Cancel
+  </button>
+  <a class="btn btn-sm btn-danger text-white" [routerLink]="['leads/to-do-list']"  mat-dialog-close>
+    <i class="ni ni-curved-next mr-2"></i>Go To Todo List
+  </a>
+</mat-dialog-actions>

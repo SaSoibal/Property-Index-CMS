@@ -1,0 +1,27 @@
+<div  mat-dialog-title class="d-flex">
+  <h2> Approve Transfer Lead</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form #stepForm="ngForm" (ngSubmit)="onClick()">
+    <mat-dialog-content class="mat-typography pt-3">
+      <h3 class="text-right">
+        <strong>Total Selected : {{data.selected_lead.length}} Leads</strong>
+      </h3>
+      <nz-form-item>
+        <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired nzFor="note">Note</nz-form-label>
+        <nz-form-control nzErrorTip="Note is required!">
+          <textarea nz-input placeholder="Note" [(ngModel)]="data.note" name="note" id="note" [nzAutosize]="{ minRows: 3, maxRows: 5 }" required></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+        <i class="fa fa-times mr-2"></i>Cancel
+      </button>
+      <button type="submit" [disabled]="!stepForm.form.valid" class="btn btn-sm btn-default text-white">
+        <i class="ni ni-check-bold mr-2"></i> Approve Transfer
+      </button>
+    </mat-dialog-actions>
+</form>

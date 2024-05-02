@@ -1,0 +1,67 @@
+
+<div  mat-dialog-title class="d-flex">
+    <h2>{{data.operation}} Assign Role</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <form #roleForm="ngForm" (ngSubmit)="onClick()">
+    <mat-dialog-content class="mat-typography  pt-4">
+        <div class="row">
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="role">Select Role</nz-form-label>
+              <nz-form-control  nzErrorTip="The role is required!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a role" [(ngModel)]="data.role_id" name="role_id">
+                  <nz-option *ngFor="let roles of data.roles_list" [nzLabel]="roles.role_name" [nzValue]="roles.id"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Select User</nz-form-label>
+              <nz-form-control  nzErrorTip="The role is required!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a user" [(ngModel)]="data.user_id"  name="user_id">
+                  <nz-option *ngFor="let users of data.users_list" [nzLabel]="users.name" [nzValue]="users.id"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+               <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
+                  <nz-form-control  nzErrorTip="The role is required!">
+                       <nz-switch id="status" [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+                  </nz-form-control>
+              </nz-form-item>
+          </div>
+        </div>
+        
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+        <i class="fa fa-times mr-2"></i>Cancel
+      </button>
+      <button type="submit" [disabled]="!roleForm.form.valid" class="btn btn-sm btn-default text-white">
+        <i class="fa fa-save mr-2"></i> Submit
+      </button>
+      <br>
+      <br>
+      <br>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th class="text-left">Log Date</th>
+            <th class="text-left">User Role</th>
+            <th class="text-left">Create By</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of data.log_list">
+            <td  class="text-left">{{log.created_date|date:'mediumDate'}}</td>
+            <td  class="text-left">{{log.role_name}}</td>
+            <td  class="text-left">{{log.create_by_name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-dialog-actions>
+  </form>
+

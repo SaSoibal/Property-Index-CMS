@@ -1,0 +1,77 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Product Step</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form #stepForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row">
+      <div class="col-md-12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzFor="step">Current Step</nz-form-label>
+          <nz-form-control  [nzSm]="18" [nzXs]="24">
+             {{common.getProductStepName(data?.current_step)}}
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label  [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="step">Next Step</nz-form-label>
+          <nz-form-control  [nzSm]="18" [nzXs]="24"  nzErrorTip="Next Step is Required!">
+            <nz-select nzShowSearch nzPlaceHolder="Select a step" [(ngModel)]="data.step" name="step" required>
+              <nz-option [nzLabel]="'First Call'" [nzValue]="1"></nz-option>
+              <nz-option [nzLabel]="'Follow up Call'" [nzValue]="2"></nz-option>
+              <nz-option [nzLabel]="'MOU'" [nzValue]="3"></nz-option>
+              <nz-option [nzLabel]="'Viewing'" [nzValue]="4"></nz-option>
+              <nz-option [nzLabel]="'Token Received'" [nzValue]="5"></nz-option>
+              <nz-option [nzLabel]="'Registration Appeared'" [nzValue]="6"></nz-option>
+              <nz-option [nzLabel]="'Registration Complete'" [nzValue]="7"></nz-option>
+              <nz-option [nzLabel]="'Deal Close'" [nzValue]="8"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item >
+        <nz-form-item *ngIf="data.step == 3">
+          <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzFor="attachment">Attachment</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24" >
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIcon">
+              <input type="file" style="padding: 1px;" (change)="Changed($event)" #fileInput nz-input id="attachment"/>
+            </nz-input-group>
+            <ng-template #suffixIcon>
+              <a nz-button nzType="primary" nzDanger (click)="removeFile()">
+                <i class="fa fa-times text-white"></i>
+              </a>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="data.step == 8">
+          <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzRequired nzFor="deal_close">Deal close</nz-form-label>
+          <nz-form-control nzErrorTip="Deal close is Required!">
+            <nz-radio-group [(ngModel)]="data.deal_close" name="deal_close" id="deal_close" required>
+              <label nz-radio nzValue="2">Success</label>
+              <label nz-radio nzValue="3">Failed</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label  [nzSm]="6" [nzXs]="24" class="text-left"  nzFor="note">Step Note</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24">
+            <textarea nz-input placeholder="Note" rows="3" [(ngModel)]="data.note" name="note"></textarea>
+          </nz-form-control>
+        </nz-form-item >
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left"  nzFor="new_assign_date">Assign date</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker class="w-100" [nzShowTime]="{ nzFormat: 'HH:mm:ss' }"  #AssignDatePicker [nzDisabledDate]="disabledAssignDate"  [(ngModel)]="assignDateValue" name="new_assign_date" #new_assign_date="ngModel" id="new_assign_date" placeholder="Assign Date"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!stepForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+    </button>
+  </mat-dialog-actions>
+</form>

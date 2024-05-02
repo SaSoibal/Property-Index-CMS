@@ -1,0 +1,36 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>{{data.operation}} Lead Status</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form #typeForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row mt-3">
+      <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-label  [nzSm]="10" [nzXs]="24" nzFor="lead_status" nzRequired>Construction status</nz-form-label>
+            <nz-form-control nzErrorTip="Lead status is required!">
+              <input nz-input [(ngModel)]="data.lead_status" name="lead_status" id="budget_pre"  #lead_status="ngModel" required placeholder="Construction status"/>
+            </nz-form-control>
+          </nz-form-item>
+          
+          <nz-form-item>
+            <nz-form-label  [nzSm]="10" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
+              <nz-form-control  nzErrorTip="Status is required!">
+                    <nz-switch id="status" required [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+              </nz-form-control>
+          </nz-form-item>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!typeForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+    </button>
+  </mat-dialog-actions>
+</form>

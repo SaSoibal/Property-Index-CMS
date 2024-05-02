@@ -1,0 +1,140 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Additional Settings</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <div class="row">
+            <div class="col-md-12">
+              <ul nz-menu nzMode="horizontal" class="mb-4">
+                <li nz-menu-item  (click)="onClickMenu(1)">
+                  Lead Settings
+                </li>
+                <li nz-menu-item  (click)="onClickMenu(2)">
+                  Product Settings
+                </li>
+                <li nz-menu-item  (click)="onClickMenu(3)">
+                  Global Settings
+                </li>
+              </ul>
+
+              <nz-tabset [nzTabPosition]="position" *ngIf="setMenu==1">
+                <nz-tab  nzTitle="CLIENT TYPE">
+                  <ng-template nz-tab>
+                    <app-client-type></app-client-type>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="OCCUPATION" class="m-0">
+                  <ng-template nz-tab>
+                    <app-occupation></app-occupation>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="CLIENT RATING" class="m-0">
+                  <ng-template nz-tab>
+                    <app-client-rating></app-client-rating>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="CLASSIFICATION">
+                  <ng-template nz-tab>
+                    <app-classification></app-classification>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="SELECT SOURCE">
+                  <ng-template nz-tab>
+                    <app-select-source></app-select-source>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="TASK SUB TYPE">
+                  <ng-template nz-tab>
+                    <app-task-sub-type></app-task-sub-type>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="TASK CLASSIFICATION">
+                  <ng-template nz-tab>
+                    <app-task-classify></app-task-classify>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="LEAD STATUS">
+                  <ng-template nz-tab>
+                    <app-lead-status></app-lead-status>
+                  </ng-template>
+                </nz-tab>
+              </nz-tabset>
+              <nz-tabset [nzTabPosition]="position" *ngIf="setMenu==2">
+                
+                <nz-tab  nzTitle="PREFERRED TENANTS">
+                  <ng-template nz-tab>
+                    <app-preferred-tenants></app-preferred-tenants>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="PROJECT">
+                  <ng-template nz-tab>
+                    <app-project></app-project>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="PROJECT TYPE">
+                  <ng-template nz-tab>
+                    <app-project-type></app-project-type>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="CONSTRUCTION STATUS">
+                  <ng-template nz-tab>
+                    <app-construction-status></app-construction-status>
+                  </ng-template>
+                </nz-tab>
+              </nz-tabset>
+
+              <nz-tabset [nzTabPosition]="position"  *ngIf="setMenu==3">
+
+                <nz-tab  nzTitle="CITY MANAGE">
+                  <ng-template nz-tab>
+                    <app-property-city></app-property-city>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="AREA MANAGE">
+                  <ng-template nz-tab>
+                    <app-property-area></app-property-area>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="LOCATION">
+                  <ng-template nz-tab>
+                    <app-location></app-location>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="DEPARTMENT">
+                  <ng-template nz-tab>
+                    <app-department></app-department>
+                  </ng-template>
+                </nz-tab>
+              
+                <!-- <nz-tab  nzTitle="TASK TYPE">
+                  <app-task-type></app-task-type>
+                </nz-tab> -->
+              
+               
+              </nz-tabset>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

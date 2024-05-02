@@ -1,0 +1,76 @@
+<div  mat-dialog-title class="d-flex">
+  <h2 class="text-capitalize">{{data.operation}} Branch</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form #userForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-4">
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Branch Name</nz-form-label>
+          <nz-form-control  nzErrorTip="Branch Name is required!">
+            <input nz-input [(ngModel)]="data.name" name="name" required id="name"  #name="ngModel" placeholder="Branch Name"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="district">District</nz-form-label>
+          <nz-form-control  nzErrorTip="District is required!">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select District" [(ngModel)]="data.district" name="district" required id="district" (ngModelChange)="changeDistrict($event)">
+              <nz-option *ngFor="let district of data.district_list" [nzLabel]="district.name" [nzValue]="district.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="city">City</nz-form-label>
+          <nz-form-control  nzErrorTip="City is required!">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select City" [(ngModel)]="data.city" name="city" required id="city" (ngModelChange)="changeCity($event)">
+              <nz-option *ngFor="let cities of city_list" [nzLabel]="cities.city" [nzValue]="cities.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="area">Area</nz-form-label>
+          <nz-form-control  nzErrorTip="Area is required!">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Area" [(ngModel)]="data.area" name="area" required id="area" >
+              <nz-option *ngFor="let area of area_list" [nzLabel]="area.area_name" [nzValue]="area.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="address">Address</nz-form-label>
+          <nz-form-control  nzErrorTip="Address is required!">
+            <input type="text" nz-input [(ngModel)]="data.address" name="address" required id="address"  #address="ngModel" placeholder="Address"/>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="manager_id">Manager</nz-form-label>
+          <nz-form-control  nzErrorTip="Branch manager is required!">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select branch manager" [(ngModel)]="data.manager_id" name="manager_id" required id="manager_id" >
+              <nz-option *ngFor="let users of data.users_list" [nzLabel]="users.name" [nzValue]="users.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
+             <nz-form-control  nzErrorTip="The role is required!">
+                  <nz-switch id="status" [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+             </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!userForm.form.valid || submitButton" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> Submit
+    </button>
+  </mat-dialog-actions>
+</form>

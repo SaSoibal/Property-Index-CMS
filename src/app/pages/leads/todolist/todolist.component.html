@@ -1,0 +1,257 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+
+<div class="container-fluid mt--8">
+  <div *ngIf="pageBuffer" class="loader"></div>
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col d-flex justify-content-between">
+              <div class="">
+                <h3 class="mb-0">Task To do List</h3>
+              </div>
+              <div class="">
+                  <nz-select  style="width:180px;margin-right: 5px;" nzShowSearch  nzAllowClear [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
+                      <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
+                  </nz-select>
+                  <nz-select style="width:180px;margin-right: 5px;" nzShowSearch  nzAllowClear [(ngModel)]="team_id" (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
+                    <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
+                  </nz-select>
+                  <nz-select style="width:180px;" nzShowSearch  nzAllowClear [(ngModel)]="member_id"  (ngModelChange)="clickMemberData($event)" nzPlaceHolder="Select Member">
+                    <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id" [nzLabel]="member?.member?.name"></nz-option>
+                  </nz-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul nz-menu nzMode="horizontal">
+          <ng-container  *ngFor="let steps of process_step" >
+            <li nz-menu-item nzSelected="{{steps.sort==taskStep?'true':'false'}}" (click)="onClickTaskStep(steps.sort)">
+              {{steps.step}} ( <span class="text-danger">{{steps.tasks_count}}</span> )
+            </li>
+          </ng-container>
+        </ul>
+        <hr class="m-0">
+
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <div class="d-flex justify-content-between">
+            <ul nz-menu nzMode="horizontal" class="shorting-menu">
+              <li nz-menu-item nzSelected (click)="select_date('','all')" placement="top"  ngbTooltip="All Task">
+                <i class=""></i>
+                ALL ( <span class="text-danger">{{day_wise_counting.all_task}}</span> )
+              </li>
+              <li nz-menu-item (click)="select_date('','previous')" placement="top"  ngbTooltip="Overdue">
+                <i class=""></i>
+                Overdue ( <span class="text-danger">{{day_wise_counting.previous_task}}</span> )
+              </li>
+              <li nz-menu-item (click)="select_date(day_wise_counting.today,'only')" placement="top"  ngbTooltip="{{day_wise_counting.today}}">
+                <i class=""></i>
+                Today ( <span class="text-danger">{{day_wise_counting.today_task}}</span> )
+              </li>
+
+              <li nz-menu-item (click)="select_date(day_wise_counting.next_day,'only')" placement="top" ngbTooltip="{{day_wise_counting.next_day}}">
+                <i class=""></i>
+                Tomorrow ( <span class="text-danger">{{day_wise_counting.next_day_task}}</span> )
+              </li>
+              <li nz-menu-item (click)="select_date(day_wise_counting.next_7_day,'between')" placement="top" ngbTooltip="{{day_wise_counting.today}} - {{day_wise_counting.next_7_day}}">
+                <i class=""></i>
+                Next 7 Days ( <span class="text-danger">{{day_wise_counting.next_7_day_task}}</span> )
+              </li>
+              <li nz-menu-item (click)="select_date(day_wise_counting.next_30_day,'between')"  placement="top" ngbTooltip="{{day_wise_counting.today}} - {{day_wise_counting.next_30_day}}">
+                <i class=""></i>
+                Next 30 Days ( <span class="text-danger">{{day_wise_counting.next_30_day_task}}</span> )
+              </li>
+            </ul>
+          </div>
+          <nz-input-group nzCompact>
+            <nz-range-picker style="width: 40%;" [nzRanges]="ranges" nzFormat="yyyy/MM/dd" [(ngModel)]="date" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
+            <input style="width: 60%;" nz-input placement="top" ngbTooltip="Search by CLIENT, PHONE, ALLOCATED TO, INTEREST, ALLOCATED DATE, DATELINE" placeholder="SEARCH..." type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+          </nz-input-group>
+            <div class="table-responsive" >
+              <table class="table table-hover table-sm table-striped">
+                <thead>
+                  <tr>
+                    <th class="m-width-150" *ngIf="permission('update') || permission('delete')">Action</th>
+                    <th class="m-width-100">Lead ID</th>
+                    <th class="m-width-300">CLIENT</th>
+                    <th class="m-width-150">Task</th>
+<!--                    <th class="m-width-150" *ngIf="taskStep >= 7">Token Amount</th>-->
+                    <th class="m-width-300">Follow up act</th>
+                    <th class="m-width-200">Lead STAGE & STATUS</th>
+                    <th class="m-width-200" *ngIf="filter_type !=='user'">ALLOCATED</th>
+                    <th class="m-width-200">Classify & source</th>
+                    <th class="m-width-200">INTEREST</th>
+                    <th class="m-width-200">CREATE DATE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngIf="collection.length > 0;else notFound">
+                    <ng-container *ngFor="let leads of collection| paginate: {
+                      currentPage: pageNumber,
+                      itemsPerPage: itemPerPage,
+                      totalItems: totalrow
+                      } ; index as i;">
+                      <tr [style]="leads.transfer_lead_count > 0 ? 'background: #FFFFC2;' : ''">
+                        <td class="align-middle" *ngIf="permission('update') || permission('delete')">
+                          <a nz-button nzType="default" nzSize="small" *ngIf="permission('update')" (click)="reScheduleModel(leads)" class="mr-1" placement="top" ngbTooltip="Transfer Lead"><i class="fa fa-share font-12"></i></a>
+                          <span *ngIf="leads.tasks.deal_close==1">
+                            <a  nz-button nzType="default" nzSize="small" *ngIf="permission('update')" (click)="openStepModel(leads)" class="mr-1" placement="top" ngbTooltip="Next Step"><i class="fa fa-plus font-12"></i></a>
+                         </span>
+                          <span *ngIf="leads.tasks.deal_close==2">
+                            <a  nz-button nzType="default" nzSize="small"  class="mr-1" placement="top" ngbTooltip="Deal Close (Win) "><i class="ni ni-check-bold text-success font-12"></i></a>
+                         </span>
+                          <span *ngIf="leads.tasks.deal_close==3">
+                            <a  nz-button nzType="default" nzSize="small"  class="mr-1" placement="top" ngbTooltip="Deal Close (Loss) "><i class="fa fa-times text-danger"></i></a>
+                         </span>
+                          <a nz-button nzType="primary" nzSize="small" (click)="detailsModel(leads)" class="mr-1" placement="top" ngbTooltip="Details" ><i class="ni ni-book-bookmark font-12 text-white"></i></a>
+                          <a nz-button nzType="default" nzSize="small" class="mr-1" [routerLink]="[ '/leads/edit-lead',leads.id]"  placement="top" ngbTooltip="Lead Edit" ><i class="fas fa-edit font-12"></i></a>
+                        </td>
+                        <td class="align-middle">
+                          <a>
+                            <i class="fa {{today > leads.tasks.allocated_date?'fa-exclamation-triangle':'fa-thermometer-half'}} mr-1"  [ngStyle]="{'color':leads.opportunity.classification?leads.opportunity.classification.color:''}"></i>
+                            <strong class="">{{leadNoGenerate(leads.id)}}</strong>
+                          </a>
+                        </td>
+                        <td class="align-middle">
+                          <a>
+                            <small>
+                              <strong>
+                                <i class="ni ni-single-02 mr-1"></i>
+                                {{leads.information.full_name}}
+                              </strong>
+                            </small>
+                          </a><br>
+                          <small>
+                            <i class="fa fa-phone text-success"></i>
+                            +{{leads.information.phone_code?leads.information.phone_code.phone_code:''}} {{leads.phone_no}} |
+                            <i class="fa fa-phone text-success"></i>
+                            +{{leads.information.phone_code?leads.information.phone_code.phone_code:''}} {{leads.information.phone_no}}
+                          </small>
+                        </td>
+
+                        <td class="align-middle">
+                          <small>
+                            <strong>
+                              <i class="ni ni-time-alarm mr-1"></i>
+                              {{leads.current_task?leads.current_task.step:''}}
+                            </strong>
+                          </small><br>
+                          <small>
+                            <i class="ni ni-calendar-grid-58 mr-1"></i>
+                            {{leads.tasks?(leads.tasks.allocated_date|date:'short'):''}}
+                          </small>
+                        </td>
+<!--                        <td class="align-middle" *ngIf="taskStep >= 8">-->
+<!--                          <small *ngIf="leads.token_receive_amount_type">-->
+<!--                            <strong>-->
+<!--                              <i class="ni ni-tag mr-1"></i>-->
+<!--                              {{leads.token_receive_amount_type==1?'Cash':''}}-->
+<!--                              {{leads.token_receive_amount_type==2?'Cheque':''}}-->
+<!--                            </strong>-->
+<!--                          </small><br>-->
+<!--                          <small *ngIf="leads.token_receive_amount">-->
+<!--                            <i class="ni ni-money-coins mr-1"></i>-->
+<!--                            {{leads.token_receive_amount?leads.token_receive_amount:''}}-->
+<!--                          </small>-->
+<!--                        </td>-->
+                        <td class="align-middle">
+                          <button nz-button nzType="dashed" nzShape="circle" placement="top" ngbTooltip="First call" >
+                            <i class="ni ni-mobile-button pt-1"></i>
+                          </button> {{leads.first_call}} &nbsp;&nbsp;
+                          <button nz-button nzType="dashed" nzShape="circle" class="circle-design" placement="top" ngbTooltip="KYC">
+                            <i class="ni ni-air-baloon  pt-1"></i>
+                          </button> {{leads.kyc}} &nbsp;&nbsp;
+                          <button nz-button nzType="dashed" nzShape="circle" class="circle-design" placement="top" ngbTooltip="Follow up">
+                            <i class="ni ni-bell-55  pt-1"></i>
+                          </button> {{leads.follow_up}} &nbsp;&nbsp;
+                          <button nz-button nzType="dashed" nzShape="circle" class="circle-design" placement="top" ngbTooltip="Viewing">
+                            <i class="ni ni-badge  pt-1"></i>
+                          </button> {{leads.viewing}} &nbsp;&nbsp;
+                        </td>
+                        <td class="align-middle">
+                          <small>
+                            <strong>
+                              <i class="ni ni-square-pin mr-1"></i>
+                              {{leads.lead_details.lead_status?leads.lead_details.lead_status.lead_status:''}}
+                            </strong>
+                          </small><br>
+                          <small>
+                            <strong>
+                              <i class="ni ni-sound-wave mr-1"></i>
+                              {{leads.next_tasks?leads.next_tasks:'NULL'}}
+                            </strong>
+                          </small>
+                        </td>
+                        <td class="align-middle" *ngIf="filter_type !=='user'">
+                          <small><strong>
+                            <i class="ni ni-user-run mr-1"></i>
+                            {{leads.tasks.allocate?leads.tasks.allocate.name:'Not Allocated'}}</strong>
+                          </small><br>
+                          <small ><i class="fa fa-users"></i>{{leads.tasks.team_name?leads.tasks.team_name.name:'Team Selected'}}</small>
+                        </td>
+                        <td class="align-middle">
+                          <small>
+                            <i class="ni ni-align-center mr-1"></i>
+                            <strong>
+                              {{leads.opportunity.classification?leads.opportunity.classification.classification:''}}
+                            </strong>
+                          </small><br>
+                          <small><i class="ni ni-world mr-1"></i>{{leads.opportunity.source?leads.opportunity.source.source:''}}</small>
+                        </td>
+                        <td class="align-middle">
+                          <small>
+                            <i class="ni ni-building mr-1"></i>
+                            <strong>{{leads.opportunity.project_info?leads.opportunity.project_info.project_name:'No Project'}}
+                            </strong>
+                          </small><br>
+                          <small *ngIf="leads.information?.product_type==1"><i class="ni ni-paper-diploma mr-1"></i>{{leads.information?.product_type==1?'Residential':''}} ({{leads.information?.product|titlecase}})</small>
+                          <small *ngIf="leads.information?.product_type==2"><i class="ni ni-paper-diploma mr-1"></i>{{leads.information?.product_type==2?'Commercial':''}} ({{leads.information?.product|titlecase}})</small>
+                        </td>
+                        <td class="align-middle">
+                          <small><strong>
+                            <i class="ni ni-calendar-grid-58 mr-1"></i>
+                            {{leads.tasks?(leads.created_at|date:'short'):''}}</strong>
+                          </small><br>
+                          <small>
+                            <i class="ni ni-single-02 mr-1"></i>
+                            By : {{leads.created_by?leads.created_by.name:''}}
+                          </small>
+                        </td>
+
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                  <ng-template  #notFound>
+                    <tr>
+                      <td colspan="100%" class="text-danger text-center"><nz-empty></nz-empty></td>
+                    </tr>
+                  </ng-template>
+                </tbody>
+              </table>
+            </div>
+        </div>
+        <div class="card-footer">
+          <mat-paginator
+          [length]="totalrow"
+          [pageSize]="itemPerPage"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="pageEvent($event)">
+        </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

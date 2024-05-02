@@ -1,0 +1,397 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+
+<div class="container-fluid mt--8">
+  <div *ngIf="pageBuffer" class="loader"></div>
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Deal Close List</h3>
+            </div>
+            <div class="col" align="end">
+              <mat-radio-group  [(ngModel)]="deal_status" (ngModelChange)="dealStatusFilter($event)">
+                <mat-radio-button class="mr-3 mb-0" [value]="0" checked>ALL</mat-radio-button>
+                <mat-radio-button class="mr-3 mb-0" [value]="2">SUCCESS</mat-radio-button>
+                <mat-radio-button class="mr-3 mb-0" [value]="3">FAILED</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Lead Type" class="w-100" [(ngModel)]="selectedLeadType" (ngModelChange)="leadTypefilter($event)">
+                <nz-option [nzLabel]="'Primary'" [nzValue]="0"></nz-option>
+                <nz-option [nzLabel]="'Secondary'" [nzValue]="1"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Classification" class="w-100" [(ngModel)]="classifications" (ngModelChange)="classificationfilter($event)">
+                <nz-option *ngFor="let classific of classification" [nzLabel]="classific.classification" [nzValue]="classific.id"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Source" class="w-100" [(ngModel)]="selectedSource" (ngModelChange)="sourcefilter($event)">
+                <nz-option *ngFor="let source of lead_source_list" [nzLabel]="source.source" [nzValue]="source.id"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Allocated" class="w-100" [(ngModel)]="allocatedUser" (ngModelChange)="allocatedUserfilter($event)">
+                <nz-option *ngFor="let allocated of allocated_user_list" [nzLabel]="allocated.member?.name" [nzValue]="allocated.systemuser_id"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Product Type" class="w-100" [(ngModel)]="product_type" (ngModelChange)="productTypefilter($event)">
+                <nz-option [nzLabel]="'Residential'" [nzValue]="1"></nz-option>
+                <nz-option [nzLabel]="'Commercial'" [nzValue]="2"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3" *ngIf="showProjectAndType">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Project" class="w-100" [(ngModel)]="projects" (ngModelChange)="projectsfilter($event)">
+                <nz-option *ngFor="let projects of projects_list" [nzLabel]="projects.project_name" [nzValue]="projects.id"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3"  *ngIf="showProjectAndType">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Project Type" class="w-100" [(ngModel)]="project_type" (ngModelChange)="projectTypefilter($event)">
+                <nz-option *ngFor="let project_type of project_type_list" [nzLabel]="project_type.type" [nzValue]="project_type.id"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3">
+              <input nz-input placeholder="Budget Pre" class="w-100" [(ngModel)]="budget_pre" (ngModelChange)="budgetPrefilter($event)" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <input nz-input placeholder="Min Size {{sizeTypeName}}" class="w-100" [(ngModel)]="min_size" (ngModelChange)="minSizefilter($event)" />
+            </div>
+            <div class="col-md-3 mb-3">
+              <input nz-input placeholder="Max Size {{sizeTypeName}}" class="w-100" [(ngModel)]="max_size" (ngModelChange)="maxSizefilter($event)" />
+            </div>
+            <div class="col-md-3 mb-3" *ngIf="showBedBath">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Beds" class="w-100" [(ngModel)]="beds" (ngModelChange)="bedsfilter($event)">
+                <nz-option nzValue="1" nzLabel="01"></nz-option>
+                <nz-option nzValue="2" nzLabel="02"></nz-option>
+                <nz-option nzValue="3" nzLabel="03"></nz-option>
+                <nz-option nzValue="4" nzLabel="04"></nz-option>
+                <nz-option nzValue="5" nzLabel="05"></nz-option>
+                <nz-option nzValue="6" nzLabel="06"></nz-option>
+                <nz-option nzValue="7" nzLabel="07"></nz-option>
+                <nz-option nzValue="8" nzLabel="08"></nz-option>
+                <nz-option nzValue="9" nzLabel="09"></nz-option>
+                <nz-option nzValue="10" nzLabel="10"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3"  *ngIf="showBedBath">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Baths" class="w-100" [(ngModel)]="baths" (ngModelChange)="bathsfilter($event)">
+                <nz-option nzValue="1" nzLabel="01"></nz-option>
+                <nz-option nzValue="2" nzLabel="02"></nz-option>
+                <nz-option nzValue="3" nzLabel="03"></nz-option>
+                <nz-option nzValue="4" nzLabel="04"></nz-option>
+                <nz-option nzValue="5" nzLabel="05"></nz-option>
+                <nz-option nzValue="6" nzLabel="06"></nz-option>
+                <nz-option nzValue="7" nzLabel="07"></nz-option>
+                <nz-option nzValue="8" nzLabel="08"></nz-option>
+                <nz-option nzValue="9" nzLabel="09"></nz-option>
+                <nz-option nzValue="10" nzLabel="10"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Client type" class="w-100" [(ngModel)]="client_types" (ngModelChange)="clientTypefilter($event)">
+                <nz-option *ngFor="let client of client_type_list" [nzLabel]="client.client_type" [nzValue]="client.id"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3 mb-3">
+              <nz-range-picker [nzRanges]="ranges" nzFormat="yyyy/MM/dd" [(ngModel)]="date" class="w-100" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
+            </div>
+            <div class="col-md-3 mb-3">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Deal Close Type" class="w-100" [(ngModel)]="deal_close_type" name="deal_close_type" id="deal_close_type" (ngModelChange)="dealCloseType($event)" >
+                  <nz-option  [nzLabel]="'Cannot Reached'" [nzValue]="'Cannot Reached'"></nz-option>
+                  <nz-option  [nzLabel]="'Not Interested'" [nzValue]="'Not Interested'"></nz-option>
+                  <nz-option  [nzLabel]="'Future Opportunity'" [nzValue]="'Future Opportunity'"></nz-option>
+                  <nz-option  [nzLabel]="'Agent & Media'" [nzValue]="'Agent & Media'"></nz-option>
+                  <nz-option  [nzLabel]="'Bad Leads'" [nzValue]="'Bad Leads'"></nz-option>
+                </nz-select>           
+            </div>
+            <div class="col-md-3 mb-3">
+              <input  nz-input  placeholder="Search..." type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+            </div>
+
+            <div class="col-md-12">
+              <div class="table-responsive" >
+                <table class="table table-hover table-sm table-striped">
+                  <thead>
+                  <tr>
+                    <th class="" *ngIf="permission('update') || permission('delete')">Action</th>
+                    <th class="m-width-100">Lead ID</th>
+                    <th class="m-width-300">CLIENT</th>
+                    <th class="m-width-150">Task</th>
+                    <th class="m-width-250">Follow up act</th>
+                    <th class="m-width-200">Lead STAGE & status</th>
+                    <th class="m-width-200" *ngIf="filter_type !=='user'">ALLOCATED</th>
+                    <th class="m-width-200">Classify & source</th>
+                    <th class="m-width-200">INTEREST</th>
+                    <th class="m-width-200">Deal Close Type</th>
+                    <th class="m-width-200">CREATE DATE</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <ng-container *ngIf="collection.length > 0;else notFound">
+                    <ng-container *ngFor="let leads of collection| paginate: {
+                      currentPage: pageNumber,
+                      itemsPerPage: itemPerPage,
+                      totalItems: totalrow
+                      } ; index as i;">
+                      <tr>
+                        <td class="align-middle" *ngIf="permission('update') || permission('delete')">
+                          <a nz-button nzType="primary" nzSize="small" (click)="detailsModel(leads)" class="mr-1" placement="top" ngbTooltip="Details" ><i class="ni ni-book-bookmark font-12 text-white"></i></a>
+                        </td>
+                        <td class="align-middle">
+                          <a>
+                            <i class="fa fa-thermometer-half mr-1"  [ngStyle]="{'color':leads.opportunity.classification?leads.opportunity.classification.color:''}"></i>
+                            <strong class="">{{leadNoGenerate(leads.id)}}</strong>
+                          </a>
+                        </td>
+                        <td class="align-middle">
+                          <a>
+                            <small>
+                              <strong>
+                                <i class="ni ni-single-02 mr-1"></i>
+                                {{leads.information.full_name}}
+                              </strong>
+                            </small>
+                          </a><br>
+                          <small>
+                            <i class="fa fa-phone text-success"></i>
+                            +{{leads.information.phone_code?leads.information.phone_code.phone_code:''}} {{leads.phone_no}} |
+                            <i class="fa fa-phone text-success"></i>
+                            +{{leads.information.phone_code?leads.information.phone_code.phone_code:''}} {{leads.information.phone_no}}
+                          </small>
+                        </td>
+
+                        <td class="align-middle">
+                          <small>
+                            <strong>
+                              <i class="ni ni-time-alarm mr-1"></i>
+                              {{leads.current_task?leads.current_task.step:''}}
+                            </strong>
+                          </small><br>
+                          <small>
+                            <i class="ni ni-calendar-grid-58 mr-1"></i>
+                            {{leads.tasks?((leads.tasks.allocated_date?leads.tasks.allocated_date:leads.tasks.created_at)|date:'short'):''}}
+                          </small>
+                        </td>
+
+                        <td class="align-middle">
+                          <nz-tag placement="top" ngbTooltip="First call">
+                            <i class="ni ni-mobile-button"></i> {{leads.first_call}}
+                          </nz-tag>
+                          <nz-tag placement="top" ngbTooltip="KYC">
+                            <i class="ni ni-air-baloon"></i> {{leads.kyc}}
+                          </nz-tag>
+                          <nz-tag placement="top" ngbTooltip="Follow up">
+                            <i class="ni ni-bell-55"></i> {{leads.follow_up}}
+                          </nz-tag>
+                          <nz-tag placement="top" ngbTooltip="Viewing">
+                            <i class="ni ni-badge"></i> {{leads.viewing}}
+                          </nz-tag>
+                        </td>
+
+                        <td class="align-middle">
+                          <small>
+                            <strong>
+                              <i class="ni ni-square-pin mr-1"></i>
+                              {{leads.lead_details.lead_status?leads.lead_details.lead_status.lead_status:''}}
+                            </strong>
+                          </small><br>
+                          <small>
+                            <strong>
+                              <i class="ni ni-sound-wave mr-1"></i>
+                              {{leads.next_tasks?leads.next_tasks:'NULL'}}
+                            </strong>
+                          </small>
+                        </td>
+
+                        <td class="align-middle" *ngIf="filter_type !=='user'">
+                          <small><strong>
+                            <i class="ni ni-user-run mr-1"></i>
+                            {{leads.tasks.allocate?leads.tasks.allocate.name:'Not Allocated'}}</strong>
+                          </small><br>
+                          <small ><i class="fa fa-users"></i>{{leads.tasks.team_name?leads.tasks.team_name.name:'Team Selected'}}</small>
+                        </td>
+
+                        <td class="align-middle">
+                          <small>
+                            <i class="ni ni-align-center mr-1"></i>
+                            <strong>
+                              {{leads.opportunity.classification?leads.opportunity.classification.classification:''}}
+                            </strong>
+                          </small><br>
+                          <small><i class="ni ni-world mr-1"></i>{{leads.opportunity.source?leads.opportunity.source.source:''}}</small>
+                        </td>
+
+                        <td class="align-middle">
+                          <small>
+                            <i class="ni ni-building mr-1"></i>
+                            <strong>{{leads.opportunity.project_info?leads.opportunity.project_info.project_name:'No Project'}}
+                            </strong>
+                          </small><br>
+                          <small *ngIf="leads.information?.product_type==1"><i class="ni ni-paper-diploma mr-1"></i>{{leads.information?.product_type==1?'Residential':''}} ({{leads.information?.product|titlecase}})</small>
+                          <small *ngIf="leads.information?.product_type==2"><i class="ni ni-paper-diploma mr-1"></i>{{leads.information?.product_type==2?'Commercial':''}} ({{leads.information?.product|titlecase}})</small>
+                        </td>
+                        <td class="align-middle">
+                          <small>
+                            <strong *ngIf="leads.tasks?.deal_close==1"><i class="ni ni-compass-04 text-info mr-1"></i> None</strong>
+                            <strong *ngIf="leads.tasks?.deal_close==2"><i class="ni ni-check-bold text-success mr-1"></i> Success</strong>
+                            <strong *ngIf="leads.tasks?.deal_close==3"><i class="ni ni-fat-remove text-danger mr-1"></i> Failed</strong>
+                          </small>
+                          <br>
+                          <small>
+                            <strong><i class="ni ni-bulb-61 mr-1"></i> {{leads.tasks?.deal_close_type?leads.tasks?.deal_close_type:'NULL'}}</strong>
+                          </small>
+                         </td>
+                        <td class="align-middle">
+                          <small><strong>
+                            <i class="ni ni-calendar-grid-58 mr-1"></i>
+                            {{leads.tasks?(leads.created_at|date:'short'):''}}</strong>
+                          </small><br>
+                          <small>
+                            <i class="ni ni-single-02 mr-1"></i>
+                            By : {{leads.created_by?leads.created_by.name:''}}
+                          </small>
+                        </td>
+
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                  <ng-template  #notFound>
+                    <tr>
+                      <td colspan="100%" class="text-danger text-center"><nz-empty></nz-empty></td>
+                    </tr>
+                  </ng-template>
+                  </tbody>
+                </table>
+              </div>
+<!--              <div class="table-responsive" >-->
+<!--                <table class="table table-hover table-sm  table&#45;&#45;darker">-->
+<!--                  <thead>-->
+<!--                    <tr>-->
+<!--                      <th>Status</th>-->
+<!--                      <th>Follow up activity</th>-->
+<!--                      <th>stage</th>-->
+<!--                      <th>last follow up</th>-->
+<!--                      <th>lead No</th>-->
+<!--                      <th *ngIf="filter_type !=='user'">ALLOCATED</th>-->
+<!--                      <th>Source</th>-->
+<!--                      <th>Type</th>-->
+<!--                      <th class="text-center">Action</th>-->
+<!--                    </tr>-->
+<!--                  </thead>-->
+<!--                  <tbody>-->
+<!--                    <ng-container *ngIf="dataNotFound =='';else notFound">-->
+<!--                      <ng-container *ngFor="let leads of collection| paginate: {-->
+<!--                        currentPage: pagereqest,-->
+<!--                        itemsPerPage: itemPerPage,-->
+<!--                        totalItems: totalrow-->
+<!--                        } ; index as i;">-->
+<!--                        <tr>-->
+<!--                          <td class="align-middle">-->
+<!--                              <i *ngIf="leads.tasks.deal_close==2" class="ni ni-check-bold text-success" placement="top" ngbTooltip="SUCCESS"></i>-->
+<!--                              <i *ngIf="leads.tasks.deal_close==3" class="fa fa-times text-danger" placement="top" ngbTooltip="FAILED"></i>-->
+<!--                            <strong *ngIf="leads.lead_details">-->
+<!--                              {{leads.lead_details.construction_status?leads.lead_details.construction_status.lead_status:''}}-->
+<!--                            </strong>-->
+
+<!--                          </td>-->
+<!--                          <td class="align-middle">-->
+<!--                            <button nz-button nzType="dashed" nzShape="circle" placement="top" ngbTooltip="First call" >-->
+<!--                              <i class="ni ni-mobile-button pt-1"></i>-->
+<!--                            </button> {{leads.first_call}} &nbsp;&nbsp;-->
+<!--                            <button nz-button nzType="dashed" nzShape="circle" class="circle-design" placement="top" ngbTooltip="KYC">-->
+<!--                              <i class="ni ni-air-baloon  pt-1"></i>-->
+<!--                            </button> {{leads.kyc}} &nbsp;&nbsp;-->
+<!--                            <button nz-button nzType="dashed" nzShape="circle" class="circle-design" placement="top" ngbTooltip="Follow up">-->
+<!--                              <i class="ni ni-bell-55  pt-1"></i>-->
+<!--                            </button> {{leads.follow_up}} &nbsp;&nbsp;-->
+<!--                            <button nz-button nzType="dashed" nzShape="circle" class="circle-design" placement="top" ngbTooltip="Viewing">-->
+<!--                              <i class="ni ni-badge  pt-1"></i>-->
+<!--                            </button> {{leads.viewing}} &nbsp;&nbsp;-->
+<!--                          </td>-->
+<!--                          <td class="align-middle">-->
+<!--                            {{leads.current_task?leads.current_task.step:'New Lead'}}<br>-->
+<!--                            <small><i class="ni ni-calendar-grid-58"> </i> {{leads.tasks?(leads.tasks.created_at|date:'short'):''}}</small>-->
+<!--                          </td>-->
+<!--                          <td class="align-middle">-->
+<!--                            <span *ngIf="leads.tasks.previous_task">{{leads.tasks.previous_task.pre_task_name?leads.tasks.previous_task.pre_task_name.step:'New Lead'}}-->
+<!--                            <small class="text-warning"></small><i *ngIf="leads.tasks.previous_task.reschedule==1" class="fa fa-history text-danger ml-2" placement="top" ngbTooltip="Reschedule"></i>-->
+<!--                            </span>-->
+<!--                            <i *ngIf="leads.tasks.transfer_status=='0'" class="fa fa-retweet ml-2" placement="top" ngbTooltip="Transferred"></i>-->
+<!--                            <br>-->
+<!--                            <small *ngIf="leads.tasks.previous_task">-->
+<!--                              <i class="ni ni-calendar-grid-58"> </i>-->
+<!--                              {{leads.tasks.previous_task?(leads.tasks.previous_task.created_at|date:'short'):''}}-->
+<!--                            </small>-->
+<!--                          </td>-->
+<!--                          <td class="align-middle">-->
+<!--                            <i class="fa fa-thermometer-half mr-1"  [ngStyle]="{'color':leads.opportunity.classification?leads.opportunity.classification.color:''}"></i>-->
+<!--                            <strong>{{leadNoGenerate(leads.id)}}</strong><br>-->
+<!--                            <small><i class="ni ni-calendar-grid-58"> </i> {{leads.created_at|date:'short'}}</small>-->
+<!--                          </td>-->
+<!--                          <td class="align-middle">-->
+<!--                            <span *ngIf="leads.tasks.allocate"><i class="ni ni-user-run mr-1"> </i>-->
+<!--                            {{leads.tasks.allocate?leads.tasks.allocate.name:''}}</span><br>-->
+<!--                            <small *ngIf="leads.tasks.allocate"><i class="ni ni-calendar-grid-58"> </i> {{leads.tasks.allocate?(leads.tasks.allocated_date|date:'short'):''}}</small>-->
+<!--                          </td>-->
+<!--                          <td class="align-middle">-->
+<!--                            <i class="ni ni-bulb-61"></i>-->
+<!--                            {{leads.opportunity.source?leads.opportunity.source.source:''}}-->
+<!--                          </td>-->
+<!--                          <td class="align-middle">-->
+<!--                            <span class="badge badge-success" *ngIf="leads.tasks.deal_close==2">-->
+<!--                              <i class="ni ni-check-bold text-success mr-1" placement="top" ngbTooltip="SUCCESS"></i>SUCCESS</span>-->
+<!--                            <span class="badge badge-danger" *ngIf="leads.tasks.deal_close==3">-->
+<!--                              <i class="fa fa-times text-danger mr-1" placement="top" ngbTooltip="FAILED"></i>FAILED-->
+<!--                            </span>-->
+<!--                          </td>-->
+<!--                          <td class="align-middle text-center">-->
+<!--                            <a nz-button nzType="primary" nzSize="small" (click)="detailsModel(leads)" placement="top" ngbTooltip="Details" >-->
+<!--                              <i class="ni ni-book-bookmark font-12 text-white"></i>-->
+<!--                            </a>-->
+<!--                          </td>-->
+<!--                        </tr>-->
+<!--                      </ng-container>-->
+<!--                    </ng-container>-->
+<!--                    <ng-template  #notFound>-->
+<!--                      <tr>-->
+<!--                        <td colspan="9" class="text-danger text-center">{{dataNotFound}}...</td>-->
+<!--                      </tr>-->
+<!--                    </ng-template>-->
+<!--                  </tbody>-->
+<!--                </table>-->
+<!--              </div>-->
+            </div>
+        </div>
+        <div class="card-footer">
+          <mat-paginator
+          [length]="totalrow"
+          [pageSize]="itemPerPage"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="pageEvent($event)">
+        </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

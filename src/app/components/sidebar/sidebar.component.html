@@ -1,0 +1,111 @@
+<nav class="navbar navbar-vertical navbar-expand-md navbar-light bg-white" id="sidenav-main">
+  <div class="container-fluid">
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed"
+       aria-controls="sidenav-collapse-main">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Brand -->
+    <a class="navbar-brand pt-0 pb-0" routerLinkActive="active" [routerLink]="['/dashboard']">
+      <img src="./assets/img/brand/logo.png" class="navbar-brand-img" alt="Property Index">
+    </a>
+    <!-- User -->
+    <ul class="nav align-items-center d-md-none">
+      <li class="nav-item" ngbDropdown placement="bottom-right">
+        <a class="nav-link nav-link-icon" role="button" ngbDropdownToggle>
+          <i class="ni ni-bell-55"></i>
+        </a>
+        <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
+          <a class="dropdown-item" href="javascript:void(0)">Action</a>
+          <a class="dropdown-item" href="javascript:void(0)">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item" ngbDropdown placement="bottom-right">
+        <a class="nav-link" role="button" ngbDropdownToggle>
+          <div class="media align-items-center">
+            <span class="avatar avatar-sm rounded-circle">
+              <img alt="Image placeholder" src="assets/img/theme/user.png">
+            </span>
+          </div>
+        </a>
+        <div class="dropdown-menu-arrow dropdown-menu-right" ngbDropdownMenu>
+          <div class=" dropdown-header noti-title">
+            <h6 class="text-overflow m-0">Welcome!</h6>
+          </div>
+          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
+            <i class="ni ni-single-02"></i>
+            <span>My profile</span>
+          </a>
+          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
+            <i class="ni ni-settings-gear-65"></i>
+            <span>Settings</span>
+          </a>
+          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
+            <i class="ni ni-calendar-grid-58"></i>
+            <span>Activity</span>
+          </a>
+          <a routerLinkActive="active" [routerLink]="['/user-profile']" class="dropdown-item">
+            <i class="ni ni-support-16"></i>
+            <span>Support</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#!" class="dropdown-item">
+            <i class="ni ni-user-run"></i>
+            <span>Logout</span>
+          </a>
+        </div>
+      </li>
+    </ul>
+    <!-- Collapse -->
+    <div class="collapse navbar-collapse"  [ngbCollapse]="isCollapsed" id="sidenav-collapse-main d-md-none">
+      <!-- Collapse header -->
+      <div class="navbar-collapse-header">
+        <div class="row px-3 mt-2">
+          <div class="col-6 collapse-brand">
+            <a  routerLinkActive="active" [routerLink]="['/dashboard']">
+              <img src="./assets/img/brand/favicon.png">
+            </a>
+          </div>
+          <div class="col-6 collapse-close">
+            <button type="button" class="navbar-toggler" (click)="isCollapsed=!isCollapsed">
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <mat-nav-list>
+        <a mat-list-item  routerLink="/dashboard" routerLinkActive="active">
+          <i class="ni ni-tv-2 mr-2" style="color: goldenrod"></i>Dashboard
+        </a>
+        <mat-accordion class="side-menu"  *ngFor="let menuItem of menuItems">
+          <a mat-list-item  *ngIf="isEmpty(menuItem.subMenus)" routerLinkActive="active"  [routerLink]="[menuItem.path]">
+            <i class="{{menuItem.icon}} mr-2"></i>{{menuItem.title}}
+          </a>
+          <mat-expansion-panel *ngIf="!isEmpty(menuItem.subMenus)" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <i class="{{menuItem.icon}} mr-2"></i>{{menuItem.title}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+              <a mat-list-item *ngFor="let subMenu of menuItem.subMenus" [routerLink]="[subMenu.path]" routerLinkActive="active">
+                <i class="{{subMenu.icon}} mr-2"></i>
+                {{subMenu.title}}
+              </a>
+           </mat-expansion-panel>
+        </mat-accordion>
+      </mat-nav-list>
+
+
+
+      <!-- <a routerLink="/icons">Icon</a>
+      <a routerLink="/user-profile">Profile</a>
+      <a routerLink="/tables">Tables</a>
+      <a routerLink="/register">Register</a> -->
+    </div>
+  </div>
+</nav>

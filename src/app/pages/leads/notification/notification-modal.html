@@ -1,0 +1,47 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>{{data.save_type|titlecase}} Notification</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row">
+      <div class="col-md-12">
+        <nz-form-item>
+          <nz-form-control  nzErrorTip="Title is required!">
+            <nz-radio-group [(ngModel)]="data.type" name="type" #type="ngModel">
+              <label nz-radio nzValue="all">All</label>
+              <label nz-radio nzValue="team">Team</label>
+              <label nz-radio nzValue="user">User</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="category">Team List</nz-form-label>
+          <nz-form-control  class="w-100"  nzErrorTip="Category is required!">
+            <nz-select nzShowSearch required nzAllowClear nzPlaceHolder="Select a Team" [(ngModel)]="data.team" name="team">
+<!--              <nz-option *ngFor="let category of data.category_list" [nzLabel]="showData == 'EN'?category.title_en:category.title_bn" [nzValue]="category.id"></nz-option>-->
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control  nzErrorTip="Title is required!">
+            <input nz-input [(ngModel)]="data.title" name="title" id="title"  #title_en="ngModel" required placeholder="Title"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control  nzErrorTip="Description is required!">
+            <app-tinymce nz-input [(ngModel)]="data.description" #tinymce='tinymce' name="description" required id="description_en"  #description_en="ngModel" placeholder="Description"></app-tinymce>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i>{{data.save_type|titlecase}}
+    </button>
+  </mat-dialog-actions>

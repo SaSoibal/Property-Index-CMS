@@ -1,0 +1,62 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>{{data.operation|uppercase}} Team</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form #userForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-4">
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Team Name</nz-form-label>
+          <nz-form-control  nzErrorTip="Full Name is required!">
+            <input nz-input [(ngModel)]="data.name" name="name" required id="name"  #name="ngModel" placeholder="Team Name"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="department_id">Department</nz-form-label>
+          <nz-form-control  nzErrorTip="Department is required!">
+            <nz-select nzShowSearch nzAllowClear required [(ngModel)]="data.department_id" name="department_id" #department_id="ngModel" nzPlaceHolder="Department">
+              <nz-option *ngFor="let department of data.department_list" [nzLabel]="department.name" [nzValue]="department.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="team_manager">Manager</nz-form-label>
+          <nz-form-control  nzErrorTip="Team Manager is required!">
+            <nz-select nzShowSearch nzAllowClear required [(ngModel)]="data.team_manager" name="team_manager" #team_manager="ngModel" nzPlaceHolder="Team Manager">
+              <nz-option *ngFor="let manager of data.users_lists" [nzLabel]="manager.name" [nzValue]="manager.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="team_member">Members</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Team Member is required!">
+            <nz-select nzMode="multiple" class="w-100" required nzAllowClear nzPlaceHolder="Team Member" [(ngModel)]="data.team_member" name="team_member">
+              <nz-option *ngFor="let user of data.users_lists" [nzDisabled]="user.used" [nzLabel]="user.name" [nzValue]="user.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
+             <nz-form-control  nzErrorTip="The role is required!">
+                  <nz-switch id="status" [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+             </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> Submit
+    </button>
+  </mat-dialog-actions>
+</form>

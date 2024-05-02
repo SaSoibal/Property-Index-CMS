@@ -1,0 +1,95 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Manage Lead</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <div class="row">
+            <div class="col-md-12">
+              <nz-tabset [nzTabPosition]="position">
+                <nz-tab  nzTitle="ALL LEADS ({{all_lead}})">
+                  <ng-template nz-tab>
+                    <app-all-leads></app-all-leads>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="NEW LEADS ({{process_step[0]?process_step[0].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-new-leads></app-new-leads>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="FIRST CALL ({{process_step[1]?process_step[1].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-first-call></app-first-call>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="KYC ({{process_step[2]?process_step[2].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-kyc></app-kyc>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="FOLLOW UP CALL ({{process_step[3]?process_step[3].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-followupcall></app-followupcall>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="VIEWING ({{process_step[4]?process_step[4].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-viewing></app-viewing>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="REVIEWING ({{process_step[5]?process_step[5].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-re-viewing></app-re-viewing>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="NEGOTIATION ({{process_step[6]?process_step[6].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-negotiation></app-negotiation>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="TOKEN RECEIVE ({{process_step[7]?process_step[7].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-token-receive></app-token-receive>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="SELL PERMISSION ({{process_step[8]?process_step[8].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-sell-permission></app-sell-permission>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="REGISTRATION ({{process_step[9]?process_step[9].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-registration></app-registration>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="DEAL CLOSE ({{process_step[10]?process_step[10].tasks_count:'0'}})">
+                  <ng-template nz-tab>
+                    <app-deal-close></app-deal-close>
+                  </ng-template>
+                </nz-tab>
+              </nz-tabset>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

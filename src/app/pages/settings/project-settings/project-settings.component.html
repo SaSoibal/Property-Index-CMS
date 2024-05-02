@@ -1,0 +1,43 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+       
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+          <div class="card-header">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Project Settings</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body border-0" *ngIf="permission('read')">
+              <div class="row">
+                <div class="col-md-12">
+                 <nz-tabset [nzTabPosition]="position">
+                    <nz-tab  nzTitle="PROJECT LIST">
+                      <app-project></app-project>
+                    </nz-tab>
+                    <nz-tab  nzTitle="PROJECT TYPE">
+                      <app-project-type></app-project-type>
+                    </nz-tab>
+                    <nz-tab  nzTitle="SUB  TYPE">
+                      <app-project-sub-type></app-project-sub-type>
+                    </nz-tab>
+                  </nz-tabset>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

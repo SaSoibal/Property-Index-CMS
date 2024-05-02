@@ -1,0 +1,167 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+
+<div class="container-fluid mt--8">
+  <div *ngIf="pageBuffer" class="loader"></div>
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Notification</h3>
+            </div>
+            <div class="col text-right" *ngIf="permission('create')">
+              <a class="btn btn-sm btn-default text-white" (click)="openModel()">
+                <i class="fa fa-plus mr-2"></i>Create Notification
+              </a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card-body border-0" *ngIf="permission('read')">
+
+          <div class="row">
+            <div class="col-md-12">
+<!--              <div class="table-responsive" >-->
+<!--                <table class="table table-hover table-sm table-striped">-->
+<!--                  <thead>-->
+<!--                  <tr>-->
+<!--                    <th class="m-width-100" *ngIf="permission('update') || permission('delete')">Action</th>-->
+<!--                    <th class="m-width-100">Lead ID</th>-->
+<!--                    <th class="m-width-200">CLIENT</th>-->
+<!--                    <th class="m-width-150">Task</th>-->
+<!--                    <th class="m-width-150">STAGE & status</th>-->
+<!--                    <th class="m-width-150" *ngIf="filter_type !=='user'">ALLOCATED</th>-->
+<!--                    <th class="m-width-200">Classify & source</th>-->
+<!--                    <th class="m-width-150">INTEREST</th>-->
+<!--                    <th class="m-width-200">CREATE DATE</th>-->
+<!--                  </tr>-->
+<!--                  </thead>-->
+<!--                  <tbody>-->
+<!--                  <ng-container *ngIf="collection.length > 0;else notFound">-->
+<!--                    <ng-container *ngFor="let leads of collection| paginate: {-->
+<!--                      currentPage: pageNumber,-->
+<!--                      itemsPerPage: itemPerPage,-->
+<!--                      totalItems: totalrow-->
+<!--                      } ; index as i;">-->
+<!--                      <tr>-->
+<!--                        <td class="align-middle" *ngIf="permission('update') || permission('delete')">-->
+<!--                          <a nz-button nzType="primary" nzSize="small" (click)="detailsModel(leads)" class="mr-1" placement="top" ngbTooltip="Details" ><i class="ni ni-book-bookmark font-12 text-white"></i></a>-->
+<!--                        </td>-->
+<!--                        <td class="align-middle">-->
+<!--                          <a>-->
+<!--                            <i class="fa fa-thermometer-half mr-1"  [ngStyle]="{'color':leads.opportunity.classification?leads.opportunity.classification.color:''}"></i>-->
+<!--                            <strong class="">{{leadNoGenerate(leads.id)}}</strong>-->
+<!--                          </a>-->
+<!--                        </td>-->
+<!--                        <td class="align-middle">-->
+<!--                          <a>-->
+<!--                            <small>-->
+<!--                              <strong>-->
+<!--                                <i class="ni ni-single-02 mr-1"></i>-->
+<!--                                {{leads.information.full_name}}-->
+<!--                              </strong>-->
+<!--                            </small>-->
+<!--                          </a><br>-->
+<!--                          <small>-->
+<!--                            <i class="fa fa-phone mr-1"></i>-->
+<!--                            {{leads.information.phone_code?leads.information.phone_code.phoneCode:''}} {{leads.information.phone_no}}-->
+<!--                          </small>-->
+<!--                        </td>-->
+
+<!--                        <td class="align-middle">-->
+<!--                          <small>-->
+<!--                            <strong>-->
+<!--                              <i class="ni ni-time-alarm mr-1"></i>-->
+<!--                              {{leads.current_task?leads.current_task.step:''}}-->
+<!--                            </strong>-->
+<!--                          </small><br>-->
+<!--                          <small>-->
+<!--                            <i class="ni ni-calendar-grid-58 mr-1"></i>-->
+<!--                            {{leads.tasks?(leads.tasks.allocated_date|date:'short'):''}}-->
+<!--                          </small>-->
+<!--                        </td>-->
+
+<!--                        <td class="align-middle">-->
+<!--                          <small>-->
+<!--                            <strong>-->
+<!--                              <i class="ni ni-sound-wave mr-1"></i>-->
+<!--                              {{leads.next_tasks?leads.next_tasks:'&#45;&#45;'}}-->
+<!--                            </strong>-->
+<!--                          </small><br>-->
+<!--                          <small *ngIf="leads.lead_details">-->
+<!--                            <i class="ni ni-spaceship mr-1"></i>-->
+<!--                            {{leads.lead_details.construction_status?leads.lead_details.construction_status.lead_status:''}}-->
+<!--                          </small>-->
+<!--                        </td>-->
+<!--                        <td class="align-middle" *ngIf="filter_type !=='user'">-->
+<!--                          <small><strong *ngIf="leads.tasks.allocate">-->
+<!--                            <i class="ni ni-user-run mr-1"></i>-->
+<!--                            {{leads.tasks.allocate?leads.tasks.allocate.name:''}}</strong>-->
+<!--                          </small><br>-->
+<!--                          <small *ngIf="leads.tasks.team_name">{{leads.tasks.team_name?leads.tasks.team_name.name:''}}</small>-->
+<!--                        </td>-->
+<!--                        <td class="align-middle">-->
+<!--                          <small>-->
+<!--                            <strong>-->
+<!--                              {{leads.opportunity.classification?leads.opportunity.classification.classification:''}}-->
+<!--                            </strong>-->
+<!--                          </small><br>-->
+<!--                          <small><i class="ni ni-world mr-1"></i>{{leads.opportunity.source?leads.opportunity.source.source:''}}</small>-->
+<!--                        </td>-->
+<!--                        <td class="align-middle">-->
+<!--                          <small>-->
+<!--                            <strong>{{leads.opportunity.project_info?leads.opportunity.project_info.project_name:''}}-->
+<!--                            </strong>-->
+<!--                          </small><br>-->
+<!--                          <small *ngIf="leads.information.product_type"><i class="ni ni-zoom-split-in mr-1"></i> {{leads.information.product_type?leads.information.product_type.name:''}}</small>-->
+<!--                        </td>-->
+<!--                        <td class="align-middle">-->
+<!--                          <small><strong>-->
+<!--                            <i class="ni ni-calendar-grid-58 mr-1"></i>-->
+<!--                            {{leads.tasks?(leads.created_at|date:'short'):''}}</strong>-->
+<!--                          </small><br>-->
+<!--                          <small>-->
+<!--                            <i class="ni ni-single-02 mr-1"></i>-->
+<!--                            By : {{leads.created_by?leads.created_by.name:''}}-->
+<!--                          </small>-->
+<!--                        </td>-->
+
+<!--                      </tr>-->
+<!--                    </ng-container>-->
+<!--                  </ng-container>-->
+<!--                  <ng-template  #notFound>-->
+<!--                    <tr>-->
+<!--                      <td colspan="100%" class="text-danger text-center"><nz-empty></nz-empty></td>-->
+<!--                    </tr>-->
+<!--                  </ng-template>-->
+<!--                  </tbody>-->
+<!--                </table>-->
+              </div>
+            </div>
+        </div>
+        <div class="card-footer">
+          <mat-paginator
+          [length]="totalrow"
+          [pageSize]="itemPerPage"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="pageEvent($event)">
+        </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

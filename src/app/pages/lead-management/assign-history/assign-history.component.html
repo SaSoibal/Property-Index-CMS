@@ -1,0 +1,145 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+       
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+
+<div class="container-fluid mt--8">
+  <div *ngIf="pageBuffer" class="loader"></div>
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row">
+            <div class="col d-flex justify-content-between">
+              <div class="">
+                <h3 class="mb-0">Lead Assign History</h3>
+              </div>
+              <div style="display: inherit;">
+                <nz-select  style="width:200px;" [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)">
+                  <ng-container>
+                    <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
+                  </ng-container>
+                </nz-select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <div class="row"> 
+            <div class="col-md-2">
+              <nz-form-item class="mb-3">
+                <nz-form-control  [nzSm]="24" [nzXs]="24">
+                  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Filter" class="w-100" [(ngModel)]="leadfilter" (ngModelChange)="leadFilter($event)">
+                    <nz-option  nzLabel="Yesterday" nzValue="yesterday"></nz-option>
+                    <nz-option  nzLabel="Today" nzValue="today"></nz-option>
+                    <nz-option  nzLabel="This Week" nzValue="this-week"></nz-option>
+                    <nz-option  nzLabel="Last Week" nzValue="last-week"></nz-option>
+                    <nz-option  nzLabel="This Month" nzValue="this-month"></nz-option>
+                    <nz-option  nzLabel="Last Month" nzValue="last-month"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div class="col-md-3">
+              <nz-form-item>
+                <nz-form-control>
+                  <nz-range-picker [nzRanges]="ranges" nzFormat="yyyy/MM/dd" [(ngModel)]="date" class="w-100" (ngModelChange)="onChangeDateRange($event)"></nz-range-picker>
+                </nz-form-control>
+              </nz-form-item>
+            </div> 
+            <div class="col-md-2">
+              <nz-select nzShowSearch nzAllowClear [(ngModel)]="team_id" (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team" style="width:100%">
+                <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-2">
+              <nz-select nzShowSearch nzAllowClear [(ngModel)]="member_id"  (ngModelChange)="clickMemberData($event)" nzPlaceHolder="Select Member" style="width:100%">
+                <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id" [nzLabel]="member?.member?.name"></nz-option>
+              </nz-select>
+            </div>
+            <div class="col-md-3">
+              <input  nz-input  placeholder="Search By Name..." type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+            </div>
+          </div>
+          <div class="row"> 
+            <div class="col-md-12">
+              <div class="table-responsive" >
+                <table class="table table-hover table-sm table--darker table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#SL</th>
+                      <th class="m-width-200">User Name</th>
+                      <th class="m-width-200">Team Name</th>
+                      <th>New Lead</th>
+                      <th>First Call</th>
+                      <th>KYC</th>
+                      <th>Follow up</th>
+                      <th>Viewing</th>
+                      <th>Reviewing</th>
+                      <th>Negotiation</th>
+                      <th>Token Receive</th>
+                      <th>Sell Permission </th>
+                      <th>Registration </th>
+                      <th>Deal Close </th>
+                      <th>All Lead</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngIf="dataNotFound =='';else notFound">
+                      <ng-container *ngFor="let leads of collection| paginate: {
+                        currentPage: pagereqest,
+                        itemsPerPage: itemPerPage,
+                        totalItems: totalrow
+                        } ; index as i;">
+                        <tr>
+                          <td class="align-middle">{{getSL(i+1)}}</td>
+                          <td class="align-middle">
+                            {{leads.member?leads.member.name:''}}
+                          </td>
+                          <td class="align-middle text-warning">
+                            {{leads.teams?leads.teams?.name:''}}
+                          </td>
+                          <ng-container *ngFor="let step of leads.step">
+                            <td class="align-middle text-right">
+                              <strong *ngIf="step.tasks_count > 0" class="text-info cursor-pointer" (click)="clickCountForDetails(leads,step.id)"><u>{{step.tasks_count}}</u></strong>
+                              <strong *ngIf="step.tasks_count == 0">{{step.tasks_count}}</strong>
+                            </td>
+                            <td *ngIf="step.sort == 11" class="align-middle text-right bg-info text-white">
+                              <strong>{{step.all_lead}}</strong>
+                            </td>
+                          </ng-container>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                    <ng-template  #notFound>
+                      <tr>
+                        <td colspan="9" class="text-danger text-center">{{dataNotFound}}...</td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+              <mat-paginator 
+                [length]="totalrow" 
+                [pageSize]="itemPerPage" 
+                [pageSizeOptions]="pageSizeOptions" 
+                (page)="pageEvent($event)">
+              </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div  mat-dialog-title class="d-flex">
+  <h2 class="text-capitalize">{{data.operation}} system Role</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form #roleForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-4">
+    <div class="row mt-3">
+      <div class="col-md-8">
+        <nz-form-item class="mb-2">
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Role Name</nz-form-label>
+          <nz-form-control nzErrorTip="Role Name is required!">
+            <input nz-input required [(ngModel)]="data.role_name" name="role_name" #role_name="ngModel" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div class="col-md-4 pt-1" *ngIf="data.active">
+        <nz-switch [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+      </div>
+    </div>
+
+    <nz-table #smallTable nzSize="small" [nzData]="data.pagelist">
+      <thead>
+        <tr>
+          <th  class="align-middle">
+            <mat-checkbox class="example-margin  mb-0" (click)="chakAllPage()"> ALL</mat-checkbox>
+          </th>
+          <th  class="align-middle">Menu</th>
+          <th  class="align-middle">
+            <span class="same-role-wide-head"><p class="mb-0" placement="top" ngbTooltip="Read">R</p></span>
+            <span class="same-role-wide-head"><p class="mb-0" placement="top" ngbTooltip="Create | Read">C | R</p></span>
+            <span class="same-role-wide-head"><p class="mb-0" placement="top" ngbTooltip="Create | Read | Update">C | R | U</p></span>
+            <span class="same-role-wide-head"><p class="mb-0" placement="top" ngbTooltip="Create | Read | Update | Delete">C | R | U | D</p></span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let role of smallTable.data;index as i">
+                <td  class="align-middle">
+                  <mat-checkbox class="example-margin" [(ngModel)]="role.pageaccess" [name]="role.slug" #role.slug="ngModel"></mat-checkbox>
+                </td>
+                <td  class="align-middle">
+                  <span *ngIf="role.parent_id > 0"> ---- </span>
+                  <i class="{{role.icon}} icon-gold mr-2"></i>
+                  {{role.module_name}}
+                </td>
+                <ng-container *ngIf="role.count_sub === 0">
+                  <td class="align-middle">
+                    <mat-radio-group name="opList" [(ngModel)]="role.action" [name]="role.slug +i"  fxLayout="column">
+                      <mat-radio-button class="same-role-wide"  [value]="1" [checked]="role.action==1?true:false" >R</mat-radio-button>
+                      <mat-radio-button class="same-role-wide" [value]="2" [checked]="role.action==2?true:false" >C | R</mat-radio-button>
+                      <mat-radio-button class="same-role-wide" [value]="3" [checked]="role.action==3?true:false" >C | R | U</mat-radio-button>
+                      <mat-radio-button class="same-role-wide" [value]="4" [checked]="role.action==4?true:false" >C | R | U | D</mat-radio-button>
+                    </mat-radio-group>
+                  </td>
+              </ng-container>
+              <ng-container *ngIf="role.count_sub > 0">
+                <td colspan="4"></td>
+              </ng-container>
+        </tr>
+      </tbody>
+    </nz-table>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!roleForm.form.valid || submitButton" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> Submit
+    </button>
+  </mat-dialog-actions>
+</form>

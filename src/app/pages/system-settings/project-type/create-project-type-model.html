@@ -1,0 +1,56 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Add Project Type</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form #typeForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row mt-3">
+      <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-label  [nzSm]="6" [nzXs]="24" nzFor="project_type" nzRequired>Project type</nz-form-label>
+            <nz-form-control nzErrorTip="Project type is required!">
+              <input nz-input [(ngModel)]="data.project_type" name="project_type" id="project_type"  #project_type="ngModel" required placeholder="Project type"/>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label  [nzSm]="6" [nzXs]="24" nzFor="option" nzRequired>Option</nz-form-label>
+              <nz-form-control  nzErrorTip="Option is required!">
+                <nz-select nzShowSearch nzAllowClear class="w-100" nzPlaceHolder="Select a option" [(ngModel)]="data.option" name="option" #option="ngModel" required placeholder="Option">
+                  <nz-option nzLabel="Flat" nzValue="flat"></nz-option>
+                  <nz-option nzLabel="Land" nzValue="land"></nz-option>
+                  <nz-option nzLabel="Residential apartment" nzValue="residential apartment"></nz-option>
+                  <nz-option nzLabel="Commercial Space" nzValue="Commercial Space"></nz-option>
+                </nz-select>              
+              </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label  [nzSm]="6" [nzXs]="24" nzFor="option" nzRequired>Setting Type</nz-form-label>
+              <nz-form-control  nzErrorTip="Setting Type is required!">
+                <nz-select nzShowSearch nzAllowClear class="w-100" nzPlaceHolder="Select a Setting Type" [(ngModel)]="data.setting_type" name="setting_type" #setting_type="ngModel" required placeholder="Setting type">
+                  <nz-option nzLabel="Primary" nzValue="0"></nz-option>
+                  <nz-option nzLabel="Secondary" nzValue="1"></nz-option>
+                </nz-select>              
+              </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label  [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
+              <nz-form-control  nzErrorTip="Status is required!">
+                    <nz-switch id="status" required [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+              </nz-form-control>
+          </nz-form-item>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!typeForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+    </button>
+  </mat-dialog-actions>
+</form>

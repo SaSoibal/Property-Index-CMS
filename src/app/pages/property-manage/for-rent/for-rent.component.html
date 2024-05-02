@@ -1,0 +1,1449 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+    <div *ngIf="pageBuffer" class="loader"></div>
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                      <div class="col d-flex justify-content-between">
+                        <div class="">
+                          <h3 class="mb-0">To Rent</h3>
+                        </div>
+                        <div class="" *ngIf="permission('create')">
+                          <a [routerLink]="['/property-management/for-sales']" class="btn btn-sm btn-default text-white">
+                            <i class="fa fa-plus mr-2"></i>For Sale
+                          </a>
+                          <a [routerLink]="['/property-management/for-rent']" class="btn btn-sm btn-warning text-white">
+                            <i class="fa fa-plus mr-2"></i>To Rent
+                          </a>
+                          <a [routerLink]="['/property-management/for-land-sale']" class="btn btn-sm btn-default text-white">
+                            <i class="fa fa-plus mr-2"></i>For Land Sale
+                          </a>
+                          <a  [routerLink]="['/property-management/qc-rent-property-list']" class="btn btn-sm btn-default text-white">
+                            <i class="fa fa-list mr-2"></i>QC Property List
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="card-body border-0" *ngIf="permission('create')">
+                    <mat-stepper linear #stepper>
+
+                      <mat-step [stepControl]="basicFormGroup" [editable]="true">
+                        <form (ngSubmit)="submitBasicForm()" [formGroup]="basicFormGroup">
+                          <ng-template matStepLabel>Basic Info</ng-template>
+                          <div class="row mt-4">
+                            <div class="col-md-6">
+                              <input type="hidden" formControlName="property_id">
+                        
+                              <nz-form-item >
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="listing_id">Listing ID </nz-form-label>
+                                <nz-form-control nzErrorTip="Listing Id is required!">
+                                  <nz-input-number-group  nzCompact>
+                                    <nz-input-number nz-input formControlName="listing_id" id="listing_id" [nzMin]="1" style="width: calc(100% - 65px)"></nz-input-number>
+                                    <button type="button" (click)="checkListingID()" nz-button nzType="primary">Filter</button>
+                                  </nz-input-number-group>
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              <nz-form-item *ngIf="listing_property.length > 0">
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left">Listed Properties </nz-form-label>
+                                <nz-form-control  [nzSm]="17" [nzXs]="24">
+                                  <a *ngFor="let lp of listing_property" (click)="idWiseProperty(lp.id)">
+                                    <u>{{lp.property_id}} - {{lp.title}}</u><br>
+                                  </a>
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="pid">Property ID </nz-form-label>
+                                <nz-form-control nzErrorTip="Property Id is required!">
+                                  <nz-input-group>
+                                    <input type="text" nz-input formControlName="pid" id="pid"/>
+                                  </nz-input-group>
+                                </nz-form-control>
+                              </nz-form-item>
+                              
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="title">Title</nz-form-label>
+                                <nz-form-control nzErrorTip="Title is required!">
+                                  <input nz-input formControlName="title" id="title" required />
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="leads_type">Type</nz-form-label>
+                                <nz-form-control nzErrorTip="Type is required!">
+                                  <nz-radio-group formControlName="leads_type" id="leads_type" (ngModelChange)="leadsTypeChange($event)">
+                                    <label nz-radio [nzValue]="0">Primary</label>
+                                    <label nz-radio [nzValue]="1">Secondary</label>
+                                  </nz-radio-group>
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired class="ant-label text-left" nzFor="product_type">
+                                    <span>Rent Type</span>
+                                </nz-form-label>
+                                <nz-form-control>
+                                    <div class="card">
+                                        <div class="card-header pb-2">
+                                          <nz-radio-group  formControlName="rent_type" id="rent_type" (ngModelChange)="changeProductName($event)">
+                                            <label nz-radio [nzValue]="1">Residential</label>
+                                            <label nz-radio [nzValue]="2">Commercial</label>
+                                          </nz-radio-group>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                          <li class="list-group-item pl-4">
+                                              <nz-radio-group  formControlName="product" id="product">
+                                                <ng-container *ngIf="show_type_of_product == 1">
+                                                  <label nz-radio [nzValue]="'apartments'">Apartments</label><br>
+                                                  <label nz-radio [nzValue]="'rooms'">Rooms</label><br>
+                                                  <label nz-radio [nzValue]="'penthouses'">Penthouses</label><br>
+                                                </ng-container>
+                                                <ng-container *ngIf="show_type_of_product == 2">
+                                                    <label nz-radio [nzValue]="'offices'">Offices</label><br>
+                                                    <label nz-radio [nzValue]="'shops'">Shops</label><br>
+                                                    <label nz-radio [nzValue]="'open floor'">Open floor</label><br>
+                                                    <label nz-radio [nzValue]="'office apartments'">Office apartments</label><br>
+                                                </ng-container>   
+                                                    <label nz-radio [nzValue]="'duplex'">Duplex</label><br>
+                                                    <label nz-radio [nzValue]="'triplex'">Triplex</label><br>
+                                                    <label nz-radio [nzValue]="'plazas'">Plazas</label><br>
+                                                    <label nz-radio [nzValue]="'buildings'">Buildings</label><br>
+                                                    <label nz-radio [nzValue]="'plots'">Plots</label><br>
+                                                <ng-container *ngIf="show_type_of_product == 2">
+                                                  <label nz-radio [nzValue]="'warehouse'">Warehouse</label><br>
+                                                  <label nz-radio [nzValue]="'factory'">Factory</label><br>
+                                                </ng-container>
+                                            </nz-radio-group>
+                                          </li>
+                                        </ul>
+                                    </div>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <ng-container *ngIf="showProjectInput == 0">
+                                <nz-form-item>
+                                  <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="project_name">Project Name</nz-form-label>
+                                  <nz-form-control nzErrorTip="Project Name is required!">
+                                    <nz-select nzShowSearch   formControlName="project_name" id="project_name">
+                                      <nz-option *ngFor="let project of project_list" [nzLabel]="project.project_name" [nzValue]="project.id"></nz-option>
+                                    </nz-select>
+                                  </nz-form-control>
+                                </nz-form-item>
+
+                                <nz-form-item>
+                                  <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="project_type">Project Type</nz-form-label>
+                                  <nz-form-control nzErrorTip="Project Type is required!">
+                                    <nz-select nzShowSearch   formControlName="project_type" id="project_type">
+                                      <nz-option *ngFor="let type of project_type_list" [nzLabel]="type.type" [nzValue]="type.id"></nz-option>
+                                    </nz-select>
+                                  </nz-form-control>
+                                </nz-form-item>
+                              </ng-container>
+
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="city">City</nz-form-label>
+                                <nz-form-control nzErrorTip="City is required!">
+                                  <nz-select nzShowSearch nzAllowClear formControlName="city" id="city" (ngModelChange)="changeCity($event)"  required>
+                                    <nz-option *ngFor="let cities of city_list" [nzLabel]="cities.city" [nzValue]="cities.id"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="area">Area</nz-form-label>
+                                <nz-form-control nzErrorTip="Area is required!">
+                                  <nz-select nzShowSearch nzAllowClear formControlName="area" id="area"  (ngModelChange)="changeArea($event)" required>
+                                    <nz-option *ngFor="let area of area_list" [nzLabel]="area.area_name" [nzValue]="area.id"></nz-option>                                       </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="property_location">Property Location</nz-form-label>
+                                <nz-form-control nzErrorTip="Property Location is required!">
+                                  <nz-select nzShowSearch nzAllowClear formControlName="property_location" id="property_location">
+                                    <nz-option *ngFor="let loc of location_list" [nzLabel]="loc.location" [nzValue]="loc.id"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              <nz-divider nzPlain nzText="Information" nzOrientation="left"></nz-divider>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="block">Block</nz-form-label>
+                                <nz-form-control  nzErrorTip="Block is Required!">
+                                  <input nz-input formControlName="block" id="block" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="sector">Sector</nz-form-label>
+                                <nz-form-control  nzErrorTip="Sector is Required!">
+                                  <input nz-input formControlName="sector" id="sector" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="road">Road</nz-form-label>
+                                <nz-form-control  nzErrorTip="Road is Required!">
+                                  <input nz-input formControlName="road" id="road" />
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="house_no">House No</nz-form-label>
+                                <nz-form-control  nzErrorTip="House No is Required!">
+                                  <input nz-input formControlName="house_no" id="house_no" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="plot_size">Plot Size</nz-form-label>
+                                <nz-form-control  nzErrorTip="Plot Size is Required!">
+                                  <input nz-input formControlName="plot_size" id="plot_size" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="square_feet">Square Feet (Sqft)</nz-form-label>
+                                <nz-form-control  nzErrorTip="Square Feet (Sqft) is Required!">
+                                  <input type="number" nz-input formControlName="square_feet" id="square_feet" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24"  class="text-left"  nzFor="bedroom">Bedroom</nz-form-label>
+                                <nz-form-control  nzErrorTip="Bedroom is Required!">
+                                  <nz-select nzShowSearch  formControlName="bedroom" id="bedroom">
+                                    <nz-option [nzValue]="1" nzLabel="01"></nz-option>
+                                    <nz-option [nzValue]="2" nzLabel="02"></nz-option>
+                                    <nz-option [nzValue]="3" nzLabel="03"></nz-option>
+                                    <nz-option [nzValue]="4" nzLabel="04"></nz-option>
+                                    <nz-option [nzValue]="5" nzLabel="05"></nz-option>
+                                    <nz-option [nzValue]="6" nzLabel="06"></nz-option>
+                                    <nz-option [nzValue]="7" nzLabel="07"></nz-option>
+                                    <nz-option [nzValue]="8" nzLabel="08"></nz-option>
+                                    <nz-option [nzValue]="9" nzLabel="09"></nz-option>
+                                    <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24"  class="text-left"  nzFor="bathroom">Bathroom</nz-form-label>
+                                <nz-form-control  nzErrorTip="Bathroom is Required!">
+                                  <nz-select nzShowSearch  formControlName="bathroom" id="bathroom" >
+                                    <nz-option [nzValue]="1" nzLabel="01"></nz-option>
+                                    <nz-option [nzValue]="2" nzLabel="02"></nz-option>
+                                    <nz-option [nzValue]="3" nzLabel="03"></nz-option>
+                                    <nz-option [nzValue]="4" nzLabel="04"></nz-option>
+                                    <nz-option [nzValue]="5" nzLabel="05"></nz-option>
+                                    <nz-option [nzValue]="6" nzLabel="06"></nz-option>
+                                    <nz-option [nzValue]="7" nzLabel="07"></nz-option>
+                                    <nz-option [nzValue]="8" nzLabel="08"></nz-option>
+                                    <nz-option [nzValue]="9" nzLabel="09"></nz-option>
+                                    <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24"  class="text-left"  nzFor="balcony">Balcony</nz-form-label>
+                                <nz-form-control  nzErrorTip="Balcony is Required!">
+                                  <input nz-input formControlName="balcony" id="balcony" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24"   class="text-left"  nzFor="servant_room">Servant Room</nz-form-label>
+                                <nz-form-control  nzErrorTip="Servant Room is Required!">
+                                  <input nz-input formControlName="servant_room" id="servant_room" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24"   class="text-left"  nzFor="available_floor">Available Floor</nz-form-label>
+                                <nz-form-control [nzSm]="17" [nzXs]="24" nzErrorTip="Available Floor is Required!">
+                                  <div nz-row [nzGutter]="8">
+                                    <div nz-col [nzSpan]="10">
+                                      <input nz-input formControlName="available_floor" id="available_floor" />
+                                    </div>
+                                    <div nz-col [nzSpan]="4"  class="text-right" >Unit</div>
+                                    <div nz-col [nzSpan]="10">
+                                      <input nz-input formControlName="available_unit" id="available_unit" />
+                                    </div>
+                                  </div>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="facing">Facing</nz-form-label>
+                                <nz-form-control  nzErrorTip="Facing is Required!">
+                                  <input nz-input formControlName="facing" id="facing" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="total_unit_per_floor">Total/Unit per Floor</nz-form-label>
+                                <nz-form-control  nzErrorTip="Total/Unit per Floor is Required!">
+                                  <input nz-input formControlName="total_unit_per_floor" id="total_unit_per_floor" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="building_storied">Building Storied</nz-form-label>
+                                <nz-form-control  nzErrorTip="Building Storied is Required!">
+                                  <input nz-input formControlName="building_storied" id="building_storied" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="parking">Parking</nz-form-label>
+                                <nz-form-control  nzErrorTip="Parking is Required!">
+                                  <input nz-input formControlName="parking" id="parking" />
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="construction_status">Construction Status</nz-form-label>
+                                <nz-form-control  nzErrorTip="Construction Status is Required!">
+                                  <nz-select nzShowSearch nzAllowClear  formControlName="construction_status" id="construction_status">
+                                    <nz-option *ngFor="let status of const_status" [nzLabel]="status.construction_status" [nzValue]="status.id"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24"  class="text-left"  nzFor="country">Country</nz-form-label>
+                                <nz-form-control nzErrorTip="Country is Required!">
+                                  <nz-select nzShowSearch nzAllowClear  formControlName="country" id="country">
+                                    <nz-option *ngFor="let country of country_list" [nzLabel]="country.name" [nzValue]="country.id"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24"  class="text-left"  nzFor="developer_name">Developer Name</nz-form-label>
+                                <nz-form-control  nzErrorTip="Developer Name is Required!">
+                                  <input nz-input formControlName="developer_name" id="developer_name" />
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24"  class="text-left"  nzFor="handover_year">Handover Year</nz-form-label>
+                                <nz-form-control nzErrorTip="Handover Year is Required!">
+                                  <input nz-input formControlName="handover_year" id="handover_year" />
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="property_current_status"> Property Current Status</nz-form-label>
+                                <nz-form-control  [nzSm]="17" [nzXs]="24" nzErrorTip="Property Current Status is Required!">
+                                  <input nz-input formControlName="property_current_status" id="property_current_status" />
+                                </nz-form-control>
+                              </nz-form-item>
+
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="description">Description</nz-form-label>
+                                <nz-form-control  nzErrorTip="Description is Required!">
+                                  <textarea rows="4" nz-input formControlName="description" id="description"></textarea>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="property_address">Property Address</nz-form-label>
+                                <nz-form-control  nzErrorTip="Property Address is Required!">
+                                  <textarea rows="4" nz-input formControlName="property_address" id="property_address"></textarea>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="preferred_tenants">Preferred Tenants</nz-form-label>
+                                <nz-form-control [nzSm]="17" [nzXs]="24"  nzErrorTip="Preferred tenants is Required!">
+                                  <nz-select nzShowSearch nzAllowClear nzMode="multiple"  formControlName="preferred_tenants" id="preferred_tenants">
+                                    <nz-option *ngFor="let tenants of preferred_tenant_list" [nzLabel]="tenants.name" [nzValue]="tenants.id"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="last_time_entry">Last time entry</nz-form-label>
+                                <nz-form-control  nzErrorTip="Last time entry is Required!">
+                                  <textarea rows="4" nz-input formControlName="last_time_entry" id="last_time_entry"></textarea>
+                                </nz-form-control>
+                              </nz-form-item>
+                            </div>
+                            <div class="col-md-6">
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="ant-label">
+                                  Lat & Long
+                                </nz-form-label>
+                                <nz-form-control nz-row [nzSm]="17" [nzXs]="24">
+                                  <nz-input-group>
+                                    <div nz-row [nzGutter]="8">
+                                      <div nz-col nzSpan="12">
+                                        <input nz-input placeholder="latitude" formControlName="latitude" />
+                                      </div>
+                                      <div nz-col nzSpan="12">
+                                        <input nz-input placeholder="longitude" formControlName="longitude" />
+                                      </div>
+                                    </div>
+                                  </nz-input-group>
+                                  <br>
+
+                                  <ng-container *ngIf="basicFormGroup.get('latitude').value && basicFormGroup.get('longitude').value">
+                                    <a nz-button class="btn-block" [nzType]="'primary'" (click)="showMap()">
+                                      <span class="text-white">Lat: {{basicFormGroup.get('latitude').value}}, Long: {{basicFormGroup.get('longitude').value}} wise map view</span>
+                                    </a>
+                                  </ng-container>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item *ngIf="dcInformation">
+                                <nz-form-label [nzSm]="7" [nzXs]="24" class="ant-label">
+                                  Data collector
+                                </nz-form-label>
+                                <nz-form-control nz-row [nzSm]="17" [nzXs]="24">
+                                  <table class="table">
+                                    <tr><td>DC Name</td> <td>:<td><td>{{dcInformation?.name}}<td> </tr>
+                                    <tr><td>DC Email</td> <td>:<td><td>{{dcInformation?.email}}<td> </tr>
+                                    <tr><td>DC Phone</td> <td>:<td><td>{{dcInformation?.phone}}<td> </tr>
+                                  </table>
+                                </nz-form-control>
+                              </nz-form-item>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6 text-right" >
+                                  <nz-input-group nzCompact>
+                                    <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
+                                      <label nz-radio [nzValue]="1">Publish</label>
+                                      <label nz-radio [nzValue]="2">Draft</label>
+                                      <label *ngIf="basicFormGroup.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
+
+                                    </nz-radio-group>
+                                    <button class="btn btn-sm btn-default ml-4" mat-button><i class="fa fa-arrow-right mr-2"></i>  Submit</button>
+                                  </nz-input-group>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </mat-step>
+
+                      <mat-step  [stepControl]="projectFeatureForm">
+                        <form (ngSubmit)="submitFeatureForm()" [formGroup]="projectFeatureForm">
+                          <ng-template matStepLabel>Project Features</ng-template>
+                          <mat-accordion class="example-headers-align mt-4">
+                            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title class="text-uppercase">
+                                  Main Features
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+
+                              <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                  <td>Feature Type</td>
+                                  <td>Current Feature</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                  <td class="align-middle" width="50%">Belcony or Terrace</td>
+                                  <td>
+                                    <nz-radio-group formControlName="belcony_or_terrace" id="belcony_or_terrace">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Lobby In Building</td>
+                                  <td>
+                                    <nz-radio-group formControlName="lobby_in_building" id="lobby_in_building">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Double Giazed Windows</td>
+                                  <td>
+                                    <nz-radio-group formControlName="double_giazed_windows" id="double_giazed_windows">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Central Air Con</td>
+                                  <td>
+                                    <nz-radio-group formControlName="central_air_con" id="central_air_con">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Central Heating</td>
+                                  <td>
+                                    <nz-radio-group formControlName="central_heating" id="central_heating">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Electricity Backup</td>
+                                  <td>
+                                    <nz-radio-group formControlName="electricity_backup" id="electricity_backup">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Waste Disposal</td>
+                                  <td>
+                                    <nz-radio-group formControlName="waste_disposal" id="waste_disposal">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Flooring</td>
+                                  <td>
+                                    <nz-select nzShowSearch nzAllowClear formControlName="flooring" id="flooring" class="w-100">
+                                      <nz-option nzLabel="Tiles" nzValue="tiles"></nz-option>
+                                    </nz-select>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Elevators in Building</td>
+                                  <td>
+                                    <nz-radio-group formControlName="elevator_in_building" id="elevator_in_building" (ngModelChange)="onChangeElevatorBuilding($event)">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                    <ng-container *ngIf="elevatorBuildingInput">
+                                      <nz-select  style="width:200px" nzShowSearch nzAllowClear formControlName="no_of_elevator" id="no_of_elevator" nzPlaceHolder="No of elevator">
+                                        <nz-option [nzLabel]="1" [nzValue]="1"></nz-option>
+                                        <nz-option [nzLabel]="2" [nzValue]="2"></nz-option>
+                                        <nz-option [nzLabel]="3" [nzValue]="3"></nz-option>
+                                        <nz-option [nzLabel]="4" [nzValue]="4"></nz-option>
+                                        <nz-option [nzLabel]="5" [nzValue]="5"></nz-option>
+                                        <nz-option [nzLabel]="6" [nzValue]="6"></nz-option>
+                                        <nz-option [nzLabel]="7" [nzValue]="7"></nz-option>
+                                        <nz-option [nzLabel]="8" [nzValue]="8"></nz-option>
+                                        <nz-option [nzLabel]="9" [nzValue]="9"></nz-option>
+                                        <nz-option [nzLabel]="10" [nzValue]="10"></nz-option>
+                                      </nz-select>
+                                    </ng-container>
+
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Service Elevator</td>
+                                  <td>
+                                    <nz-radio-group formControlName="service_elevator" id="service_elevator">
+                                      <label nz-radio [nzValue]="1" >Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Tenant</td>
+                                  <td>
+                                    <nz-radio-group formControlName="tenant" id="tenant">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Furnished</td>
+                                  <td>
+                                    <nz-radio-group formControlName="furnished" id="furnished">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">24 Hours Concierge</td>
+                                  <td>
+                                    <nz-radio-group formControlName="twenty_four_hour_concierge" id="twenty_four_hour_concierge">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Gas</td>
+                                  <td>
+                                    <nz-radio-group formControlName="gas" id="gas">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Electricity</td>
+                                  <td>
+                                    <nz-radio-group formControlName="electricity" id="electricity">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+
+                              <mat-action-row class="p-2">
+                                <a mat-button color="primary" (click)="nextStep()">Next</a>
+                              </mat-action-row>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title  class="text-uppercase">
+                                  Common Spaces
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+                              <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                  <td>Feature Type</td>
+                                  <td>Current Feature</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                  <td class="align-middle" width="50%">Prayer Room</td>
+                                  <td>
+                                    <nz-radio-group formControlName="prayer_room" id="prayer_room">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+
+                                <tr>
+                                  <td class="align-middle" width="50%">Reception/Waiting Area</td>
+                                  <td>
+                                    <nz-radio-group formControlName="waiting_area" id="waiting_area">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Community Space</td>
+                                  <td>
+                                    <nz-radio-group formControlName="community_space" id="community_space">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Storage Area</td>
+                                  <td>
+                                    <nz-radio-group formControlName="storage_area" id="storage_area">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+
+                                <tr>
+                                  <td class="align-middle" width="50%">Other Rooms</td>
+                                  <td>
+                                    <nz-form-control>
+                                      <input nz-input formControlName="other_rooms" id="other_rooms" />
+                                    </nz-form-control>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                              <mat-action-row class="p-2">
+                                <a mat-button color="warn" (click)="prevStep()">Previous</a>
+                                <a mat-button color="primary" (click)="nextStep()">Next</a>
+                              </mat-action-row>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title class="text-uppercase">
+                                  Business and Communication
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+
+                              <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                  <td>Feature Type</td>
+                                  <td>Current Feature</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                  <td class="align-middle" width="50%">Broadband Internet</td>
+                                  <td>
+                                    <nz-radio-group formControlName="broadband_internet" id="broadband_internet">
+                                      <label nz-radio [nzValue]="1" >Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+
+                                <tr>
+                                  <td class="align-middle" width="50%">Satellite/Cable TV</td>
+                                  <td>
+                                    <nz-radio-group formControlName="satellite" id="satellite">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Business Center</td>
+                                  <td>
+                                    <nz-radio-group formControlName="business_center" id="business_center">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Conference Room</td>
+                                  <td>
+                                    <nz-radio-group formControlName="conference_room" id="conference_room">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Intercom</td>
+                                  <td>
+                                    <nz-radio-group formControlName="intercom" id="intercom">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">ATM Facility</td>
+                                  <td>
+                                    <nz-radio-group formControlName="atm_facility" id="atm_facility">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+
+                              <mat-action-row class="p-2">
+                                <a mat-button color="warn" (click)="prevStep()">Previous</a>
+                                <a mat-button color="primary" (click)="nextStep()">Next</a>
+                              </mat-action-row>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title class="text-uppercase">
+                                  Healthcare and Recreation Facilities
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+                              <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                  <td>Feature Type</td>
+                                  <td>Current Feature</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                  <td class="align-middle" width="50%">Barbecue Area</td>
+                                  <td>
+                                    <nz-radio-group formControlName="barbeque_area" id="barbeque_area">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+
+                                <tr>
+                                  <td class="align-middle" width="50%">Day Care Center</td>
+                                  <td>
+                                    <nz-radio-group formControlName="day_care_center" id="day_care_center">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">First Aid Medical Center</td>
+                                  <td>
+                                    <nz-radio-group formControlName="first_aid_medical_center" id="first_aid_medical_center">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Gym or Health Club</td>
+                                  <td>
+                                    <nz-radio-group formControlName="gym" id="gym">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Lawn or Garden</td>
+                                  <td>
+                                    <nz-radio-group formControlName="garden" id="garden">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Swimming Pool</td>
+                                  <td>
+                                    <nz-radio-group formControlName="swimming_pool" id="swimming_pool">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Steam Room</td>
+                                  <td>
+                                    <nz-radio-group formControlName="steam_room" id="steam_room">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Sauna</td>
+                                  <td>
+                                    <nz-radio-group formControlName="sauna" id="sauna">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Jacuzzi</td>
+                                  <td>
+                                    <nz-radio-group formControlName="jacuzzi" id="jacuzzi">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Game/Sports Area</td>
+                                  <td>
+                                    <nz-radio-group formControlName="sports_area" id="sports_area">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Other Facilities</td>
+                                  <td>
+                                    <nz-radio-group formControlName="other_facilities" id="other_facilities">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                              <mat-action-row class="p-2">
+                                <a mat-button color="warn" (click)="prevStep()">Previous</a>
+                                <a mat-button color="primary" (click)="nextStep()">Next</a>
+                              </mat-action-row>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title class="text-uppercase">
+                                  Nearby Locations
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+                              <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                  <td>Feature Type</td>
+                                  <td>Current Feature</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                  <td class="align-middle" width="50%">Nearby Schools</td>
+                                  <td>
+                                    <nz-form-control>
+                                      <input nz-input formControlName="nearby_schools" id="nearby_schools" />
+                                    </nz-form-control>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Nearby Hospitals</td>
+                                  <td>
+                                    <nz-form-control>
+                                      <input nz-input formControlName="nearby_hospitals" id="nearby_hospitals" />
+                                    </nz-form-control>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Nearby Shopping Malls</td>
+                                  <td>
+                                    <nz-form-control>
+                                      <input nz-input formControlName="nearby_shopping_mall" id="nearby_shopping_mall" />
+                                    </nz-form-control>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Distance From Airport(kms)</td>
+                                  <td>
+                                    <nz-form-control>
+                                      <input nz-input formControlName="airport_distance" id="airport_distance" />
+                                    </nz-form-control>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Nearby Public Transport</td>
+                                  <td>
+                                    <nz-form-control>
+                                      <input nz-input formControlName="nearby_public_transport" id="nearby_public_transport" />
+                                    </nz-form-control>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Other Nearby Places</td>
+                                  <td>
+                                    <nz-form-control>
+                                      <input nz-input formControlName="other_nearby_places" id="other_nearby_places" />
+                                    </nz-form-control>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                              <mat-action-row class="p-2">
+                                <a mat-button color="warn" (click)="prevStep()">Previous</a>
+                                <a mat-button color="primary" (click)="nextStep()">Next</a>
+                              </mat-action-row>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title class="text-uppercase">
+                                  Other Facilities
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+                              <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                  <td>Feature Type</td>
+                                  <td>Current Feature</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                  <td class="align-middle" width="50%">Pet Policy</td>
+                                  <td>
+                                    <nz-radio-group formControlName="pet_policy" id="pet_policy">
+                                      <label nz-radio [nzValue]="1">Allowed</label>
+                                      <label nz-radio [nzValue]="0">Not Allowed</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+
+                                <tr>
+                                  <td class="align-middle" width="50%">Maintenance Staff</td>
+                                  <td>
+                                    <nz-radio-group formControlName="maintenance_staff" id="maintenance_staff">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Cafeteria or Canteen</td>
+                                  <td>
+                                    <nz-radio-group formControlName="canteen" id="canteen">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Laundry Facility</td>
+                                  <td>
+                                    <nz-radio-group formControlName="laundry" id="laundry">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Shared Kitchen</td>
+                                  <td>
+                                    <nz-radio-group formControlName="shared_kitchen" id="shared_kitchen">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Facilities for Disabled</td>
+                                  <td>
+                                    <nz-radio-group formControlName="facilities_for_disabled" id="facilities_for_disabled">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Cleaning Services</td>
+                                  <td>
+                                    <nz-radio-group formControlName="cleaning_services" id="cleaning_services">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Change of Amentias/Interior</td>
+                                  <td>
+                                    <nz-radio-group formControlName="change_interior" id="change_interior">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                              <mat-action-row class="p-2">
+                                <a mat-button color="warn" (click)="prevStep()">Previous</a>
+                                <a mat-button color="primary" (click)="nextStep()">Next</a>
+                              </mat-action-row>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title class="text-uppercase">
+                                  Security
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+                              <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                  <td>Feature Type</td>
+                                  <td>Current Feature</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                  <td class="align-middle" width="50%">CCTV Security</td>
+                                  <td>
+                                    <nz-radio-group formControlName="cctv_security" id="cctv_security">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Fire Exit</td>
+                                  <td>
+                                    <nz-radio-group formControlName="fire_exit" id="fire_exit">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Fire Extinguisher</td>
+                                  <td>
+                                    <nz-radio-group formControlName="fire_extinguisher" id="fire_extinguisher">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Fire Hose</td>
+                                  <td>
+                                    <nz-radio-group formControlName="fire_hose" id="fire_hose">
+                                      <label nz-radio [nzValue]="1" >Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Sprinkler</td>
+                                  <td>
+                                    <nz-radio-group formControlName="sprinkler" id="sprinkler">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Guard/Security Staff</td>
+                                  <td>
+                                    <nz-radio-group formControlName="guard" id="guard">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Visitor Log</td>
+                                  <td>
+                                    <nz-radio-group formControlName="visitor_log" id="visitor_log">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="align-middle" width="50%">Fire Alarm</td>
+                                  <td>
+                                    <nz-radio-group formControlName="fire_alarm" id="fire_alarm">
+                                      <label nz-radio [nzValue]="1">Yes</label>
+                                      <label nz-radio [nzValue]="0">No</label>
+                                    </nz-radio-group>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                              <mat-action-row class="p-2">
+                                <a mat-button color="warn" (click)="prevStep()">Previous</a>
+                              </mat-action-row>
+                            </mat-expansion-panel>
+                          </mat-accordion>
+                          <div class="row mt-5">
+                            <div class="col-md-12">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i class="fa fa-arrow-left mr-2"></i>  Back</button>
+                                </div>
+                                <div class="col-md-6 text-right" >
+                                  <nz-input-group nzCompact>
+                                    <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
+                                      <label nz-radio [nzValue]="1">Publish</label>
+                                      <label nz-radio [nzValue]="2">Draft</label>
+                                      <label *ngIf="projectFeatureForm.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
+                                    </nz-radio-group>
+                                    <button class="btn btn-sm btn-default  ml-4" mat-button><i class="fa fa-arrow-right mr-2"></i>  Submit</button>
+                                  </nz-input-group>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </mat-step>
+
+                      <mat-step [stepControl]="imageVideoForm">
+                        <form (ngSubmit)="imageAndVideoForm()" [formGroup]="imageVideoForm">
+                          <ng-template matStepLabel>Image & Video</ng-template>
+                          <div class="row">
+                            <div class="col-md-6  mt-3">
+                              <nz-card nzTitle="Property Image">
+                                <nz-card nzHoverable  [nzCover]="coverTemplate" class="ant-img-up-card"  style="width: 280px;margin: auto;">
+                                  <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg' class="btn btn-sm btn-default text-white btn-block">
+                                    <i class="fa fa-upload mr-2"></i> Upload Image
+                                  </button>
+                                  <input style="display: none" type="file" (change)="Changed($event)" #fileInput>
+                                  <button type="button" (click)="fileInput.click()" *ngIf='ChangeImg' class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload" ></i> Change </button>
+                                  <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile" *ngIf='ChangeImg' (click)="RemoveImage()"><i class="fa fa-times"> </i> Remove</button>
+                                </nz-card>
+                                <ng-template #coverTemplate>
+                                  <img alt="image" class="p-2" height="250px" [src]="ImageFile" />
+                                </ng-template>
+                              </nz-card>
+                            </div>
+                            <div class="col-md-6  mt-3">
+                              <nz-card nzTitle="Floor Plan">
+                                <nz-card nzHoverable  [nzCover]="floorTemplate" class="ant-img-up-card"  style="width: 280px;margin: auto;">
+                                  <button type="button" (click)="floorfileInput.click()" *ngIf='!FloorChangeImg' class="btn btn-sm btn-default text-white btn-block">
+                                    <i class="fa fa-upload mr-2"></i> Upload Image
+                                  </button>
+                                  <input style="display: none" type="file" (change)="AreaChanged($event)" #floorfileInput>
+                                  <button type="button" (click)="floorfileInput.click()" *ngIf='FloorChangeImg' class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload" ></i> Change </button>
+                                  <button type="button" class="btn btn-danger btn-sm text-white" *ngIf='FloorChangeImg' (click)="AreaRemoveImage()"><i class="fa fa-times"> </i> Remove</button>
+                                </nz-card>
+                                <ng-template #floorTemplate>
+                                  <img alt="image" class="p-2" height="250px" [src]="FloorImageFile" />
+                                </ng-template>
+                              </nz-card>
+                            </div>
+                          
+                            <div class="col-md-12  mt-3">
+                              <nz-card nzTitle="Property Image">
+                                <div *ngIf="upload_documents.length > 0;else notFound">
+                                  <div cdkDropList cdkDropListOrientation="horizontal" class="drag-drop-list" (cdkDropListDropped)="drop($event)">
+                                    <div class="drag-drop-box" *ngFor="let document of upload_documents" cdkDrag>
+                                      <img *ngIf="document.action=='edit'"
+                                         [src]="rootUrl+document.view_file"
+                                         height="100" width="100%"
+                                         alt="capital-image">
+                                    <img *ngIf="document.action=='create'"
+                                         [src]="document.view_file"
+                                         height="100"
+                                         width="100%" alt="capital-image">
+                                    <button (click)="removeFile(document)" *ngIf="document.edit_file" class="btn-block btn-sm btn btn-danger">
+                                      <i class="fa fa-times mr-2"></i> Remove
+                                    </button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <ng-template #notFound>
+                                  <nz-empty></nz-empty>
+                                </ng-template>
+                                <ng-container>
+                                    <hr>
+                                    <input #fileUpload
+                                          (change)="onFileUpload($event)"
+                                          accept=".jpg, .jpeg, .png, .mov, .mp4, .3gp, .ogg"
+                                          multiple
+                                          style="display: none" type="file"
+                                          required>
+                                    <button (click)="fileUpload.click()"
+                                            [nzSize]="'default'" nz-button
+                                            nzType="primary"
+                                            type="button"
+                                            nzBlock><i class="fa fa-cloud-upload mr-2"></i>
+                                      Click to upload File
+                                    </button>
+                                 </ng-container>
+                              <small class="text-danger"><i class="fa fa-info-circle"></i> Allow File extension: .jpg, .jpeg, .png, .mov, .mp4, .3gp, .ogg</small>
+                              </nz-card>
+                            </div>
+
+                            <div class="col-md-12  mt-3">
+                              <nz-card nzTitle="Property Video">
+                                  <nz-form-item>
+                                      <nz-form-label [nzSm]="5" [nzXs]="24" class="text-left"  nzFor="youtube_url_01">Youtube Url 01</nz-form-label>
+                                      <nz-form-control nzErrorTip="Youtube Url 01 is required!">
+                                          <input nz-input formControlName="youtube_url_01" id="youtube_url_01"  style="width:100%" />
+                                      </nz-form-control>
+                                  </nz-form-item>
+                                  <nz-form-item>
+                                      <nz-form-label [nzSm]="5" [nzXs]="24" class="text-left"  nzFor="youtube_url_02">Youtube Url 02</nz-form-label>
+                                      <nz-form-control nzErrorTip="Youtube Url 02 is required!">
+                                          <input nz-input formControlName="youtube_url_02" id="youtube_url_01"  style="width:100%" />
+                                      </nz-form-control>
+                                  </nz-form-item>
+                                  <nz-form-item>
+                                      <nz-form-label [nzSm]="5" [nzXs]="24" class="text-left"  nzFor="listing_id">Youtube Url 03</nz-form-label>
+                                      <nz-form-control nzErrorTip="Youtube Url 03 is required!">
+                                          <input nz-input formControlName="youtube_url_03" id="youtube_url_03"  style="width:100%" />
+                                      </nz-form-control>
+                                  </nz-form-item>
+                              </nz-card>
+                            </div>
+                          </div>
+
+                          <div class="row mt-5">
+                            <div class="col-md-12">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i class="fa fa-arrow-left mr-2"></i>  Back</button>
+                                </div>
+                                <div class="col-md-6 text-right" >
+                                  <nz-input-group nzCompact>
+                                    <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
+                                      <label nz-radio [nzValue]="1">Publish</label>
+                                      <label nz-radio [nzValue]="2">Draft</label>
+                                      <label *ngIf="imageVideoForm.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
+                                    </nz-radio-group>
+                                    <button class="btn btn-sm btn-default  ml-4" mat-button><i class="fa fa-arrow-right mr-2"></i>  Submit</button>
+                                  </nz-input-group>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </mat-step>
+
+                        <mat-step [stepControl]="priceAndContactDetails">
+                          <form (ngSubmit)="submitPriceContactForm()" [formGroup]="priceAndContactDetails">
+                            <ng-template matStepLabel>Price and Contact Details</ng-template>
+                            <nz-divider nzPlain nzText="Price" nzOrientation="left"></nz-divider>
+                            <nz-form-item class="mt-4">
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="monthly_rent">Monthly Rent</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Monthly Rent is required!">
+                                <input nz-input formControlName="monthly_rent" id="monthly_rent" />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="rent_commission">Rent Commission</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Rent Commission is required!">
+                                <div nz-row [nzGutter]="24">
+                                  <div nz-col nzSpan="10">
+                                    <nz-input-group nzSuffix="%">
+                                      <input nz-input formControlName="rent_commission_percent" id="rent_commission_percent" />
+                                    </nz-input-group>
+                                  </div>
+                                  <div nz-col nzSpan="3">OR</div>
+                                  <div nz-col nzSpan="11">
+                                    <nz-input-group nzSuffix="Fixed">
+                                      <input nz-input formControlName="rent_commission_fixed" id="rent_commission_fixed" />
+                                    </nz-input-group>
+                                  </div>
+                                </div>
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="rent_advance">Advance</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Advance is required!">
+                                <input nz-input formControlName="rent_advance" id="rent_advance"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="rent_service_charge">Service Charge</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Service Charge is required!">
+                                <input nz-input formControlName="rent_service_charge" id="rent_service_charge"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="rent_increment_policy">Increment Policy</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Increment Policy is required!">
+                                <input nz-input formControlName="rent_increment_policy" id="rent_increment_policy"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-divider nzPlain nzText="Hunting By" nzOrientation="left"></nz-divider>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="product_person">Product person</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Product person is required!">
+                                <input nz-input formControlName="product_person" id="product_person"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="source">Source</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Product person is required!">
+                                <input nz-input formControlName="source" id="source"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-divider nzPlain nzText="Contact Details" nzOrientation="left"></nz-divider>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="contact_person">Contact Person</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Contact Person is required!">
+                                <input nz-input formControlName="contact_person" id="contact_person"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="contact_number">Contact Number</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Contact Number is required!">
+                                <input nz-input formControlName="contact_number" id="contact_number"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="contact_address">Address</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Contact Address is required!">
+                                <input nz-input formControlName="contact_address" id="contact_address"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="contact_email">Email</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Contact Email is required!">
+                                <input nz-input formControlName="contact_email" id="contact_email"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item >
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="representative_name">Representative Name</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Representative Name is required!">
+                                <input nz-input formControlName="representative_name" id="representative_name"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="representative_phone_no">Phone Number</nz-form-label>
+                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Phone Number is required!">
+                                <input nz-input formControlName="representative_phone_no" id="representative_phone_no"  />
+                              </nz-form-control>
+                            </nz-form-item>
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i class="fa fa-arrow-left mr-2"></i>  Back</button>
+                                  </div>
+                                  <div class="col-md-6 text-right" >
+                                    <nz-input-group nzCompact>
+                                      <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
+                                        <label nz-radio [nzValue]="1">Publish</label>
+                                        <label nz-radio [nzValue]="2">Draft</label>
+                                        <label *ngIf="priceAndContactDetails.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
+
+                                      </nz-radio-group>
+                                      <button class="btn btn-sm btn-default  ml-4" mat-button><i class="fa fa-arrow-right mr-2"></i>  Submit</button>
+                                    </nz-input-group>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </mat-step>
+
+                        <mat-step [stepControl]="extraInformation">
+                          <form (ngSubmit)="submitExtraInformation()" [formGroup]="extraInformation">
+                            <ng-template matStepLabel>Extra Information</ng-template>
+
+                            <nz-form-item class="mt-4">
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="others_info">Others Information</nz-form-label>
+                              <nz-form-control nzErrorTip="Please input Others Information!">
+                                <app-tinymce nz-input formControlName="others_info"  #tinymce='tinymce' name="description_bn" id="description_bn"  placeholder="Other Information"></app-tinymce>
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item class="mt-4">
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="others_info">Allocate Information</nz-form-label>
+                              <nz-form-control nzErrorTip="Please input Allocate Information!">
+                                <nz-select  style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear formControlName="branch_id" [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
+                                    <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
+                                </nz-select>
+                                <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear formControlName="team_id" [(ngModel)]="team_id" (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
+                                  <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
+                                </nz-select>
+                                <nz-select style="width:180px;" nzShowSearch nzAllowClear formControlName="member_id" [(ngModel)]="member_id" nzPlaceHolder="Select Member">
+                                  <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id" [nzLabel]="member?.member?.name"></nz-option>
+                                </nz-select>                              
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <div class="row" class="mt-5">
+                              <div class="col-md-12">
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i class="fa fa-arrow-left mr-2"></i>  Back</button>
+                                  </div>
+                                  <div class="col-md-6 text-right" >
+                                    <nz-input-group nzCompact>
+                                      <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
+                                        <label nz-radio [nzValue]="1">Publish</label>
+                                        <label nz-radio [nzValue]="2">Draft</label>
+                                        <label *ngIf="extraInformation.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
+
+                                      </nz-radio-group>
+                                      <button class="btn btn-sm btn-default  ml-4" mat-button><i class="ni ni-collection mr-2"></i>Final Submit Property</button>
+                                    </nz-input-group>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </mat-step>
+
+
+                    </mat-stepper>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,399 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Current Task</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form #stepForm="ngForm" (ngSubmit)="onClick()">
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row mt-3">
+
+      <div class="col-md-12">
+        <!--   selected property lavel 7 + start-->
+        <ng-container *ngIf="data.task_type >= 7">
+          <nz-form-item class="mb-0">
+            <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="select_property">Select Property</nz-form-label>
+            <nz-form-control [nzSm]="18" [nzXs]="24">
+              <ng-container *ngIf="data.select_property_list.length > 0;else notSelectProperty">
+                <table class="table table-sm bg-white mb-0">
+                  <thead>
+                    <tr>
+                      <td>Image</td>
+                      <td>PID</td>
+                      <td>Property Name</td>
+                      <td>Type</td>
+                      <td class="text-center">Price</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <ng-container *ngFor="let property of data.select_property_list">
+                    <tr *ngIf="property.choose_property">
+                      <td class="align-middle">
+                        <img *ngIf="property.save_type == 'for_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                        <img *ngIf="property.save_type == 'for_rent'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                        <img *ngIf="property.save_type == 'for_land_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                      </td>
+                      <td class="align-middle">
+                        <strong *ngIf="property.deal_close == 0">{{property.listing_id?property.listing_id:property.property_id}}</strong>
+                        <strong class="text-danger" *ngIf="property.deal_close == 1"><del>{{property.listing_id?property.listing_id:property.property_id}}</del></strong>
+                      </td>
+                      <td class="align-middle">
+                        <strong *ngIf="property.deal_close == 0">{{property.title}}</strong>
+                        <strong class="text-danger" *ngIf="property.deal_close == 1"><del>{{property.title}}</del></strong>
+                        
+                        <small *ngIf="data.task_type >= 9 && property.deal_close == 0" class="text-danger">
+                          <br>Negotiation price: {{property.negotiation_price|number:'.2'}}<br></small>
+                        <small *ngIf="data.task_type >= 9 && property.deal_close == 1" class="text-danger">
+                            <br><del>Negotiation price: {{property.negotiation_price|number:'.2'}}</del><br></small>
+                         
+                        <div *ngIf="data.task_type >= 9 && property.deal_close == 0">
+                            <small>Type: {{property.token_receive_type}} {{property.token_receive_type =='cheque'?'- '+property.token_cheeque_no:''}}<br></small>
+                            <small>Token amount: {{property.token_amount|number:'.2'}}<br></small>
+                        </div>
+                        <div *ngIf="data.task_type >= 9 && property.deal_close == 1" class="text-danger">
+                          <del>
+                            <small>Type: {{property.token_receive_type}} {{property.token_receive_type =='cheque'?'- '+property.token_cheeque_no:''}}<br></small>
+                            <small>Token amount: {{property.token_amount|number:'.2'}}</small>
+                          </del>
+                        </div>
+                      </td>
+                      <td class="align-middle">
+                        <span *ngIf="property.save_type == 'for_sale'  && property.deal_close == 0">FSP</span>
+                        <span *ngIf="property.save_type == 'for_rent'  && property.deal_close == 0">FRP</span>
+                        <span *ngIf="property.save_type == 'for_land_sale'  && property.deal_close == 0">FLSP</span>
+                        <span class="text-danger" *ngIf="property.save_type == 'for_sale'  && property.deal_close == 1"><del>FSP</del></span>
+                        <span class="text-danger" *ngIf="property.save_type == 'for_rent'  && property.deal_close == 1"><del>FRP</del></span>
+                        <span class="text-danger" *ngIf="property.save_type == 'for_land_sale'  && property.deal_close == 1"><del>FLSP</del></span>
+                      </td>
+                      <td class="align-middle text-right">
+                        <strong *ngIf="property.save_type == 'for_sale'">
+                          <span *ngIf="property.price_contact?.offer_price && property.deal_close == 0">{{property.price_contact?.offer_price|number:'.2'}}</span>
+                          <span class="text-danger" *ngIf="property.price_contact?.offer_price && property.deal_close == 1"><del>{{property.price_contact?.offer_price|number:'.2'}}</del></span>
+                        </strong>
+                        <strong *ngIf="property.save_type == 'for_rent'">
+                          <span *ngIf="property.price_contact?.monthly_rent && property.deal_close == 0">{{property.price_contact?.monthly_rent|number:'.2'}}</span>
+                          <span class="text-danger" *ngIf="property.price_contact?.monthly_rent && property.deal_close == 1"><del>{{property.price_contact?.monthly_rent|number:'.2'}}</del></span>
+                        </strong>
+                        <strong *ngIf="property.save_type == 'for_land_sale'">
+                          <span *ngIf="property.price_contact?.offer_price && property.deal_close == 0">{{property.price_contact?.offer_price|number:'.2'}}</span>
+                          <span class="text-danger" *ngIf="property.price_contact?.offer_price && property.deal_close == 1"><del>{{property.price_contact?.offer_price|number:'.2'}}</del></span>
+                        </strong>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  </tbody>
+                </table>
+              </ng-container>
+              <ng-template #notSelectProperty>
+                <tr><td colspan="100%"><strong>Property Not Selected ...</strong></td></tr>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-divider nzPlain></nz-divider>
+        </ng-container>
+        <!--   selected property lavel 7 + end-->
+        <!--   property Negotiation Price level 7 start-->
+        <ng-container *ngIf="data.task_type == 7">
+          <nz-form-item  *ngIf="data.select_property_list.length > 0" class="mb-0">
+            <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="select_property">Negotiation Price</nz-form-label>
+            <nz-form-control [nzSm]="18" [nzXs]="24">
+                <table class="table table-sm bg-white mb-0">
+                  <thead>
+                  <tr>
+                    <td>Image</td>
+                    <td>PID</td>
+                    <td>Property Name</td>
+                    <td>Type</td>
+                    <td class="text-center">Nego. Price</td>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <ng-container *ngFor="let property of data.select_property_list">
+                    <tr *ngIf="property.choose_property">
+                      <td class="align-middle">
+                        <img *ngIf="property.save_type == 'for_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                        <img *ngIf="property.save_type == 'for_rent'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                        <img *ngIf="property.save_type == 'for_land_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                      </td>
+                      <td class="align-middle">
+                        <strong *ngIf="property.deal_close == 0">{{property.property_id}}</strong>
+                        <strong class="text-danger" *ngIf="property.deal_close == 1"><del>{{property.property_id}}</del></strong>
+                      </td>
+                      <td class="align-middle">
+                        <strong *ngIf="property.deal_close == 0">{{property.title}}</strong>
+                        <strong class="text-danger" *ngIf="property.deal_close == 1"><del>{{property.title}}</del></strong>
+                      </td>
+                      <td class="align-middle">
+                        <span *ngIf="property.save_type == 'for_sale' && property.deal_close == 0">FSP</span>
+                        <span *ngIf="property.save_type == 'for_rent' && property.deal_close == 0">FRP</span>
+                        <span *ngIf="property.save_type == 'for_land_sale' && property.deal_close == 0">FLSP</span>
+                        <span class="text-danger" *ngIf="property.save_type == 'for_sale' && property.deal_close == 1"><del>FSP</del></span>
+                        <span class="text-danger" *ngIf="property.save_type == 'for_rent' && property.deal_close == 1"><del>FRP</del></span>
+                        <span class="text-danger" *ngIf="property.save_type == 'for_land_sale' && property.deal_close == 1"><del>FLSP</del></span>
+                      </td>
+                      <td class="align-middle text-right">
+                        <nz-input-number *ngIf="property.save_type == 'for_sale'" style="min-width: 120px;" [(ngModel)]="property.negotiation_price" name="negotiation_price" nzPlaceHolder="Price" [nzMin]="1" [nzMax]="property.price_contact?.offer_price" [nzStep]="1" required></nz-input-number>
+                        <nz-input-number *ngIf="property.save_type == 'for_rent'" style="min-width: 120px;" [(ngModel)]="property.negotiation_price" name="negotiation_price"  nzPlaceHolder="Price" [nzMin]="1" [nzMax]="property.price_contact?.monthly_rent" [nzStep]="1" required></nz-input-number>
+                        <nz-input-number *ngIf="property.save_type == 'for_land_sale'" style="min-width: 120px;" [(ngModel)]="property.negotiation_price" name="negotiation_price" nzPlaceHolder="Price"  [nzMin]="1" [nzMax]="property.price_contact?.offer_price" [nzStep]="1" required></nz-input-number>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  </tbody>
+                </table>
+              <ng-template #notSelectProperty>
+                <tr><td colspan="100%"><strong>Property Not Selected ...</strong></td></tr>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-divider nzPlain></nz-divider>
+        </ng-container>
+        <!--   property Negotiation Price level 7 End-->
+        <!--   Token Receiv Price property Negotiation Price level 8 start-->
+        <ng-container *ngIf="data.task_type == 8">
+          <nz-form-item  *ngIf="data.select_property_list.length > 0" class="mb-0">
+            <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="select_property">Token Receive Price</nz-form-label>
+            <nz-form-control [nzSm]="18" [nzXs]="24">
+              <table class="table table-sm bg-white mb-0">
+                <tbody>
+                <ng-container *ngFor="let property of data.select_property_list">
+                  <tr *ngIf="property.choose_property">
+                    <td class="align-middle">
+                      <img *ngIf="property.save_type == 'for_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                      <img *ngIf="property.save_type == 'for_rent'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                      <img *ngIf="property.save_type == 'for_land_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                    </td>
+                    <td class="align-middle">
+                      <strong *ngIf="property.deal_close == 0">{{property.listing_id?property.listing_id:property.property_id}}</strong>
+                      <strong class="text-danger" *ngIf="property.deal_close == 1"><del>{{property.listing_id?property.listing_id:property.property_id}}</del></strong>
+                    </td>
+                    <td class="align-middle" style="width: 40%;">
+                      <strong *ngIf="property.deal_close == 0">{{property.title}}</strong><br>
+                      <small class="text-danger" *ngIf="property.deal_close == 0">Negotiation Price: {{property.negotiation_price|number:'.2'}}</small>
+                      <strong class="text-danger" *ngIf="property.deal_close == 1"><del>{{property.title}}</del></strong><br>
+                      <small class="text-danger" *ngIf="property.deal_close == 1"><del>Negotiation Price: {{property.negotiation_price|number:'.2'}}</del></small>
+                    </td>
+                    <td class="align-middle">
+                      <small>Token Receive Type</small>
+                      <nz-radio-group [(ngModel)]="property.token_receive_type">
+                        <label nz-radio nzValue="cash">Cash</label>
+                        <label nz-radio nzValue="cheque">Cheque</label>
+                      </nz-radio-group>
+                    </td>
+                    <td class="align-middle text-right">
+                      <div *ngIf="property.token_receive_type == 'cheque'">
+                        <small>Cheeque No</small>
+                        <input nz-input style="min-width: 120px;" [(ngModel)]="property.token_cheeque_no" name="token_cheeque_no" placeholder="Cheeque no"  required/>
+                      </div>
+                      <div>
+                        <small>Amount</small>
+                        <nz-input-number style="min-width: 100%;" [(ngModel)]="property.token_amount" name="token_amount" nzPlaceHolder="Amount" [nzMin]="1" [nzMax]="property.negotiation_price" [nzStep]="1" required></nz-input-number>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+              <ng-template #notSelectProperty>
+                <tr><td colspan="100%"><strong>Property Not Selected ...</strong></td></tr>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-divider nzPlain></nz-divider>
+        </ng-container>
+        <!--   property Negotiation Price level 8 End-->
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzRequired nzFor="task_type">Type</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Type is Required!">
+            <nz-select nzDisabled nzShowSearch nzAllowClear nzPlaceHolder="Select a type" [(ngModel)]="data.task_type" name="task_type" id="task_type" (ngModelChange)="changeTaskType($event)" required>
+              <nz-option *ngFor="let type of data.task_type_list" [nzLabel]="type.step" [nzValue]="type.id" ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzFor="sub_type">Sub Type</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Sub Type is Required!">
+            <nz-select [nzDisabled]="sub_type.length ==0?true:false" nzShowSearch nzAllowClear nzPlaceHolder="Select a Sub Type" [(ngModel)]="data.sub_type" name="sub_type" id="sub_type">
+              <nz-option *ngFor="let sub_types of sub_type"  [nzLabel]="sub_types.sub_type" [nzValue]="sub_types.id"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!--   selected property lavel 5 6 + start-->
+        <nz-container *ngIf="data.task_type == 5 || data.task_type == 6">
+          <nz-divider  nzPlain nzText="Property" nzOrientation="left"></nz-divider>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="select_property">Select Property</nz-form-label>
+            <nz-form-control [nzSm]="18" [nzXs]="24">
+              <ng-container *ngIf="data.select_property_list.length > 0;else notSelectProperty">
+                  <table class="table table-sm bg-white">
+                    <thead>
+                      <tr>
+                        <td>. . .</td>
+                        <td>Image</td>
+                        <td>PID</td>
+                        <td>Property Name</td>
+                        <td>Type</td>
+                        <td class="text-center">Price</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let property of data.select_property_list">
+                        <td class="align-middle" >
+                          <label *ngIf="data.task_type == 6" nz-checkbox [(ngModel)]="property.choose_property" [name]="property.choose_property"></label>
+                        </td>
+                        <td class="align-middle">
+                          <img *ngIf="property.save_type == 'for_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                          <img *ngIf="property.save_type == 'for_rent'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                          <img *ngIf="property.save_type == 'for_land_sale'" [src]="rootUrl + property.property_thumbnail?.url" height="30px" width="30px">
+                        </td>
+                        <td class="align-middle">
+                          <strong *ngIf="property.deal_close == 0">{{property.listing_id?property.listing_id:property.property_id}}</strong>
+                          <strong class="text-danger" *ngIf="property.deal_close == 1"><del>{{property.listing_id?property.listing_id:property.property_id}}</del></strong>
+                        </td>
+                        <td class="align-middle">
+                          <strong *ngIf="property.deal_close == 0">{{property.title}}</strong>
+                          <strong class="text-danger" *ngIf="property.deal_close == 1"><del>{{property.title}}</del></strong>
+                        </td>
+                        <td class="align-middle">
+                          <span *ngIf="property.save_type == 'for_sale' && property.deal_close == 0">FSP</span>
+                          <span *ngIf="property.save_type == 'for_rent' && property.deal_close == 0">FRP</span>
+                          <span *ngIf="property.save_type == 'for_land_sale' && property.deal_close == 0">FLSP</span>
+                          <span class="text-danger" *ngIf="property.save_type == 'for_sale' && property.deal_close == 1"><del>FSP</del></span>
+                          <span class="text-danger" *ngIf="property.save_type == 'for_rent' && property.deal_close == 1"><del>FRP</del></span>
+                          <span class="text-danger" *ngIf="property.save_type == 'for_land_sale' && property.deal_close == 1"><del>FLSP</del></span>
+                        </td>
+                        <td class="align-middle text-right">
+                          <strong *ngIf="property.save_type == 'for_sale'">
+                            <span *ngIf="property.price_contact?.offer_price && property.deal_close == 0">{{property.price_contact?.offer_price|number:'.2'}}</span>
+                            <span class="text-danger" *ngIf="property.price_contact?.offer_price && property.deal_close == 1"><del>{{property.price_contact?.offer_price|number:'.2'}}</del></span>
+                          </strong>
+                          <strong *ngIf="property.save_type == 'for_rent'">
+                            <span *ngIf="property.price_contact?.monthly_rent && property.deal_close == 0">{{property.price_contact?.monthly_rent|number:'.2'}}</span>
+                            <span class="text-danger" *ngIf="property.price_contact?.monthly_rent && property.deal_close == 1"><del>{{property.price_contact?.monthly_rent|number:'.2'}}</del></span>
+                          </strong>
+                          <strong *ngIf="property.save_type == 'for_land_sale'">
+                            <span *ngIf="property.price_contact?.offer_price && property.deal_close == 0">{{property.price_contact?.offer_price|number:'.2'}}</span>
+                            <span class="text-danger"  *ngIf="property.price_contact?.offer_price && property.deal_close == 1"><del>{{property.price_contact?.offer_price|number:'.2'}}</del></span>
+                          </strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </ng-container>
+              <ng-template #notSelectProperty>
+                <tr><td colspan="100%"><strong>Property Not Selected ...</strong></td></tr>
+              </ng-template>
+              <a nz-button nzType="default" (click)="openBrowseModel(data.lead)">
+                {{data.select_property_list.length > 0?'Change Property':'Browse Property'}}
+              </a>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-divider  nzPlain></nz-divider>
+        </nz-container>
+        <!--   selected property lavel 5 6 + end-->
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="location">Location</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24"  nzErrorTip="Location is Required!">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select an option" class="w-100" [(ngModel)]="data.location" name="location" id="location">
+              <nz-option nzLabel="In-door" nzValue="1"></nz-option>
+              <nz-option nzLabel="Out-door" nzValue="2"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzRequired nzFor="complete_date">Complete Date</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24"  nzErrorTip="Complete date is Required!">
+            <nz-date-picker class="w-100" [nzShowTime]="{ nzFormat: 'HH:mm:ss' }" #endDatePicker  [nzDisabledDate]="disabledEndDate"  [(ngModel)]="dateValue" name="complete_date" #complete_date="ngModel" id="complete_date" required placeholder="Date" nzDisabled></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24"  class="text-left" nzFor="attachment">Attachment</nz-form-label>
+          <nz-form-control [nzSm]="18" [nzXs]="24" >
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIcon">
+              <input type="file" style="padding: 1px;" (change)="Changed($event)" #fileInput nz-input id="attachment"/>
+            </nz-input-group>
+            <ng-template #suffixIcon>
+              <a nz-button nzType="primary" nzDanger (click)="removeFile()">
+                <i class="fa fa-times text-white"></i>
+              </a>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="client" class="text-left" nzRequired>Step Action</nz-form-label>
+          <nz-radio-group  [(ngModel)]="data.step_action" (ngModelChange)="ChangedStepAction($event)"  name="step_action" id="step_action"  #step_action="ngModel">
+            <label nz-radio [nzValue]="0">Reschedule</label>
+            <label nz-radio [nzValue]="1">Next Step</label>
+          </nz-radio-group>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzFor="comments">Comments</nz-form-label>
+          <nz-form-control>
+            <textarea nz-input [(ngModel)]="data.comments" name="comments" id="comments"  #comments="ngModel" placeholder="Comments"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+        <ng-container *ngIf="data.next_task_list_count">
+          <nz-divider *ngIf="showNextAction" nzText="Next Task" nzOrientation="left"></nz-divider>
+          <nz-form-item *ngIf="showNextAction">
+            <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzRequired nzFor="next_task">Next Task</nz-form-label>
+            <nz-form-control nzErrorTip="Next task is Required!">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Next Task" class="w-100" [(ngModel)]="data.next_task" name="next_task" id="next_task"  (ngModelChange)="changeTaskStatus($event)" required>
+                <nz-option *ngFor="let next_task of data.next_task_list" [nzLabel]="next_task.step" [nzValue]="next_task.id"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzRequired nzFor="new_assign_date">Assign date</nz-form-label>
+            <nz-form-control nzErrorTip="Complete date is Required!">
+              <nz-date-picker class="w-100" [nzShowTime]="{ nzFormat: 'HH:mm:ss' }"  #AssignDatePicker [nzDisabledDate]="disabledAssignDate"  [(ngModel)]="assignDateValue" name="new_assign_date" #new_assign_date="ngModel" id="new_assign_date" required placeholder="Assign Date"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <ng-container  *ngIf="showNextAction">
+            <nz-form-item>
+              <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzRequired nzFor="classification">Classification</nz-form-label>
+              <nz-form-control nzErrorTip="Classification is Required!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select an option" class="w-100" [(ngModel)]="data.classification" name="classification"  #classification="ngModel" id="classification" required>
+                  <nz-option *ngFor="let classify of data.task_classify" [nzLabel]="classify.classification" [nzValue]="classify.id"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item *ngIf="showDealClose">
+              <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzRequired nzFor="deal_close">Deal close</nz-form-label>
+              <nz-form-control nzErrorTip="Deal close is Required!">
+                <nz-radio-group [(ngModel)]="data.deal_close" name="deal_close" id="deal_close" required>
+                  <label nz-radio nzValue="2">Success</label>
+                  <label nz-radio nzValue="3">Failed</label>
+                </nz-radio-group>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item *ngIf="showDealClose && data.deal_close ==3">
+              <nz-form-label [nzSm]="6" [nzXs]="24" class="text-left" nzRequired nzFor="deal_close_type">Deal Close Type</nz-form-label>
+              <nz-form-control nzErrorTip="Deal Close Type is Required!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Deal Close Type" class="w-100" [(ngModel)]="data.deal_close_type" name="deal_close_type" id="deal_close_type"  required>
+                  <nz-option  [nzLabel]="'Cannot Reached'" [nzValue]="'Cannot Reached'"></nz-option>
+                  <nz-option  [nzLabel]="'Not Interested'" [nzValue]="'Not Interested'"></nz-option>
+                  <nz-option  [nzLabel]="'Future Opportunity'" [nzValue]="'Future Opportunity'"></nz-option>
+                  <nz-option  [nzLabel]="'Agent & Media'" [nzValue]="'Agent & Media'"></nz-option>
+                  <nz-option  [nzLabel]="'Bad Leads'" [nzValue]="'Bad Leads'"></nz-option>
+                  <nz-option  [nzLabel]="'Insufficient Budget'" [nzValue]="'Insufficient Budget'"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+    <button type="submit" [disabled]="!stepForm.form.valid" class="btn btn-sm btn-default text-white">
+      <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+    </button>
+  </mat-dialog-actions>
+</form>

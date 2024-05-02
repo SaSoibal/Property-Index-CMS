@@ -1,0 +1,186 @@
+
+<div *ngIf="pageBuffer" class="loader"></div>
+<div *ngIf="permission('read')">
+    <input  nz-input  placeholder="Search..." type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+    <div class="table-responsive" >
+      <table class="table table-hover table-bordered table-sm  table--darker">
+        <thead>
+        <tr>
+          <th class="text-center align-middle" *ngIf="permission('update') || permission('delete')">Action</th>
+
+          <th class="align-middle" (click)="sort('id')">
+            <i *ngIf="sortColumn==='id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Project ID
+          </th>
+          <th class="align-middle" (click)="sort('image')">
+            <i *ngIf="sortColumn==='image' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='image' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Seller Name
+          </th>
+          <th class="align-middle" (click)="sort('title_en')">
+            <i *ngIf="sortColumn==='title_en' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='title_en' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Seller Number
+          </th>
+          <th class="align-middle" (click)="sort('create_by')">
+            <i *ngIf="sortColumn==='create_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='create_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Purpose
+          </th>
+          <th class="align-middle" (click)="sort('created_at')">
+            <i *ngIf="sortColumn==='created_at' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='created_at' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Product Type 
+          </th>
+          <th class="align-middle" (click)="sort('update_by')">
+            <i *ngIf="sortColumn==='update_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='update_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Address
+          </th>
+          <th class="align-middle" (click)="sort('updated_at')">
+            <i *ngIf="sortColumn==='updated_at' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='updated_at' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Square Feet (Sqft)
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Block
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Sector
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Road
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            House No
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Bedroom
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Bathroom
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Balcony
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Servant Room
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Available Floor
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Facing
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Unit per Floor
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Construction Status
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Developer Name
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Approved
+          </th>
+          <th class="align-middle" (click)="sort('status')">
+            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+            Added by
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngIf="collection.length > 0;else notFound">
+          <tr *ngFor="let dc of collection| paginate: {
+                        currentPage: pageNumber,
+                        itemsPerPage: itemPerPage,
+                        totalItems: totalrow
+                        } ; index as i;">
+            <td class="align-middle text-center" *ngIf="permission('update') || permission('delete')">
+              <div class="d-flex" style="width:110px">
+                <a *ngIf="permission('read')" (click)="openRedModel(dc)" class="btn btn-sm btn-default text-white  mr-2" placement="top" ngbTooltip="View"><i class="fas fa-eye"></i></a>
+                <a *ngIf="permission('update')" [routerLink]="[ '/data-collector/qc-pending/edit',dc.id]" class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Edit"><i class="fas fa-edit"></i></a>
+                <a *ngIf="permission('delete')" (click)="opendeleteModel(dc)" class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Delete"><i class="fas fa-trash"></i></a>
+              </div>
+            </td>
+            <td class="align-middle text-center">{{getSL(i+1)}}</td>
+            <td class="align-middle m-width-150">{{dc.seller_name}}</td>
+            <td class="align-middle">{{dc.seller_number}}</td>
+            <td class="align-middle">{{dc.purpose==1?'Sales':'Rent'}}</td>
+            <td class="align-middle">
+              {{dc.type_of_Product==1?'Residential':'Commercial'}}
+              <span *ngIf="dc.product">({{dc.product}})</span>
+            </td>
+            <td class="align-middle m-width-300">{{dc.property_address}}</td>
+            <td class="align-middle">{{dc.square_feet}}</td>
+            <td class="align-middle m-width-100">{{dc.block}}</td>
+            <td class="align-middle">{{dc.sector}}</td>
+            <td class="align-middle">{{dc.road}}</td>
+            <td class="align-middle">{{dc.house_no}}</td>
+            <td class="align-middle">{{dc.bedroom}}</td>
+            <td class="align-middle">{{dc.bathroom}}</td>
+            <td class="align-middle">{{dc.balcony}}</td>
+            <td class="align-middle">{{dc.servant_room}}</td>
+            <td class="align-middle">{{dc.available_floor}}</td>
+            <td class="align-middle m-width-150">{{dc.facing}}</td>
+            <td class="align-middle">{{dc.unit_per_floor}}</td>
+            <td class="align-middle">
+              {{dc?.construction_status?.construction_status}}
+            </td>
+            <td class="align-middle">{{dc.developer_name}}</td>
+            <td class="align-middle">
+              <p class="badge status_btn text-wrap mb-0 badge-info" *ngIf="dc.status == 0">Pending</p>
+            </td>
+            <td class="align-middle m-width-150">
+              {{dc.created_by?dc.created_by.name:''}}
+            </td>
+
+          </tr>
+        </ng-container>
+        <ng-template  #notFound>
+          <tr>
+            <td colspan="100%" class="text-danger">Data Not Found ...</td>
+          </tr>
+        </ng-template>
+        </tbody>
+      </table>
+    </div>
+  </div><br>
+    <mat-paginator
+      [length]="totalrow"
+      [pageSize]="itemPerPage"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="pageEvent($event)">
+    </mat-paginator>
+

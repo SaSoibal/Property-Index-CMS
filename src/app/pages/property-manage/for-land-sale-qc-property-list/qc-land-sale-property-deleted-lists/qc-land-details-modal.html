@@ -1,0 +1,217 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Property Preview</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row">
+      <div class="col-md-12">
+        <nz-tabset nzType="editable-card" nzHideAdd >
+          <nz-tab [nzTitle]="'Basic Info'">
+            <table class="table table-sm">
+              <tr>
+                <td width="200">Property Id</td><td>:</td><td>{{data.details.property_id}}</td>
+              </tr>
+              <tr *ngIf="data.details.reference_id">
+                <td class="align-middle">Reference Id</td>
+                <td class="align-middle">:</td>
+                <td>
+                  Refer Id: {{data.details.reference_id?data.details.reference_id:'- - -'}} <br>
+                  DC Name: {{data.details.dc_info?.name}}  <br>
+                  DC Email: {{data.details.dc_info?.email}} <br>
+                  DC Phone: {{data.details.dc_info?.phone}}
+                </td>
+              </tr>
+              <tr>
+                <td>Listing Id</td><td>:</td><td>{{data.details.listing_id?data.details.listing_id:'- - -'}}</td>
+              </tr>
+              <tr>
+                <td>Property Title</td><td>:</td><td>{{data.details.title?data.details.title:''}}</td>
+              </tr>
+              <tr>
+                <td>Type</td><td>:</td><td>{{data.details.leads_type == 0 ?'Primary':'Secondary'}}</td>
+              </tr>
+              <tr>
+                <td>Rent Type</td><td>:</td><td>
+                  {{data.details.rent_type==1?'Residential':'Commercial'}} <span *ngIf="data.details.product">({{data.details.product}})</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Property Type</td><td>:</td><td>{{data.details.property_type==1?'Free Hold':''}}{{data.details.property_type==2?'Lease Hold':''}}</td>
+              </tr>
+              <tr *ngIf="data.details.leads_type == 0">
+                <td>Project Name</td><td>:</td><td>{{data.details.project_name?(data.details.project_name?.project_name):''}}</td>
+              </tr>
+              <tr *ngIf="data.details.leads_type == 0">
+                <td>Project Type</td><td>:</td><td>{{data.details.project_type?(data.details.project_type?.type):''}}</td>
+              </tr>
+              <tr>
+                <td>Property Location</td><td>:</td><td>{{data.details.location?data.details.location.location:''}}</td>
+              </tr>
+              <tr>
+                <td>City</td><td>:</td><td>{{data.details.cities?data.details.cities.city:''}}</td>
+              </tr>
+              <tr>
+                <td>Area</td><td>:</td><td>{{data.details.areas?data.details.areas.area_name:''}}</td>
+              </tr>
+              <tr>
+                <td>Block</td><td>:</td><td>{{data.details.block}}</td>
+              </tr>
+              <tr>
+                <td>Sector</td><td>:</td><td>{{data.details.sector}}</td>
+              </tr>
+              <tr>
+                <td>Road</td><td>:</td><td>{{data.details.road}}</td>
+              </tr>
+              <tr>
+                <td>Road Size</td><td>:</td><td>{{data.details.road_size}}</td>
+              </tr>
+              <tr>
+                <td>Plot No</td><td>:</td><td>{{data.details.plot_no}}</td>
+              </tr>
+              <tr>
+                <td>Plot Size</td><td>:</td><td>{{data.details.plot_size}}</td>
+              </tr>
+              <tr>
+                <td>Facing</td><td>:</td><td>{{data.details.facing}}</td>
+              </tr>
+              <tr>
+                <td>Category</td><td>:</td><td>{{data.details.category}}</td>
+              </tr>
+              <tr>
+                <td>Plot Boundary</td><td>:</td><td>{{data.details.plot_boundary}}</td>
+              </tr>
+
+              <tr *ngIf="data.details.property_registration">
+                <td>Property Registration</td><td>:</td><td>{{propertyRegistration(data.details.property_registration)}}</td>
+              </tr>
+              <tr *ngIf="data.details.paper_status">
+                <td>Paper status</td><td>:</td><td>{{paperStatus(data.details.paper_status)}}</td>
+              </tr>
+              <tr>
+                <td>Description</td><td>:</td><td>{{data.details.description}}</td>
+              </tr>
+              <tr>
+                <td>Property Address</td><td>:</td><td>{{data.details.property_address}}</td>
+              </tr>
+              <tr>
+                <td>lat & Long</td><td>:</td><td>{{data.details.latitude}} - {{data.details.longitude}}</td>
+              </tr>
+              <tr>
+                <td>Status</td><td>:</td><td>
+                   <p class="badge status_btn text-wrap mb-0 badge-danger" *ngIf="data.details.status == 5">Deleted</p>
+                </td>
+              </tr>
+              <tr>
+                <td>Created By</td><td>:</td><td>{{data.details.created_by?data.details.created_by.name:''}}{{data.details.created_at|date:"mediumDate"}}</td>
+              </tr>
+              <tr *ngIf="data.details.updated_by">
+                <td>Updated by</td><td>:</td><td>{{data.details.updated_by?data.details.updated_by.name:''}}{{data.details.updated_at|date:"mediumDate"}}</td>
+              </tr>
+              <tr *ngIf="data.details.approved_by">
+                <td>Deleted by</td><td>:</td><td>{{data.details.approved_by?data.details.approved_by.name:''}} | {{data.details.approved_at|date:"mediumDate"}}</td>
+              </tr>
+              <tr *ngIf="data.details.latitude && data.details.longitude">
+                <td colspan="3">
+                  <iframe width="100%" height="300" [src]="this.sanitizer.bypassSecurityTrustResourceUrl('https://maps.google.com/maps?q='+data.details.latitude+','+data.details.longitude+'&hl=en&z=14&amp;output=embed')" allowfullscreen >
+                  </iframe>
+                </td>
+              </tr>
+            </table>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Image & Video'">
+            <div class="row">
+              <div class="col-md-4  mb-3">
+                <div class="card">
+                  <img class="card-img-top" style="background: #0c1549;height:200px;" src="{{data.details.property_thumbnail?rootUrl+'/property/'+data.details.property_thumbnail.url:'./assets/img/brand/logo.png'}}"/>
+                  <div class="card-body  p-2">
+                    <p class="card-text">Thumbnail</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4  mb-3">
+                <div class="card">
+                  <img  class="card-img-top" style="background: #0c1549;height:200px;" src="{{data.details.floorplan?rootUrl+'/property/'+data.details.floorplan.url:'./assets/img/brand/logo.png'}}"/>
+                  <div class="card-body  p-2">
+                    <p class="card-text">Area Map</p>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="data.details.imagevideo.length > 0">
+                <div class="col-md-4 mb-3" *ngFor="let imgvdo of data.details.imagevideo">
+                  <div class="card">
+                    <ng-container *ngIf="getFileType(imgvdo) === 'image'">
+                      <img class="card-img-top" style="background: #0c1549;height:200px;" src="{{imgvdo.url?rootUrl+'/property/'+imgvdo.url:'./assets/img/brand/logo.png'}}"/>
+                    </ng-container>
+                    <ng-container *ngIf="getFileType(imgvdo) === 'video'">
+                      <video width="" height="200px" controls>
+                        <source [src]="rootUrl+'/property/'+imgvdo.url" type="video/mp4">
+                        <source [src]="rootUrl+'/property/'+imgvdo.url" type="video/3gp">
+                        <source [src]="rootUrl+'/property/'+imgvdo.url" type="video/mov">
+                        <source [src]="rootUrl+'/property/'+imgvdo.url" type="video/ogg">
+                      </video>
+                    </ng-container>
+                    <div class="card-body p-2">
+                      <p class="card-text">{{getFileType(imgvdo)|titlecase}}</p>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Price and Contact'">
+            <table class="table table-sm">
+              <tr><td width="50%">Offer price</td><td>:</td><td> {{data.price_contact?data.price_contact.offer_price:'0.00'}} </td></tr>
+              <tr><td>Bottom price</td><td>:</td><td> {{data.price_contact?data.price_contact.bottom_price:'0.00'}} </td></tr>
+              <tr><td>Property owner commission Fixed</td><td>:</td><td> {{data.price_contact?data.price_contact.property_owner_commission_fixed:'0'}} Fixed</td></tr>
+              <tr><td>Property owner commission percentage</td><td>:</td><td> {{data.price_contact?data.price_contact.property_owner_commission_percent:'0'}} %</td></tr>
+              <tr><td>Property owner commission Amount</td><td>:</td><td> {{data.price_contact?data.price_contact.property_owner_commission_amount:'0'}} </td></tr>
+              <tr>
+                <td>Property channel</td><td>:</td><td>
+                 <ng-container *ngIf="data?.price_contact">
+                   {{data.price_contact?.property_channel==1?'In-house':''}}
+                   {{data.price_contact?.property_channel==2?'Company':''}}
+                   {{data.price_contact?.property_channel==3?'Agent & Media':''}}
+                 </ng-container>
+                </td>
+              </tr>
+              <tr><td>Product person</td><td>:</td><td> {{data.price_contact?data.price_contact.product_person:''}} </td></tr>
+              <tr><td>Source</td><td>:</td><td> {{data.price_contact?data.price_contact.source:''}} </td></tr>
+              <ng-container *ngIf="data.price_contact?.property_channel == 1 || data.price_contact?.property_channel == 2 || data.price_contact?.property_channel == 3">
+                <tr *ngIf="data.price_contact?.property_channel == 2"><td>Company name</td><td>:</td><td> {{data.price_contact?data.price_contact.company_name:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 2"><td>Company website</td><td>:</td><td> {{data.price_contact?data.price_contact.company_website:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 2"><td>Designation</td><td>:</td><td> {{data.price_contact?data.price_contact.designation:''}} </td></tr>
+                <tr><td>Contact person</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_person:''}} </td></tr>
+                <tr><td>Contact number</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_number:''}} </td></tr>
+                <tr><td>Contact address</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_address:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 2"><td>Zip Code</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_zipcode:''}} </td></tr>
+                <tr><td>Contact Email</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_email:''}} </td></tr>
+                <tr><td>Phone Number</td><td>:</td><td> {{data.price_contact?data.price_contact.contact_phone_no:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 2 || data.price_contact?.property_channel == 3"><td>Alternative Contact</td><td>:</td><td> {{data.price_contact?data.price_contact.alternative_contact_no:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 1"><td>Representative Name</td><td>:</td><td> {{data.price_contact?data.price_contact.representative_name:''}} </td></tr>
+                <tr *ngIf="data.price_contact?.property_channel == 1">
+                  <td>Agreement Upload</td>
+                  <td>:</td>
+                  <td>
+                    <ng-container *ngIf="data.price_contact?.agreement_upload.length > 0">
+                      <a *ngFor="let ag_file of data.price_contact.agreement_upload;index as i" [href]="rootUrl+'/property/'+ag_file.url" nz-button nzType="default" download target="_blank" class="mr-2"><i class="fa fa-download mr-2"> </i> File {{i+1}} </a>
+                    </ng-container>
+                  </td>
+                </tr>
+              </ng-container>
+            </table>
+          </nz-tab>
+          <nz-tab [nzTitle]="'Extra Information'">
+            <h4><strong>Other Information:</strong></h4>
+            <div [innerHTML]="data.other?.others_info"></div>
+          </nz-tab>
+        </nz-tabset>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+  </mat-dialog-actions>

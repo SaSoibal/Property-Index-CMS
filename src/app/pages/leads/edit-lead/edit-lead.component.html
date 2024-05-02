@@ -1,0 +1,520 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <div *ngIf="pageBuffer" class="loader"></div>
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+ 
+          <div class="card-header">
+            <div class="row">
+              <div class="col d-flex justify-content-between">
+                <div class="">
+                  <h3 class="mb-0">Edit client / Lead</h3>
+                </div>
+                <div style="display: inherit;">
+                    <nz-select  style="width:200px;" [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)">
+                      <ng-container>
+                        <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
+                      </ng-container>
+                    </nz-select>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <form (ngSubmit)="submitLeadsForm()" [formGroup]="createLeadsForm">
+            <div class="card-body border-0" *ngIf="permission('read')">
+                <div class="row">
+                  <div class="col-md-12">
+                      <!-- CLIENT DETAILS -->
+                      <nz-card nzTitle="CLIENT DETAILS">
+                        <div class="row">
+                          <div class="col-md-10 col-xs-12">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="client" nzRequired>CLIENT</nz-form-label>
+                              <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Please input Affiliate name!">
+                                <nz-radio-group  formControlName="client">
+                                  <label nz-radio nzValue="0">New</label>
+                                  <label nz-radio nzValue="1">Existing</label>
+                                </nz-radio-group>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-10 col-xs-12">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cell_no" nzRequired>CELL NO</nz-form-label>
+                              <nz-form-control [nzSm]="18" [nzXs]="24" [nzValidateStatus]="createLeadsForm.controls['cell_no']"
+                                nzErrorTip="Please input cell number!"
+                              >
+                                <nz-input-group nzCompact>
+                                  <nz-select  nzShowSearch nzAllowClear  formControlName="country_code" style="width:20%;">
+                                    <nz-option *ngFor="let country of country" [nzLabel]="country.phone_code" [nzValue]="country.id"></nz-option>
+                                  </nz-select>
+                                  <input type="number" nz-input formControlName="cell_no" style="width: 55%;" />
+                                  <nz-button-group>
+                                    <a nz-button nzType="primary" (click)="searchInput()" [nzSize]="small">
+                                      <i class="fas fa-search text-white"></i>
+                                    </a>
+                                    <a nz-button nzType="danger" (click)="clearInput()"  [nzSize]="small">
+                                      <i class="fas fa-times"></i>
+                                    </a>
+                                  </nz-button-group>
+                                </nz-input-group>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-12">
+                            <nz-alert *ngIf="notExistsMessage" nzType="success" nzMessage="{{notExistsMessage}}"></nz-alert>
+                            <nz-alert *ngIf="existsMessage" nzType="warning" nzMessage="{{existsMessage}}"></nz-alert>
+
+                          </div>
+                        </div>
+                      </nz-card>
+
+                      <!-- CLIENT INFORMATION -->
+                      <nz-card style="margin-top: 25px;" nzTitle="CLIENT INFORMATION">
+                        <div class="row">
+                          <div class="col-md-6">
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="information_type" nzRequired>INFO TYPE</nz-form-label>
+                                <nz-radio-group  (ngModelChange)="informationType($event)" formControlName="information_type" id="information_type">
+                                  <label nz-radio nzValue="0">Direct</label>
+                                  <label nz-radio nzValue="1">Affiliate</label>
+                                </nz-radio-group>
+                              </nz-form-item>
+                          </div>
+                          <div class="col-md-6" *ngIf="showAffiletInput == 1">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="affiliate_name">AFFILIATE NAME</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input Affiliate name!">
+                                <input nz-input formControlName="affiliate_name" id="affiliate_name" />
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzRequired nzFor="full_name">FULL NAME</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input full name!">
+                                <input nz-input formControlName="full_name" id="full_name" />
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzRequired nzFor="gender">GENDER</nz-form-label>
+                              <nz-form-control  [nzSm]="15" [nzXs]="24" nzErrorTip="Please select gender!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="gender" id="gender">
+                                  <nz-option nzLabel="Male" nzValue="male"></nz-option>
+                                  <nz-option nzLabel="Female" nzValue="female"></nz-option>
+                                  <nz-option nzLabel="Other" nzValue="other"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="govt_id">GOVT ID</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input GOVT ID!">
+                                <input nz-input formControlName="govt_id" id="govt_id"/>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="passport_no">PASSPORT NO</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24">
+                                <input nz-input formControlName="passport_no" id="passport_no"/>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="email">EMAIL ADDRESS</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input email address!">
+                                <input nz-input formControlName="email" id="email"/>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzRequired nzFor="phone_no">PHONE NO</nz-form-label>
+                                <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input cell number!" [nzValidateStatus]="createLeadsForm.controls['phone_no']">
+                                  <nz-input-group nzCompact>
+                                    <nz-select  nzShowSearch nzAllowClear formControlName="phone_code" id="phone_code" style="width:30%;">
+                                      <nz-option *ngFor="let country of country" [nzLabel]="country.phone_code" [nzValue]="country.id"></nz-option>
+                                    </nz-select>
+                                    <input type="number" nz-input formControlName="phone_no" id="phone_no" style="width:70%;" />
+                                  </nz-input-group>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="country">COUNTRY</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select country!">
+                                <nz-select  nzShowSearch nzAllowClear  formControlName="country" id="country">
+                                  <nz-option *ngFor="let country of country" [nzLabel]="country.name" [nzValue]="country.id"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item  *ngIf="filter_no">
+                              <nz-form-label [nzSm]="9" [nzXs]="24">SEARCH TO</nz-form-label>
+                                <nz-form-control >
+                                <a nz-button nzType="primary" (click)="clickToAddBtn()" nzShape="circle" class="mr-2" [nzSize]="small">
+                                  <i class="fas fa-plus text-white"></i>
+                                </a>
+                                <a nz-button nzType="dashed" [nzSize]="small" nzShape="round"><strong>{{filter_no}}</strong></a>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="date_of_birth">DATE OF BIRTH</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input date of birth!">
+                                <nz-date-picker formControlName="date_of_birth" id="date_of_birth" class="w-100"></nz-date-picker>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24">DOB GREETING</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24">
+                                <label nz-checkbox  formControlName="dob_greeting_sms"  [ngModel]="false">SMS</label>
+                                <label nz-checkbox  formControlName="dob_greeting_email" [ngModel]="false">EMAIL</label>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="attachment">ATTACHMENT</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24">
+                                <nz-input-group nzSearch [nzAddOnAfter]="suffixIcon">
+                                  <input type="file" style="padding: 1px;" (change)="Changed($event)" #fileInput nz-input id="attachment"/>
+                                </nz-input-group>
+                                <ng-template #suffixIcon>
+                                  <a nz-button nzType="primary" nzDanger (click)="removeFile()">
+                                    <i class="fa fa-times text-white"></i>
+                                  </a>
+                                </ng-template>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                        </div>
+                      </nz-card>
+
+                      <!-- CLIENT TYPE -->
+                      <nz-card style="margin-top: 15px;" >
+                        <div class="row">
+                          <div class="col-md-6">
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="client_type">CLIENT TYPE</nz-form-label>
+                                  <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select client type!">
+                                    <nz-select nzShowSearch nzAllowClear formControlName="client_type" id="client_type">
+                                      <nz-option *ngFor="let clint of client_type" [nzLabel]="clint.client_type" [nzValue]="clint.id"></nz-option>
+                                    </nz-select>
+                                  </nz-form-control>
+                              </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="client_occupation">OCCUPATION</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select occupation!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="client_occupation" id="client_occupation">
+                                  <nz-option *ngFor="let occu of occupation" [nzLabel]="occu.occupation" [nzValue]="occu.id"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item class="d-none">
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="client_rating">CLIENT RATING</nz-form-label>
+                                <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select client rating!">
+                                  <nz-select nzShowSearch nzAllowClear formControlName="client_rating" id="client_rating">
+                                    <nz-option *ngFor="let rating of client_rating" [nzLabel]="rating.rating" [nzValue]="rating.id"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="classification" nzRequired>CLASSIFICATION</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select classification!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="classification" id="classification">
+                                  <nz-option *ngFor="let classific of classification" [nzLabel]="classific.classification" [nzValue]="classific.id"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="select_source" nzRequired>SELECT SOURCE</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select source!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="select_source" id="select_source">
+                                  <nz-option *ngFor="let source of select_source" [nzLabel]="source.source" [nzValue]="source.id"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                        </div>
+                      </nz-card>
+
+                      <!-- LEAD / OPPORTUNITY -->
+                      <nz-card style="margin-top: 25px;" nzTitle="LEAD / OPPORTUNITY">
+                        <div class="row">
+                          <div class="col-md-6">
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="leads_type" nzRequired>LEAD TYPE</nz-form-label>
+                                <nz-radio-group    (ngModelChange)="leadsTypeChange($event)" formControlName="leads_type" id="leads_type">
+                                  <label nz-radio nzValue="0">Primary</label>
+                                  <label nz-radio nzValue="1">Secondary</label>
+                                </nz-radio-group>
+                              </nz-form-item>
+
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="9" [nzXs]="24" class="ant-label" nzFor="product_type">
+                                    <span>PRODUCT TYPE</span>
+                                </nz-form-label>
+                                <nz-form-control [nzSm]="15" [nzXs]="24">
+                                    <div class="card">
+                                        <div class="card-header pb-2">
+                                          <nz-radio-group  formControlName="product_type" id="product_type" (ngModelChange)="changeProductName($event)">
+                                            <label nz-radio [nzValue]="1">Residential</label>
+                                            <label nz-radio [nzValue]="2">Commercial</label>
+                                          </nz-radio-group>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                          <li class="list-group-item pl-4">
+                                              <nz-radio-group  formControlName="product" id="product">
+                                                <ng-container *ngIf="show_type_of_product == 1">
+                                                  <label nz-radio [nzValue]="'apartments'">Apartments</label><br>
+                                                  <label nz-radio [nzValue]="'rooms'">Rooms</label><br>
+                                                  <label nz-radio [nzValue]="'penthouses'">Penthouses</label><br>
+                                                </ng-container>
+                                                <ng-container *ngIf="show_type_of_product == 2">
+                                                    <label nz-radio [nzValue]="'offices'">Offices</label><br>
+                                                    <label nz-radio [nzValue]="'shops'">Shops</label><br>
+                                                    <label nz-radio [nzValue]="'open floor'">Open floor</label><br>
+                                                    <label nz-radio [nzValue]="'office apartments'">Office apartments</label><br>
+                                                </ng-container>   
+                                                    <label nz-radio [nzValue]="'duplex'">Duplex</label><br>
+                                                    <label nz-radio [nzValue]="'piazas'">Piazas</label><br>
+                                                    <label nz-radio [nzValue]="'buildings'">Buildings</label><br>
+                                                    <label nz-radio [nzValue]="'plots'">Plots</label><br>
+                                                <ng-container *ngIf="show_type_of_product == 2">
+                                                  <label nz-radio [nzValue]="'warehouse'">Warehouse</label><br>
+                                                  <label nz-radio [nzValue]="'factory'">Factory</label><br>
+                                                </ng-container>
+                                            </nz-radio-group>
+                                          </li>
+                                        </ul>
+                                    </div>
+                                </nz-form-control>
+                              </nz-form-item>
+
+                            <nz-form-item *ngIf="showProjectInput == 0">
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="project">PROJECT</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select project!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="project" id="project">
+                                  <nz-option *ngFor="let projects of project" [nzLabel]="projects.project_name" [nzValue]="projects.id"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item *ngIf="showProjectInput == 0">
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="project_type">PROJECT TYPE</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select Project Type!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="project_type" id="project_type" (ngModelChange)="changeProjectType($event)">
+                                  <nz-option *ngFor="let types of project_type" [nzLabel]="types.type" [nzValue]="types.id"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="property_type">PROPERTY TYPE</nz-form-label>
+                              <nz-radio-group formControlName="property_type" id="property_type">
+                                <label nz-radio [nzValue]="1">Free Hold</label>
+                                <label nz-radio [nzValue]="2">Lease Hold</label>
+                              </nz-radio-group>
+                            </nz-form-item>
+                          </div>
+
+                        </div>
+
+                      </nz-card>
+
+                      <!-- LEAD Details -->
+                      <nz-card style="margin-top: 25px;" nzTitle="LEAD DETAILS">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="location">LOCATION</nz-form-label>
+                              <nz-form-control  [nzSm]="15" [nzXs]="24" nzErrorTip="The input is Required!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="location" id="location">
+                                  <nz-option *ngFor="let loc of location_list" [nzLabel]="loc.location" [nzValue]="loc.id"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+  
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="block_sector">BLOCK / SECTOR</nz-form-label>
+                              <nz-form-control  [nzSm]="15" [nzXs]="24" >
+                                <input nz-input formControlName="block_sector" id="block_sector" />
+                              </nz-form-control>
+                            </nz-form-item>
+  
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="budget_min" >MINIMUM BUDGET</nz-form-label>
+                              <nz-form-control  [nzSm]="13" [nzXs]="24" >
+                                <input type="text" nz-input formControlName="budget_min" id="budget_min" />
+                              </nz-form-control>
+                              <div [nzSm]="2" class="text-center" style="margin: auto;display: block;">
+                                <a *ngIf="showBudgetMax == false" nz-button nzType="default" (click)="addBudgetMax()">
+                                  <i class="fa fa-plus"></i>
+                                </a>
+                                <a *ngIf="showBudgetMax == true" nz-button nzType="default" (click)="hideBudgetMax()">
+                                  <i class="fa fa-minus"></i>
+                                </a>
+                              </div>
+                            </nz-form-item>
+                            <nz-form-item *ngIf="showBudgetMax">
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="budget_max" >MAXIMUM BUDGET</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="The input is required!">
+                                <input type="text" nz-input formControlName="budget_max" id="budget_max" />
+                              </nz-form-control>
+                            </nz-form-item>
+  
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="minimum_size">MINIMUM SIZE {{productOption?productOption:''}}</nz-form-label>
+                              <nz-form-control  [nzSm]="13" [nzXs]="24" >
+                                <input type="text" nz-input formControlName="minimum_size" id="minimum_size" />
+                              </nz-form-control>
+                              <div [nzSm]="2" class="text-center" style="margin: auto;display: block;">
+                                <a *ngIf="showMaxPrice == false" nz-button nzType="default" (click)="addMaxPrice()">
+                                  <i class="fa fa-plus"></i>
+                                </a>
+                                <a *ngIf="showMaxPrice == true" nz-button nzType="default" (click)="hideMaxPrice()">
+                                  <i class="fa fa-minus"></i>
+                                </a>
+                              </div>
+                            </nz-form-item>
+  
+                            <nz-form-item *ngIf="showMaxPrice">
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="maximum_size" >MAXIMUM SIZE {{productOption?productOption:''}}</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="The input is required!">
+                                <input type="text" nz-input formControlName="maximum_size" id="maximum_size" />
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item *ngIf="typeWiseInput=='flat'">
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="beds">BEDS</nz-form-label>
+                              <nz-form-control  [nzSm]="15" [nzXs]="24" nzErrorTip="The input is required!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="beds" id="beds">
+                                  <nz-option nzValue="" nzLabel="Select beds"></nz-option>
+                                  <nz-option [nzValue]="1" nzLabel="01"></nz-option>
+                                  <nz-option [nzValue]="2" nzLabel="02"></nz-option>
+                                  <nz-option [nzValue]="3" nzLabel="03"></nz-option>
+                                  <nz-option [nzValue]="4" nzLabel="04"></nz-option>
+                                  <nz-option [nzValue]="5" nzLabel="05"></nz-option>
+                                  <nz-option [nzValue]="6" nzLabel="06"></nz-option>
+                                  <nz-option [nzValue]="7" nzLabel="07"></nz-option>
+                                  <nz-option [nzValue]="8" nzLabel="08"></nz-option>
+                                  <nz-option [nzValue]="9" nzLabel="09"></nz-option>
+                                  <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item *ngIf="typeWiseInput=='flat'">
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="baths">BATHS</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="The input is required!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="baths" id="baths">
+                                  <nz-option nzValue="" nzLabel="Select baths"></nz-option>
+                                  <nz-option [nzValue]="1" nzLabel="01"></nz-option>
+                                  <nz-option [nzValue]="2" nzLabel="02"></nz-option>
+                                  <nz-option [nzValue]="3" nzLabel="03"></nz-option>
+                                  <nz-option [nzValue]="4" nzLabel="04"></nz-option>
+                                  <nz-option [nzValue]="5" nzLabel="05"></nz-option>
+                                  <nz-option [nzValue]="6" nzLabel="06"></nz-option>
+                                  <nz-option [nzValue]="7" nzLabel="07"></nz-option>
+                                  <nz-option [nzValue]="8" nzLabel="08"></nz-option>
+                                  <nz-option [nzValue]="9" nzLabel="09"></nz-option>
+                                  <nz-option [nzValue]="10" nzLabel="10"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="lead_status">LEAD STATUS</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="The input is Required!">
+                                <nz-select nzShowSearch nzAllowClear formControlName="lead_status" id="lead_status">
+                                  <nz-option *ngFor="let status of lead_status" [nzLabel]="status.lead_status" [nzValue]="status.id"></nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="subject" nzRequired>SUBJECT</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="The input is Required !">
+                                <input nz-input formControlName="subject" id="subject" />
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                              <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="message">MESSAGE</nz-form-label>
+                              <nz-form-control [nzSm]="15" [nzXs]="24">
+                                <textarea nz-input formControlName="message" id="message"></textarea>
+                              </nz-form-control>
+                            </nz-form-item>
+                          </div>
+                        </div>
+                      </nz-card>
+
+                      <nz-card style="margin-top: 25px;" nzTitle="ADD TASK" class="">
+                        <div class="row">
+                            <div class="col-md-6">
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="team_id">SELECT TEAM </nz-form-label>
+                                <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input Team to!">
+                                  <nz-select  nzShowSearch  formControlName="team_id" id="team_id" (ngModelChange)="teamWiseMember($event)">
+                                    <nz-option *ngFor="let team of team_list" [nzLabel]="team.name" [nzValue]="team.id"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="9" [nzXs]="24" nzFor="allocated_to">ALLOCATED TO</nz-form-label>
+                                <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please input allocated to!">
+                                  <nz-select  nzShowSearch  formControlName="allocated_to" id="allocated_to">
+                                    <nz-option *ngFor="let allocated of team_member" [nzLabel]="allocated.member.name" [nzValue]="allocated.systemuser_id"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              <nz-form-item>
+                                <nz-form-label [nzSm]="9" [nzXs]="24"  nzFor="allocated_date">ALLOCATED DATE</nz-form-label>
+                                <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select allocated date!">
+                                  <nz-date-picker [nzShowTime]="{ nzFormat: 'HH:mm:ss' }"
+                                  style="width: 100%;" formControlName="allocated_date" id="allocated_date"></nz-date-picker>
+                                </nz-form-control>
+                              </nz-form-item>
+                            </div>
+                        </div>
+                      </nz-card>
+                  </div>
+                </div>
+            </div>
+            <div class="card-footer" align="end">
+              <button type="submit" class="btn btn-sm btn-default text-white">
+                <i class="fa fa-save mr-2"></i> {{edit_lead_id?'Update':'Submit'}}
+              </button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Lead Details</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+    <mat-dialog-content class="mat-typography pt-3">
+     <table class="table-sm">
+      <tr> <td>Name</td><td>:</td><td>{{data.user_details.name}}</td></tr>
+      <tr> <td>Team</td><td>:</td><td>{{data.user_details.user_team_member.teams.name}}</td></tr>
+      <tr> <td>Manager</td><td>:</td><td>{{data.user_details.user_team_member.teams.manager.name}}</td></tr>
+      <tr> <td>Leader</td><td>:</td><td>{{data.user_details.user_team_member.teams.leader.name}}</td></tr>
+     </table>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+        <i class="fa fa-times mr-2"></i>Cancel
+      </button>
+    </mat-dialog-actions>

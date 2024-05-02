@@ -1,0 +1,167 @@
+<div class="card shadow">
+  <div *ngIf="pageBuffer" class="loader"></div>
+  <input  nz-input  placeholder="Search By Lead ID,Full name,Phone no,Allocate,
+Project name" type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+  <div class="table-responsive" >
+    <table class="table table-hover table-sm table-striped">
+      <thead>
+      <tr>
+        <th class="m-width-100" *ngIf="permission('update') || permission('delete')">Action</th>
+        <th class="m-width-100">Lead ID</th>
+        <th class="m-width-300">CLIENT</th>
+        <th class="m-width-150">Task</th>
+        <!--                    <th class="m-width-150" *ngIf="taskStep >= 7">Token Amount</th>-->
+        <th class="m-width-250">Follow up act</th>
+        <th class="m-width-200">Lead STAGE & STATUS</th>
+        <th class="m-width-200">ALLOCATED</th>
+        <th class="m-width-200">Classify & source</th>
+        <th class="m-width-200">INTEREST</th>
+        <th class="m-width-200">CREATE DATE</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngIf="collection.length > 0;else notFound">
+        <ng-container *ngFor="let leads of collection| paginate: {
+                      currentPage: pageNumber,
+                      itemsPerPage: itemPerPage,
+                      totalItems: totalrow
+                      } ; index as i;">
+          <tr>
+            <td class="align-middle" *ngIf="permission('update') || permission('delete')">
+              <a nz-button nzType="primary" nzSize="small" (click)="detailsModel(leads)" class="mr-1" placement="top" ngbTooltip="Details" ><i class="ni ni-book-bookmark font-12 text-white"></i></a>
+              <a nz-button nzType="default" nzSize="small" class="mr-1" [routerLink]="[ '/leads/edit-lead',leads.id]"  placement="top" ngbTooltip="Lead Edit" ><i class="fas fa-edit font-12"></i></a>
+            </td>
+            <td class="align-middle">
+              <a>
+                <i class="fa {{today > leads.tasks.allocated_date?'fa-exclamation-triangle':'fa-thermometer-half'}} mr-1"  [ngStyle]="{'color':leads.opportunity.classification?leads.opportunity.classification.color:''}"></i>
+                <strong class="">{{leadNoGenerate(leads.id)}}</strong>
+              </a>
+            </td>
+            <td class="align-middle">
+              <a>
+                <small>
+                  <strong>
+                    <i class="ni ni-single-02 mr-1"></i>
+                    {{leads.information.full_name}}
+                  </strong>
+                </small>
+              </a><br>
+              <small>
+                <i class="fa fa-phone text-success"></i>
+                +{{leads.information.phone_code?leads.information.phone_code.phone_code:''}} {{leads.phone_no}} |
+                <i class="fa fa-phone text-success"></i>
+                +{{leads.information.phone_code?leads.information.phone_code.phone_code:''}} {{leads.information.phone_no}}
+              </small>
+            </td>
+
+            <td class="align-middle">
+              <small>
+                <strong>
+                  <i class="ni ni-time-alarm mr-1"></i>
+                  {{leads.current_task?leads.current_task.step:'NULL'}}
+                </strong>
+              </small><br>
+              <small>
+                <i class="ni ni-calendar-grid-58 mr-1"></i>
+                {{leads.tasks?(leads.tasks.allocated_date|date:'short'):'NULL'}}
+              </small>
+            </td>
+            <!--                        <td class="align-middle" *ngIf="taskStep >= 8">-->
+            <!--                          <small *ngIf="leads.token_receive_amount_type">-->
+            <!--                            <strong>-->
+            <!--                              <i class="ni ni-tag mr-1"></i>-->
+            <!--                              {{leads.token_receive_amount_type==1?'Cash':''}}-->
+            <!--                              {{leads.token_receive_amount_type==2?'Cheque':''}}-->
+            <!--                            </strong>-->
+            <!--                          </small><br>-->
+            <!--                          <small *ngIf="leads.token_receive_amount">-->
+            <!--                            <i class="ni ni-money-coins mr-1"></i>-->
+            <!--                            {{leads.token_receive_amount?leads.token_receive_amount:''}}-->
+            <!--                          </small>-->
+            <!--                        </td>-->
+            <td class="align-middle">
+              <nz-tag placement="top" ngbTooltip="First call">
+                <i class="ni ni-mobile-button"></i> {{leads.first_call}}
+              </nz-tag>
+              <nz-tag placement="top" ngbTooltip="KYC">
+                <i class="ni ni-air-baloon"></i> {{leads.kyc}}
+              </nz-tag>
+              <nz-tag placement="top" ngbTooltip="Follow up">
+                <i class="ni ni-bell-55"></i> {{leads.follow_up}}
+              </nz-tag>
+              <nz-tag placement="top" ngbTooltip="Viewing">
+                <i class="ni ni-badge"></i> {{leads.viewing}}
+              </nz-tag>
+            </td>
+            <td class="align-middle">
+              <small>
+                <strong>
+                  <i class="ni ni-square-pin mr-1"></i>
+                  {{leads.lead_details.lead_status?leads.lead_details.lead_status.lead_status:''}}
+                </strong>
+              </small><br>
+              <small>
+                <strong>
+                  <i class="ni ni-sound-wave mr-1"></i>
+                  {{leads.next_tasks?leads.next_tasks:'NULL'}}
+                </strong>
+              </small>
+            </td>
+            <td class="align-middle">
+              <small><strong>
+                <i class="ni ni-user-run mr-1"></i>
+                {{leads.tasks.allocate?leads.tasks.allocate.name:'Not Allocated'}}</strong>
+              </small><br>
+              <small ><i class="fa fa-users"></i>{{leads.tasks.team_name?leads.tasks.team_name.name:'Team Selected'}}</small>
+            </td>
+            <td class="align-middle">
+              <small>
+                <i class="ni ni-align-center mr-1"></i>
+                <strong>
+                  {{leads.opportunity.classification?leads.opportunity.classification.classification:''}}
+                </strong>
+              </small><br>
+              <small><i class="ni ni-world mr-1"></i>{{leads.opportunity.source?leads.opportunity.source.source:''}}</small>
+            </td>
+            <td class="align-middle">
+              <small>
+                <i class="ni ni-building mr-1"></i>
+                <strong>{{leads.opportunity.project_info?leads.opportunity.project_info.project_name:'No Project'}}
+                </strong>
+              </small><br>
+              <small *ngIf="leads.information?.product_type==1"><i class="ni ni-paper-diploma mr-1"></i>{{leads.information?.product_type==1?'Residential':''}} ({{leads.information?.product|titlecase}})</small>
+              <small *ngIf="leads.information?.product_type==2"><i class="ni ni-paper-diploma mr-1"></i>{{leads.information?.product_type==2?'Commercial':''}} ({{leads.information?.product|titlecase}})</small>
+            </td>
+            <td class="align-middle">
+              <small><strong>
+                <i class="ni ni-calendar-grid-58 mr-1"></i>
+                {{leads.tasks?(leads.created_at|date:'short'):''}}</strong>
+              </small><br>
+              <small>
+                <i class="ni ni-single-02 mr-1"></i>
+                By : {{leads.created_by?leads.created_by.name:''}}
+              </small>
+            </td>
+
+          </tr>
+        </ng-container>
+      </ng-container>
+      <ng-template  #notFound>
+        <tr>
+          <td colspan="100%">
+            <nz-empty></nz-empty>
+          </td>
+        </tr>
+      </ng-template>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right">
+    <mat-paginator
+      [length]="totalrow"
+      [pageSize]="itemPerPage"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="pageEvent($event)">
+    </mat-paginator>
+  </div>
+</div>
