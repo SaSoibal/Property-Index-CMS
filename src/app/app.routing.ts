@@ -11,9 +11,8 @@ const routes: Routes =[
   {
     path: '',
     redirectTo: 'dashboard',
-    pathMatch: 'full',
-    canActivate: [AuthGuard]
-  }, 
+    pathMatch: 'full'
+  },
   {
     path: '',
     component: AdminLayoutComponent,
@@ -24,7 +23,7 @@ const routes: Routes =[
       }
     ],
     canActivate: [AuthGuard]
-  }, 
+  },
   {
     path: '',
     component: AuthLayoutComponent,
@@ -34,15 +33,14 @@ const routes: Routes =[
         loadChildren: () => import('src/app/layouts/auth-layout/auth-layout.module').then(m => m.AuthLayoutModule)
       }
     ]
-  },   
+  },
   {
     path: 'login',
     component: LoginComponent
   },
   {
     path: '**',
-    redirectTo: 'dashboard',
-    canActivate: [AuthGuard]
+    redirectTo: 'dashboard'
   }
 ];
 

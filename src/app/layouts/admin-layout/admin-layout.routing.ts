@@ -100,6 +100,10 @@ import {InteriorDetailsComponent} from '../../pages/interior/interior-details/in
 
 // notifications manage
 import {NotificationsComponent} from '../../pages/notifications/notifications.component';
+import {AboutUsComponent} from '../../pages/about-us/about-us.component';
+import {AboutUsWhyUsComponent} from '../../pages/about-us/about-us-why-us/about-us-why-us.component';
+import {AboutUsGalleryComponent} from '../../pages/about-us/about-us-gallery/about-us-gallery.component';
+import {AboutUsGalleryAlbumComponent} from '../../pages/about-us/about-us-gallery-album/about-us-gallery-album.component';
 
 // role user manage
 
@@ -137,11 +141,11 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'property-management/approved-listing',            component: FSApproveListingComponent },
     { path: 'property-management/approved-rent-listing',            component: FRApproveListingComponent },
     { path: 'property-management/approved-land-sale-listing',            component: FLSApproveListingComponent },
-    // property Manage product 
+    // property Manage product
     { path: 'property-management/product',            component: ProductComponent },
     { path: 'property-management/product/rent-product',            component: RentProductComponent },
     { path: 'property-management/product/land-sale-product',            component: LandSaleProductComponent },
-    // Reassign property Manage product 
+    // Reassign property Manage product
     { path: 'property-management/reassign-property',            component: FSReassignPropertyComponent },
     { path: 'property-management/reassign-property/rent-property',            component: FRReassignPropertyComponent },
     { path: 'property-management/reassign-property/land-sale-property',            component: FLSReassignPropertyComponent },
@@ -211,6 +215,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'user-profile',   component: UserProfileComponent },
 
     { path: 'notifications',   component: NotificationsComponent },
+    { path: 'about-us',   component: AboutUsComponent },
+    { path: 'about-us/why-us',   component: AboutUsWhyUsComponent },
+    { path: 'about-us/gallery',   component: AboutUsGalleryComponent },
+    { path: 'about-us/gallery-album',   component: AboutUsGalleryAlbumComponent }
 
 
 ];

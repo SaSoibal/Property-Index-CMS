@@ -1,0 +1,124 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Why Us?</h3>
+            </div>
+            <div class="col text-right" *ngIf="permission('create')">
+              <a (click)="createModel()" class="btn btn-sm btn-default text-white">
+                <i class="fa fa-plus mr-2"></i>Add Point
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <input  nz-input  placeholder="Search..." type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+          <div class="table-responsive" >
+            <table class="table table-hover table-bordered table-sm  table--darker">
+              <thead>
+              <tr>
+                <th class="text-center" (click)="sort('id')">
+                  <i *ngIf="sortColumn==='id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  SL
+                </th>
+                <th class="text-center" (click)="sort('image')">
+                  <i *ngIf="sortColumn==='image' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='image' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Image
+                </th>
+                <th class="text-center" (click)="sort('title_en')">
+                  <i *ngIf="sortColumn==='title_en' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='title_en' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Title(EN)
+                </th>
+                <th class="text-center" (click)="sort('create_by')">
+                  <i *ngIf="sortColumn==='create_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='create_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Create By
+                </th>
+                <th class="text-center" (click)="sort('created_at')">
+                  <i *ngIf="sortColumn==='created_at' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='created_at' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Create Date
+                </th>
+                <th class="text-center" (click)="sort('update_by')">
+                  <i *ngIf="sortColumn==='update_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='update_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Update By
+                </th>
+                <th class="text-center" (click)="sort('updated_at')">
+                  <i *ngIf="sortColumn==='updated_at' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='updated_at' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Update Date
+                </th>
+                <th class="text-center" (click)="sort('status')">
+                  <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Status
+                </th>
+                <th class="text-center" *ngIf="permission('update') || permission('delete') || permission('read')">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <ng-container *ngIf="dataNotFound =='';else notFound">
+                <tr *ngFor="let blog of collection| paginate: {
+                    currentPage: pagereqest,
+                    itemsPerPage: itemPerPage,
+                    totalItems: totalrow
+                    } ; index as i;">
+                  <td class="text-center align-middle">{{getSL(i+1)}}</td>
+                  <td class="text-center align-middle">
+                    <img height="50px" width="70px"src="{{rootUrl + blog.image}}"/>
+                  </td>
+                  <td class="text-center align-middle" width="20%">{{blog.title_en}}</td>
+                  <td class="text-center align-middle">{{blog.create_name}}</td>
+                  <td class="text-center align-middle">{{blog.created_at|date}}</td>
+                  <td class="text-center align-middle"><span *ngIf="blog.update_by">{{blog.update_name}}</span></td>
+                  <td class="text-center align-middle"><span *ngIf="blog.update_by">{{blog.updated_at|date}}</span></td>
+                  <td class="text-center align-middle">
+                    <p class="badge status_btn text-wrap mb-0 {{blog.status == '1' ? 'badge-success' : 'badge-danger'}}">{{ (blog.status == '1' ? 'Active' : 'Inactive')}}</p>
+                  </td>
+                  <td class="text-center align-middle" *ngIf="permission('update') || permission('delete') || permission('read')">
+                    <a *ngIf="permission('read')" (click)="openRedModel(blog)" class="mr-3" placement="top" ngbTooltip="View"><i class="fas fa-eye text-default"></i></a>
+                    <a *ngIf="permission('update')" (click)="openEditModel(blog)" class="mr-3" placement="top" ngbTooltip="Edit"><i class="fas fa-edit text-primary"></i></a>
+                    <a *ngIf="permission('delete')" (click)="deleteModel(blog)" placement="top" ngbTooltip="Delete" ><i class="fas fa-trash text-danger"></i></a>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template  #notFound>
+                <tr>
+                  <td colspan="9" class="text-danger text-center">{{dataNotFound}}...</td>
+                </tr>
+              </ng-template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer">
+          <mat-paginator
+            [length]="totalrow"
+            [pageSize]="itemPerPage"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="pageEvent($event)">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
