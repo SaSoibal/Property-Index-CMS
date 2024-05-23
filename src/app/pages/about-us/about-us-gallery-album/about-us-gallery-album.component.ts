@@ -14,6 +14,7 @@ export interface DialogData {
   title_en: string,
   title_bn: string,
   status: string,
+  homepage: string,
   operation: string
 }
 
@@ -66,6 +67,7 @@ export class AboutUsGalleryAlbumComponent implements OnInit {
         api_token: this.tokenId,
         operation: 'create',
         status: false,
+        homepage: false,
       }
     });
 
@@ -84,6 +86,7 @@ export class AboutUsGalleryAlbumComponent implements OnInit {
         api_token: this.tokenId,
         operation: 'Read',
         status: album.status == 1?true:false,
+        homepage: album.homepage == 1?true:false,
       }
     });
     dialogRef.afterClosed().subscribe( result => {
@@ -100,6 +103,7 @@ export class AboutUsGalleryAlbumComponent implements OnInit {
         api_token: this.tokenId,
         operation: 'update',
         status: album.status == 1?true:false,
+        homepage: album.homepage == 1?true:false,
       }
     });
     dialogRef.afterClosed().subscribe( result => {

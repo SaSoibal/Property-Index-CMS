@@ -31,11 +31,20 @@
                 </div>
                 <div class="col-md-6 offset-md-3">
                   <nz-form-item>
-                    <nz-form-label class="text-center" [nzSm]="4" [nzXs]="24" nzFor="page_title">
-                      Page Title
+                    <nz-form-label class="text-center" [nzSm]="4" [nzXs]="24" nzFor="page_title_en">
+                      Page Title (EN)
                     </nz-form-label>
                     <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Data missing!">
-                      <input nz-input formControlName="page_title" name="page_title" id="page_title"
+                      <input nz-input formControlName="page_title_en" name="page_title_en" id="page_title_en"
+                             placeholder="Enter Page Title"/>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label class="text-center" [nzSm]="4" [nzXs]="24" nzFor="page_title_bn">
+                      Page Title (BN)
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Data missing!">
+                      <input nz-input formControlName="page_title_bn" name="page_title_bn" id="page_title_bn"
                              placeholder="Enter Page Title"/>
                     </nz-form-control>
                   </nz-form-item>
@@ -89,6 +98,26 @@
                 </div>
 
                 <div class="col-sm-4">
+                  <nz-form-item>
+                    <nz-form-label class="text-center" [nzSm]="6" [nzXs]="24" nzFor="our_story_title_en">
+                      Section Title (EN)
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
+                      <input nz-input formControlName="our_story_title_en" name="our_story_title_en"
+                             id="our_story_title_en"
+                             placeholder="Enter Section Title"/>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label class="text-center" [nzSm]="6" [nzXs]="24" nzFor="our_story_title_bn">
+                      Section Title (BN)
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
+                      <input nz-input formControlName="our_story_title_bn" name="our_story_title_bn"
+                             id="our_story_title_bn"
+                             placeholder="Enter Section Title"/>
+                    </nz-form-control>
+                  </nz-form-item>
                   <nz-card nzHoverable [nzCover]="ourStoryTemplate" class="col-xs-16 col-sm-24 ant-img-up-card">
                     <button type="button" (click)="fileInputOurStory.click()" *ngIf='!ChangeOurStoryImg'
                             class="btn btn-sm btn-default text-white btn-block">
@@ -100,7 +129,8 @@
                       Change
                     </button>
                     <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
-                            *ngIf='ChangeOurStoryImg' (click)="RemoveOurStoryImage()"><i class="fa fa-times"> </i> Remove
+                            *ngIf='ChangeOurStoryImg' (click)="RemoveOurStoryImage()"><i class="fa fa-times"> </i>
+                      Remove
                     </button>
                   </nz-card>
                   <ng-template #ourStoryTemplate>
@@ -115,6 +145,26 @@
                   Mission & Vision
                 </div>
                 <div class="col-sm-4">
+                  <nz-form-item>
+                    <nz-form-label class="text-center" [nzSm]="6" [nzXs]="24" nzFor="mission_vision_title_en">
+                      Section Title (EN)
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
+                      <input nz-input formControlName="mission_vision_title_en" name="mission_vision_title_en"
+                             id="mission_vision_title_en"
+                             placeholder="Enter Section Title"/>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label class="text-center" [nzSm]="6" [nzXs]="24" nzFor="mission_vision_title_bn">
+                      Section Title (BN)
+                    </nz-form-label>
+                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
+                      <input nz-input formControlName="mission_vision_title_bn" name="mission_vision_title_bn"
+                             id="mission_vision_title_bn"
+                             placeholder="Enter Section Title"/>
+                    </nz-form-control>
+                  </nz-form-item>
                   <nz-card nzHoverable [nzCover]="missionTemplate" class="col-xs-16 col-sm-24 ant-img-up-card">
                     <button type="button" (click)="fileInputOurMission.click()" *ngIf='!ChangeOurMissionImg'
                             class="btn btn-sm btn-default text-white btn-block">
@@ -126,7 +176,8 @@
                       Change
                     </button>
                     <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
-                            *ngIf='ChangeOurMissionImg' (click)="RemoveOurMissionImage()"><i class="fa fa-times"> </i> Remove
+                            *ngIf='ChangeOurMissionImg' (click)="RemoveOurMissionImage()"><i class="fa fa-times"> </i>
+                      Remove
                     </button>
                   </nz-card>
                   <ng-template #missionTemplate>
@@ -157,6 +208,39 @@
                 </div>
               </div>
 
+              <!--Why Us Section-->
+              <div class="row gy-5">
+                <div class="col-md-12 about-title">
+                  Why Us Section
+                </div>
+                <div class="col-md-12 d-flex">
+                  <div class="col-6">
+                    <nz-form-item>
+                      <nz-form-label class="text-left" [nzSm]="6" [nzXs]="24" nzFor="why_us_title_en">
+                        Section Title (EN)
+                      </nz-form-label>
+                      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
+                        <input nz-input formControlName="why_us_title_en" name="why_us_title_en"
+                               id="why_us_title_en"
+                               placeholder="Enter Section Title"/>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div class="col-6">
+                    <nz-form-item>
+                      <nz-form-label class="text-left" [nzSm]="6" [nzXs]="24" nzFor="why_us_title_bn">
+                        Section Title (BN)
+                      </nz-form-label>
+                      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
+                        <input nz-input formControlName="why_us_title_bn" name="why_us_title_bn"
+                               id="why_us_title_bn"
+                               placeholder="Enter Section Title"/>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+              </div>
+
               <!--Data Section-->
               <div class="row gy-5">
                 <div class="col-md-12 about-title">
@@ -165,7 +249,7 @@
                 <div class="col-sm">
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title1_en">
-                      Title (EN)
+                      Data 1 Title (EN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data_title1_en" name="data_title1_en" id="data_title1_en"
@@ -174,7 +258,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title1_bn">
-                      Title (BN)
+                      Data 1 Title (BN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data_title1_bn" name="data_title1_bn"
@@ -183,7 +267,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data1_en">
-                      Value (EN)
+                      Data 1 Value (EN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data1_en" name="data1_en" id="data1_en"
@@ -192,7 +276,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data1_bn">
-                      Value (BN)
+                      Data 1 Value (BN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data1_bn" name="data1_bn" id="data1_bn"
@@ -204,7 +288,7 @@
                 <div class="col-sm">
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title2_en">
-                      Title (EN)
+                      Data 2 Title (EN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data_title2_en" name="data_title2_en" id="data_title2_en"
@@ -213,7 +297,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title2_bn">
-                      Title (BN)
+                      Data 2 Title (BN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data_title2_bn" name="data_title2_bn"
@@ -222,7 +306,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data2_en">
-                      Value (EN)
+                      Data 2 Value (EN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data2_en" name="data2_en" id="data2_en"
@@ -231,7 +315,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data2_bn">
-                      Value (BN)
+                      Data 2 Value (BN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data2_bn" name="data2_bn" id="data2_bn"
@@ -243,7 +327,7 @@
                 <div class="col-sm">
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title3_en">
-                      Title (EN)
+                      Data 3 Title (EN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data_title3_en" name="data_title3_en" id="data_title3_en"
@@ -252,7 +336,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title3_bn">
-                      Title (BN)
+                      Data 3 Title (BN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data_title3_bn" name="data_title3_bn"
@@ -261,7 +345,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data3_en">
-                      Value (EN)
+                      Data 3 Value (EN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data3_en" name="data3_en" id="data3_en"
@@ -270,7 +354,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data3_bn">
-                      Value (BN)
+                      Data 3 Value (BN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data3_bn" name="data3_bn" id="data3_bn"
@@ -282,7 +366,7 @@
                 <div class="col-sm">
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title4_en">
-                      Title (EN)
+                      Data 4 Title (EN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data_title4_en" name="data_title4_en" id="data_title4_en"
@@ -291,7 +375,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title4_bn">
-                      Title (BN)
+                      Data 4 Title (BN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data_title4_bn" name="data_title4_bn"
@@ -300,7 +384,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data4_en">
-                      Value (EN)
+                      Data 4 Value (EN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data4_en" name="data4_en" id="data4_en"
@@ -309,7 +393,7 @@
                   </nz-form-item>
                   <nz-form-item>
                     <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data4_bn">
-                      Value (BN)
+                      Data 4 Value (BN)
                     </nz-form-label>
                     <nz-form-control nzErrorTip="Data missing!">
                       <input nz-input formControlName="data4_bn" name="data4_bn" id="data4_bn"
@@ -353,7 +437,8 @@
                       Change
                     </button>
                     <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
-                            *ngIf='ChangeMasterMindImg' (click)="RemoveMasterMindImage()"><i class="fa fa-times"> </i> Remove
+                            *ngIf='ChangeMasterMindImg' (click)="RemoveMasterMindImage()"><i class="fa fa-times"> </i>
+                      Remove
                     </button>
                   </nz-card>
                   <ng-template #masterMindTemplate>
@@ -432,6 +517,40 @@
                   </nz-form-item>
                 </div>
               </div>
+
+              <!--Gallery Section-->
+              <div class="row gy-5">
+                <div class="col-md-12 about-title">
+                  Gallery Section
+                </div>
+                <div class="col-md-12 d-flex">
+                  <div class="col-6">
+                    <nz-form-item>
+                      <nz-form-label class="text-left" [nzSm]="6" [nzXs]="24" nzFor="gallery_title_en">
+                        Section Title (EN)
+                      </nz-form-label>
+                      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
+                        <input nz-input formControlName="gallery_title_en" name="gallery_title_en"
+                               id="gallery_title_en"
+                               placeholder="Enter Section Title"/>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                  <div class="col-6">
+                    <nz-form-item>
+                      <nz-form-label class="text-left" [nzSm]="6" [nzXs]="24" nzFor="gallery_title_bn">
+                        Section Title (BN)
+                      </nz-form-label>
+                      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
+                        <input nz-input formControlName="gallery_title_bn" name="gallery_title_bn"
+                               id="gallery_title_bn"
+                               placeholder="Enter Section Title"/>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
 
