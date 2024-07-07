@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="card-body border-0" *ngIf="permission('create')">
-              
+
                     <mat-stepper linear #stepper>
                         <mat-step [stepControl]="basicFormGroup" [editable]="true">
                         <form (ngSubmit)="submitBasicForm()" [formGroup]="basicFormGroup">
@@ -117,7 +117,7 @@
                                                     <label nz-radio [nzValue]="'shops'">Shops</label><br>
                                                     <label nz-radio [nzValue]="'open floor'">Open floor</label><br>
                                                     <label nz-radio [nzValue]="'office apartments'">Office apartments</label><br>
-                                                </ng-container>   
+                                                </ng-container>
                                                     <label nz-radio [nzValue]="'duplex'">Duplex</label><br>
                                                     <label nz-radio [nzValue]="'triplex'">Triplex</label><br>
                                                     <label nz-radio [nzValue]="'plazas'">Plazas</label><br>
@@ -133,7 +133,7 @@
                                     </div>
                                 </nz-form-control>
                               </nz-form-item>
-                              
+
                               <ng-container *ngIf="showProjectInput == 0">
                                 <nz-form-item>
                                   <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="project_name">Project Name</nz-form-label>
@@ -153,7 +153,7 @@
                                   </nz-form-control>
                                 </nz-form-item>
                               </ng-container>
-                              
+
                               <nz-form-item>
                                 <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="property_type">Property Type</nz-form-label>
                                 <nz-form-control nzErrorTip="Property Type is required!">
@@ -204,7 +204,7 @@
                                   <input nz-input formControlName="block" id="block" />
                                 </nz-form-control>
                               </nz-form-item>
-                            
+
                               <nz-form-item>
                                 <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="road">Road</nz-form-label>
                                 <nz-form-control  nzErrorTip="Road is Required!">
@@ -217,7 +217,7 @@
                                   <input nz-input formControlName="house_no" id="house_no" />
                                 </nz-form-control>
                               </nz-form-item>
-                            
+
                               <nz-form-item>
                                 <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="facing">Facing</nz-form-label>
                                 <nz-form-control  nzErrorTip="Facing is Required!">
@@ -296,7 +296,7 @@
                                   </div>
                                 </nz-form-control>
                               </nz-form-item>
-                          
+
                               <nz-form-item>
                                 <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="total_unit_per_floor">Total/Unit per Floor</nz-form-label>
                                 <nz-form-control  nzErrorTip="Total/Unit per Floor is Required!">
@@ -315,7 +315,7 @@
                                   <input nz-input formControlName="plot_size" id="plot_size" />
                                 </nz-form-control>
                               </nz-form-item>
-                            
+
                               <nz-form-item>
                                 <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="covered_area">Covered Area</nz-form-label>
                                 <nz-form-control  nzErrorTip="Covered Area is Required!">
@@ -358,9 +358,9 @@
                                   <input nz-input formControlName="bank_loan" id="bank_loan" />
                                 </nz-form-control>
                               </nz-form-item>
-                             
-                              
-                            
+
+
+
                               <nz-form-item>
                                 <nz-form-label [nzSm]="7" [nzXs]="24"  class="text-left"  nzFor="country">Country</nz-form-label>
                                 <nz-form-control nzErrorTip="Country is Required!">
@@ -375,7 +375,7 @@
                                   <input nz-input formControlName="developer_name" id="developer_name" />
                                 </nz-form-control>
                               </nz-form-item>
-                              
+
 
                               <nz-form-item>
                                 <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="property_current_status"> Current Status</nz-form-label>
@@ -386,7 +386,7 @@
                                   </nz-radio-group>
                                 </nz-form-control>
                               </nz-form-item>
-                              
+
                               <nz-form-item *ngIf="showPropertyReg">
                                 <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="property_registration">Property Reg. Status</nz-form-label>
                                 <nz-form-control  [nzSm]="17" [nzXs]="24" nzErrorTip="Property Reg. Status is Required!">
@@ -1303,7 +1303,7 @@
                                 </div>
                             </div>
 
-                            
+
 
                             <div class="row" class="mt-5">
                               <div class="col-md-12">
@@ -1563,10 +1563,10 @@
                                 </nz-select>
                                 <nz-select style="width:180px;" nzShowSearch nzAllowClear formControlName="member_id" [(ngModel)]="member_id" nzPlaceHolder="Select Member">
                                   <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id" [nzLabel]="member?.member?.name"></nz-option>
-                                </nz-select>                              
+                                </nz-select>
                               </nz-form-control>
                             </nz-form-item>
-                                                         
+
                             <div class="row" class="mt-5">
                               <div class="col-md-12">
                                 <div class="row">

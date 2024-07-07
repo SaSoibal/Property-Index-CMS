@@ -1,0 +1,141 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Career Page</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body border" *ngIf="permission('read')">
+          <form (ngSubmit)="submitForm()" [formGroup]="createForm">
+            <div class="">
+              <!--Page Banner Section-->
+              <div class="row gy-5 border p-2">
+                <div class="col-md-12 about-title">
+                  <h3>Banner Section</h3>
+                </div>
+                <div class="col-sm-8">
+                  <nz-form-item>
+                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="banner_en">
+                      Banner Content (EN)
+                    </nz-form-label>
+                    <nz-form-control>
+                      <app-tinymce style="width:99%" nz-input formControlName="banner_en" #tinymce='tinymce'
+                                   id="banner_en" placeholder="Banner Content"></app-tinymce>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="banner_bn">
+                      Banner Content (BN)
+                    </nz-form-label>
+                    <nz-form-control>
+                      <app-tinymce style="width:99%" nz-input formControlName="banner_bn" #tinymce='tinymce'
+                                   id="banner_bn" placeholder="Banner Content BN"></app-tinymce>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+
+                <div class="col-sm-4" style="margin-top: 2rem !important;">
+                  <nz-card nzHoverable [nzCover]="BannerTemplate" class="col-xs-16 col-sm-24 ant-img-up-card">
+                    <button type="button" (click)="fileInputBanner.click()" *ngIf='!ChangeBannerImg'
+                            class="btn btn-sm btn-default text-white btn-block">
+                      <i class="fa fa-upload mr-2"></i> Upload Image
+                    </button>
+                    <input style="display: none" type="file" (change)="BannerChanged($event)" #fileInputBanner>
+                    <button type="button" (click)="fileInputBanner.click()" *ngIf='ChangeBannerImg'
+                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
+                      Change
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
+                            *ngIf='ChangeBannerImg' (click)="RemoveBannerImage()"><i class="fa fa-times"> </i>
+                      Remove
+                    </button>
+                  </nz-card>
+                  <ng-template #BannerTemplate>
+                    <img alt="image" class="p-2" height="218px" [src]="BannerImageFile"/>
+                  </ng-template>
+                </div>
+              </div>
+
+              <!--Our Core Values-->
+              <div class="row gy-5 mt-4 border p-2">
+                <div class="col-md-12">
+                  <h3>Our Core Values</h3>
+                </div>
+                <div class="col-sm-8">
+                  <nz-form-item>
+                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="core_value_en">
+                      Core Values Content (EN)
+                    </nz-form-label>
+                    <nz-form-control>
+                      <app-tinymce style="width:99%" nz-input formControlName="core_value_en" #tinymce='tinymce'
+                                   id="core_value_en" placeholder="Banner"></app-tinymce>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+
+                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="core_value_bn">
+                      Core Values Content (BN)
+                    </nz-form-label>
+                    <nz-form-control>
+                      <app-tinymce style="width:99%" nz-input formControlName="core_value_bn" #tinymce='tinymce'
+                                   id="core_value_bn" placeholder="Core Value Content"></app-tinymce>
+                    </nz-form-control>
+                  </nz-form-item>
+                </div>
+                <div class="col-sm-4" style="margin-top: 2rem !important;">
+                  <nz-card nzHoverable [nzCover]="coreValueTemplate" class="col-xs-16 col-sm-24 ant-img-up-card">
+                    <button type="button" (click)="fileInputCoreValue.click()" *ngIf='!ChangeCoreValueImg'
+                            class="btn btn-sm btn-default text-white btn-block">
+                      <i class="fa fa-upload mr-2"></i> Upload Image
+                    </button>
+                    <input style="display: none" type="file" (change)="CoreValueChanged($event)" #fileInputCoreValue>
+                    <button type="button" (click)="fileInputCoreValue.click()" *ngIf='ChangeCoreValueImg'
+                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
+                      Change
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
+                            *ngIf='ChangeCoreValueImg' (click)="RemoveCoreValueImage()"><i class="fa fa-times"> </i>
+                      Remove
+                    </button>
+                  </nz-card>
+                  <ng-template #coreValueTemplate>
+                    <img alt="image" class="p-2" height="218px" [src]="CoreValueImageFile"/>
+                  </ng-template>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div align="center">
+              <button type="submit" [disabled]="!this.createForm.valid || disabledSubmitBtn"
+                      class="btn btn-sm btn-default text-white">
+                <i class="fa fa-save mr-2"></i> Submit
+              </button>
+            </div>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

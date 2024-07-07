@@ -1,0 +1,91 @@
+<div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--8">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">CV Bank</h3>
+            </div>
+<!--            <div class="col text-right" *ngIf="permission('create')">-->
+<!--              <a (click)="createModel()" class="btn btn-sm btn-default text-white">-->
+<!--                <i class="fa fa-plus mr-2"></i>Add Jobs-->
+<!--              </a>-->
+<!--            </div>-->
+          </div>
+        </div>
+        <div class="card-body border-0" *ngIf="permission('read')">
+          <input  nz-input  placeholder="Search..." type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+          <div class="table-responsive" >
+            <table class="table table-hover table-bordered table-sm  table--darker">
+              <thead>
+              <tr>
+                <th class="text-center" (click)="sort('id')">
+                  <i *ngIf="sortColumn==='id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  SL
+                </th>
+                <th class="text-center" (click)="sort('CV')">
+                  <i *ngIf="sortColumn==='image' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='image' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Image
+                </th>
+                <th class="text-center" (click)="sort('created_at')">
+                  <i *ngIf="sortColumn==='created_at' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                  <i *ngIf="sortColumn==='created_at' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                  Uploaded Date
+                </th>
+                <th class="text-center" *ngIf="permission('update') || permission('delete') || permission('read')">Action</th>
+              </tr>
+              </thead>
+              <tbody>
+              <ng-container *ngIf="dataNotFound =='';else notFound">
+                <tr *ngFor="let item of collection| paginate: {
+                    currentPage: pagereqest,
+                    itemsPerPage: itemPerPage,
+                    totalItems: totalrow
+                    } ; index as i;">
+                  <td class="text-center align-middle">{{getSL(i+1)}}</td>
+                  <td class="text-center align-middle">
+                    <i ngbTooltip="Download" (click)="openRedModel(item)" class="ni ni-paper-diploma"></i>
+                  </td>
+                  <td class="text-center align-middle">{{item.created_at|date}}</td>
+                  <td class="text-center align-middle" *ngIf="permission('update') || permission('delete') || permission('read')">
+                    <a *ngIf="permission('read')" (click)="openRedModel(item)" class="mr-3" placement="top" ngbTooltip="Download"><i class="fa fa-download"></i></a>
+                    <a *ngIf="permission('delete')" (click)="deleteModel(item)" placement="top" ngbTooltip="Delete" ><i class="fas fa-trash text-danger"></i></a>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template  #notFound>
+                <tr>
+                  <td colspan="9" class="text-danger text-center">{{dataNotFound}}...</td>
+                </tr>
+              </ng-template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer">
+          <mat-paginator
+            [length]="totalrow"
+            [pageSize]="itemPerPage"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="pageEvent($event)">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

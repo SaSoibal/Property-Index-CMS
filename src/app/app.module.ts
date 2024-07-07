@@ -16,6 +16,9 @@ import {ComponentsModule} from './components/components.module';
 import {AuthService} from './services/auth.service';
 import {AuthGuard} from './core_classes/auth-guard';
 import {CommonService, LeadsDetails} from './services/common.service';
+import { CareerComponent } from './pages/career/career.component';
+import { JobsComponent } from './pages/career/jobs/jobs.component';
+import { CvBankComponent } from './pages/career/cv-bank/cv-bank.component';
 
 @NgModule({
   imports: [
@@ -35,7 +38,10 @@ import {CommonService, LeadsDetails} from './services/common.service';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    LeadsDetails
+    LeadsDetails,
+    CareerComponent,
+    JobsComponent,
+    CvBankComponent
   ],
   providers: [
     AuthService,

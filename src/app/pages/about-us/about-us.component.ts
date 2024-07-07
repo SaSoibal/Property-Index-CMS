@@ -321,7 +321,7 @@ export class AboutUsComponent implements OnInit {
 
   submitLoneForm(): void {
     if (this.createLoneForm.valid) {
-      this.disabledSubmitBtn = true;
+      // this.disabledSubmitBtn = true;
       const inputData = {
         'id': this.createLoneForm.value.id,
         'operation': this.createLoneForm.value.operation,
@@ -381,7 +381,7 @@ export class AboutUsComponent implements OnInit {
         .subscribe(data => {
             if (data.response === 200) {
               this.common.openTost('success', 'SUCCESS', data.message);
-              // this.common.onLoneCalculateEvent.emit('Component A is clicked!!');
+              this.common.onLoneCalculateEvent.emit('Component A is clicked!!');
             } else if (data.response === 400) {
               this.common.openTost('warning', 'WARNING', data.message);
             }
