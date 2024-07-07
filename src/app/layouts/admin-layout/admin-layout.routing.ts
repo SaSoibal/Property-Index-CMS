@@ -104,6 +104,9 @@ import {AboutUsComponent} from '../../pages/about-us/about-us.component';
 import {AboutUsWhyUsComponent} from '../../pages/about-us/about-us-why-us/about-us-why-us.component';
 import {AboutUsGalleryComponent} from '../../pages/about-us/about-us-gallery/about-us-gallery.component';
 import {AboutUsGalleryAlbumComponent} from '../../pages/about-us/about-us-gallery-album/about-us-gallery-album.component';
+import {CareerComponent} from '../../pages/career/career.component';
+import {JobsComponent} from '../../pages/career/jobs/jobs.component';
+import {CvBankComponent} from '../../pages/career/cv-bank/cv-bank.component';
 
 // role user manage
 
@@ -218,7 +221,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'about-us',   component: AboutUsComponent },
     { path: 'about-us/why-us',   component: AboutUsWhyUsComponent },
     { path: 'about-us/gallery',   component: AboutUsGalleryComponent },
-    { path: 'about-us/gallery-album',   component: AboutUsGalleryAlbumComponent }
+    { path: 'about-us/gallery-album',   component: AboutUsGalleryAlbumComponent },
+    { path: 'career',   component: CareerComponent },
+    { path: 'career/job',   component: JobsComponent },
+    { path: 'career/cv',   component: CvBankComponent }
 
 
 ];

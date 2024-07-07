@@ -1,5 +1,5 @@
 <div  mat-dialog-title class="d-flex">
-  <h2>Add Point</h2>
+  <h2>Add Job</h2>
   <button type="button" class="close ml-auto" mat-dialog-close>
     <span aria-hidden="true">&times;</span>
   </button>
@@ -9,29 +9,39 @@
   <mat-dialog-content class="mat-typography pt-3">
     <div class="row mt-3">
       <div class="col-md-9">
-        <ng-container *ngIf="showData == 'EN'">
+        <ng-container>
           <nz-form-item>
-            <nz-form-control  nzErrorTip="Point Title (EN) is required!">
-              <input nz-input [(ngModel)]="data.title_en" name="title_en" id="title_en"  #title_en="ngModel" required placeholder="Point Title (EN)"/>
+            <nz-form-control  nzErrorTip="Job Title (EN) is required!">
+              <input nz-input [(ngModel)]="data.title_en" name="title_en" id="title_en"  #title_en="ngModel" required placeholder="Job Title (EN)"/>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item>
-            <nz-form-control  nzErrorTip="Point Description (EN) is required!">
-              <app-tinymce nz-input [(ngModel)]="data.description_en" #tinymce='tinymce' name="description_en" required id="description_en"  #description_en="ngModel" placeholder="Point Description (EN)"></app-tinymce>
+            <nz-form-control  nzErrorTip="Category Title (EN) is required!">
+              <input nz-input [(ngModel)]="data.category_en" name="category_en" id="category_en"  #title_en="ngModel" required placeholder="Category Title (EN)"/>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control  nzErrorTip="Category Description (EN) is required!">
+              <app-tinymce nz-input [(ngModel)]="data.description_en" #tinymce='tinymce' name="description_en" required id="description_en"  #description_en="ngModel" placeholder="Category Description (EN)"></app-tinymce>
             </nz-form-control>
           </nz-form-item>
         </ng-container>
 
         <ng-container>
           <nz-form-item>
-            <nz-form-control  nzErrorTip="Point Title (BN) is required!">
-              <input nz-input [(ngModel)]="data.title_bn" name="title_bn" id="title_bn"  #title_bn="ngModel" placeholder="Point Title (BN)"/>
+            <nz-form-control  nzErrorTip="Job Title (BN) is required!">
+              <input nz-input [(ngModel)]="data.title_bn" name="title_bn" id="title_bn"  #title_bn="ngModel" placeholder="Job Title (BN)"/>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control  nzErrorTip="Category Title (BN) is required!">
+              <input nz-input [(ngModel)]="data.category_bn" name="category_bn" id="category_bn"  #title_bn="ngModel" placeholder="Category Title (BN)"/>
             </nz-form-control>
           </nz-form-item>
 
           <nz-form-item>
-            <nz-form-control  nzErrorTip="Point Description (BN) is required!">
-              <app-tinymce nz-input [(ngModel)]="data.description_bn" #tinymce='tinymce' name="description_bn" id="description_bn"  #description_bn="ngModel" placeholder="Point Description (BN)"></app-tinymce>
+            <nz-form-control  nzErrorTip="Category Description (BN) is required!">
+              <app-tinymce nz-input [(ngModel)]="data.description_bn" #tinymce='tinymce' name="description_bn" id="description_bn"  #description_bn="ngModel" placeholder="Category Description (BN)"></app-tinymce>
             </nz-form-control>
           </nz-form-item>
         </ng-container>
@@ -44,6 +54,14 @@
         </nz-form-item>
       </div>
       <div class="col-md-3">
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="9" [nzXs]="24"  nzFor="deadline">Deadline</nz-form-label>
+          <nz-form-control [nzSm]="15" [nzXs]="24" nzErrorTip="Please select allocated date!">
+            <nz-date-picker [nzShowTime]="{ nzFormat: 'HH:mm:ss' }" [(ngModel)]="data.deadline" name="deadline" #deadline="ngModel" id="new_assign_date" (ngModelChange)="onChange($event)" required placeholder="Deadline"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+
         <nz-card nzHoverable  [nzCover]="coverTemplate" class="ant-img-up-card">
           <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg' class="btn btn-sm btn-default text-white btn-block">
             <i class="fa fa-upload mr-2"></i> Upload Image

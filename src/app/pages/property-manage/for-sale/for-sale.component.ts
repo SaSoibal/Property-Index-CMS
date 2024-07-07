@@ -325,7 +325,7 @@ export class ForSaleComponent implements OnInit {
             if(data.list.length == 1){
               this.team_id = data.list[0].id;
               this.teamWiseMember(data.list[0].id)
-            }  
+            }
           } else {
             this.team_list = [];
           }
@@ -335,7 +335,7 @@ export class ForSaleComponent implements OnInit {
           if (error instanceof BadInput) {
           } else { throw error; }
         });
-      
+
   }
 
   teamWiseMember(event) {
@@ -354,7 +354,7 @@ export class ForSaleComponent implements OnInit {
               this.team_member = data.team_member;
               if(data.team_member.length == 1){
                 this.member_id = data.team_member[0].systemuser_id;
-              }  
+              }
             } else {
               this.team_member = [];
             }
@@ -365,7 +365,7 @@ export class ForSaleComponent implements OnInit {
             } else { throw error; }
           });
       }
-     
+
   }
 
   permission(type) {
@@ -451,7 +451,7 @@ export class ForSaleComponent implements OnInit {
                   'view_file': event.target.result,
                   'edit_file': true,
                 };
-                
+
                 this.upload_documents.push(image);
                 // this.getProgressValue();
             }
@@ -496,7 +496,7 @@ export class ForSaleComponent implements OnInit {
   }
 
   changeProductName(event){
-    this.show_type_of_product = event; 
+    this.show_type_of_product = event;
   }
   changeArea(area_id) {
     this.basicFormGroup.controls['property_location'].setValue(null);

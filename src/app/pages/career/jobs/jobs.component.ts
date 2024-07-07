@@ -1,29 +1,30 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import {
-  FormGroup, FormBuilder, FormControl,
-  Validators, ValidatorFn, AbstractControl
-} from '@angular/forms';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { CommonService } from '../../../services/common.service';
-import { DataService } from '../../../services/data.service';
-import { BadInput } from '../../../core_classes/bad-input';
-import { AppError } from '../../../core_classes/app-error';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {CommonService} from '../../../services/common.service';
+import {DataService} from '../../../services/data.service';
+import {AppError} from '../../../core_classes/app-error';
+import {BadInput} from '../../../core_classes/bad-input';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 export interface DialogData {
-  album_id: string,
+  id: string,
   title_en: string,
   title_bn: string,
+  category_en: string,
+  category_bn: string,
+  description_en: string,
+  description_bn: string,
+  deadline: string,
+  old_image: string,
   status: string,
-  homepage: string,
   operation: string
 }
-
 @Component({
-  selector: 'app-about-us-gallery-album',
-  templateUrl: './about-us-gallery-album.component.html',
-  styleUrls: ['./about-us-gallery-album.component.scss']
+  selector: 'app-jobs',
+  templateUrl: './jobs.component.html',
+  styleUrls: ['./jobs.component.scss']
 })
-export class AboutUsGalleryAlbumComponent implements OnInit {
+export class JobsComponent implements OnInit {
   tokenId = this.common.mycookie.bearertoken ;
   rootUrl =  this.common.rootUrl + 'public/uploads/';
   erroeMsg = '';
@@ -55,19 +56,24 @@ export class AboutUsGalleryAlbumComponent implements OnInit {
   }
 
   permission(type) {
-    return this.common.permission('about-us/gallery-album',type);
+    return this.common.permission('career/job',type);
   }
 
+
   createModel() {
-    const dialogRef = this.dialog.open( CreateGalleryAlbum, {
-      width: '500px',
+    const dialogRef = this.dialog.open( CreateJobs, {
+      width: '1000px',
       data: {
         title_en: '',
         title_bn: '',
+        category_en: '',
+        category_bn: '',
+        description_en: '',
+        description_bn: '',
+        deadline: '',
         api_token: this.tokenId,
         operation: 'create',
-        status: false,
-        homepage: false,
+        status: true,
       }
     });
 
@@ -76,34 +82,44 @@ export class AboutUsGalleryAlbumComponent implements OnInit {
     });
   }
 
-  openRedModel(album) {
-    const dialogRef = this.dialog.open( ReadGalleryAlbum, {
-      width: '500px',
+  openRedModel(Jobs) {
+    const dialogRef = this.dialog.open( ReadJobs, {
+      width: '1000px',
       data: {
-        album_id: album.id,
-        title_en: album.title_en,
-        title_bn: album.title_bn,
+        id: Jobs.id,
+        title_en: Jobs.title_en,
+        title_bn: Jobs.title_bn,
+        category_en: Jobs.category_en,
+        category_bn: Jobs.category_bn,
+        description_en: Jobs.description_en,
+        description_bn: Jobs.description_bn,
+        deadline: Jobs.deadline,
+        old_image:Jobs.image,
         api_token: this.tokenId,
         operation: 'Read',
-        status: album.status == 1?true:false,
-        homepage: album.homepage == 1?true:false,
+        status: Jobs.status == 1?true:false,
       }
     });
     dialogRef.afterClosed().subscribe( result => {
     });
   }
 
-  openEditModel(album) {
-    const dialogRef = this.dialog.open( CreateGalleryAlbum, {
-      width: '500px',
+  openEditModel(Jobs) {
+    const dialogRef = this.dialog.open( CreateJobs, {
+      width: '1000px',
       data: {
-        album_id: album.id,
-        title_en: album.title_en,
-        title_bn: album.title_bn,
+        id: Jobs.id,
+        title_en: Jobs.title_en,
+        title_bn: Jobs.title_bn,
+        category_en: Jobs.category_en,
+        category_bn: Jobs.category_bn,
+        description_en: Jobs.description_en,
+        description_bn: Jobs.description_bn,
+        deadline: Jobs.deadline,
+        old_image:Jobs.image,
         api_token: this.tokenId,
         operation: 'update',
-        status: album.status == 1?true:false,
-        homepage: album.homepage == 1?true:false,
+        status: Jobs.status == 1?true:false,
       }
     });
     dialogRef.afterClosed().subscribe( result => {
@@ -160,7 +176,7 @@ export class AboutUsGalleryAlbumComponent implements OnInit {
   }
 
   get_list(postdate) {
-    this.dataService.create(postdate, 'about-us-gallery-album-list')
+    this.dataService.create(postdate, 'job-list')
       .subscribe(
         data => {
           if (data.response === 200) {
@@ -179,11 +195,12 @@ export class AboutUsGalleryAlbumComponent implements OnInit {
         });
   }
 
-  deleteModel(album) {
-    const dialogRef = this.dialog.open( DeleteGalleryAlbum, {
+  deleteModel(ctg) {
+    const dialogRef = this.dialog.open( DeleteJobs, {
       data: {
-        album_id: album.id,
-        title_en: album.title_en,
+        id: ctg.id,
+        title_en: ctg.title_en,
+        old_image:ctg.image,
         api_token: this.tokenId,
         operation: 'delete',
       }
@@ -191,36 +208,62 @@ export class AboutUsGalleryAlbumComponent implements OnInit {
     dialogRef.afterClosed().subscribe( result => {
     });
   }
-
-
-
 }
 
-
-
-
-
 @Component({
-  selector: 'create-about-us-gallery-album-model',
-  templateUrl: './create-about-us-gallery-album-model.html',
-  styleUrls: ['./about-us-gallery-album.component.scss']
+  selector: 'create-jobs-model',
+  templateUrl: './create-jobs-model.html',
+  styleUrls: ['./jobs.component.scss']
 })
-export class CreateGalleryAlbum {
+export class CreateJobs {
   rootUrl =  this.common.rootUrl + 'public/uploads/';
   defaultImage = './assets/img/theme/default.jpg';
   SelectedFile: File;
   ImageFile = this.defaultImage;
   ChangeImg = false;
+  deadline = '';
   selectImg = true;
   // tslint:disable-next-line: max-line-length
-  constructor(public dialogRef: MatDialogRef<CreateGalleryAlbum>,
+  constructor(public dialogRef: MatDialogRef<CreateJobs>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
               private dataService: DataService,
-              private common: CommonService) {}
+              private common: CommonService) {
+    if(this.data.operation == 'update'){
+      this.ImageFile = this.rootUrl + this.data.old_image;
+    }
+  }
+
+  // tslint:disable-next-line: typedef
+  Changed(fileInput) {
+    const pre = this;
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e: any) {
+        pre.ImageFile = e.target.result;
+        pre.SelectedFile = e.target.result;
+        pre.ChangeImg = true;
+        pre.selectImg = false;
+      },
+        reader.readAsDataURL(fileInput.target.files[0]);
+    }
+  }
+
+  // tslint:disable-next-line: typedef
+  RemoveImage(){
+    this.SelectedFile = null;
+    this.ChangeImg = false;
+    this.ImageFile = this.defaultImage;
+  }
+  onChange(result: Date): void {
+    console.log('Selected Time: ', result);
+  }
 
   onClick(): void {
-    this.dataService.create(this.data, 'about-us-gallery-album-create-update')
+    this.data['image'] = this.SelectedFile;
+    this.dataService.create(this.data, 'job-create-update')
       .subscribe(data => {
+
+          console.log(this.data,'data.response');
           if (data.response === 200) {
             this.dialogRef.close();
             this.common.openTost('success','SUCCESS',data.message);
@@ -242,14 +285,14 @@ export class CreateGalleryAlbum {
 }
 
 @Component({
-  selector: 'read-about-us-gallery-album-model',
-  templateUrl: './read-about-us-gallery-album-model.html',
-  styleUrls: ['./about-us-gallery-album.component.scss']
+  selector: 'read-jobs-model',
+  templateUrl: './read-jobs-model.html',
+  styleUrls: ['./jobs.component.scss']
 })
-export class ReadGalleryAlbum {
+export class ReadJobs {
   rootUrl =  this.common.rootUrl + 'public/uploads/';
   // tslint:disable-next-line: max-line-length
-  constructor(public dialogRef: MatDialogRef<ReadGalleryAlbum>,
+  constructor(public dialogRef: MatDialogRef<ReadJobs>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
               private dataService: DataService,
               private common: CommonService) {
@@ -257,20 +300,20 @@ export class ReadGalleryAlbum {
 }
 
 @Component({
-  selector: 'delete-about-us-gallery-album-modal',
-  templateUrl: './delete-about-us-gallery-album-model.html',
-  styleUrls: ['./about-us-gallery-album.component.scss']
+  selector: 'delete-jobs-modal',
+  templateUrl: './delete-jobs-model.html',
+  styleUrls: ['./jobs.component.scss']
 })
-export class DeleteGalleryAlbum {
+export class DeleteJobs {
   // tslint:disable-next-line: max-line-length
-  constructor(public dialogRef: MatDialogRef<DeleteGalleryAlbum>,
+  constructor(public dialogRef: MatDialogRef<DeleteJobs>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
               private dataService: DataService,
               private common: CommonService) {
   }
 
   onClick(): void {
-    this.dataService.create(this.data, 'about-us-gallery-album-delete')
+    this.dataService.create(this.data, 'job-delete')
       .subscribe(data => {
           if (data.response === 200) {
             this.dialogRef.close();
@@ -289,4 +332,3 @@ export class DeleteGalleryAlbum {
         });
   }
 }
-

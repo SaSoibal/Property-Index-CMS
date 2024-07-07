@@ -58,14 +58,23 @@ export class AboutUsComponent implements OnInit {
       });
     this.createLoneForm = this.fb.group({
       operation: ['create', ''],
-      page_title: ['', ''],
+      page_title_en: ['', ''],
+      page_title_bn: ['', ''],
       page_banner_image: ['', ''],
+      our_story_title_en: ['', ''],
+      our_story_title_bn: ['', ''],
       our_story_en: ['', ''],
       our_story_image: ['', ''],
       our_story_bn: ['', ''],
+      mission_vision_title_en: ['', ''],
+      mission_vision_title_bn: ['', ''],
       mission_vision_en: ['', ''],
       mission_vision_image: ['', ''],
       mission_vision_bn: ['', ''],
+      why_us_title_en: ['', ''],
+      why_us_title_bn: ['', ''],
+      gallery_title_en: ['', ''],
+      gallery_title_bn: ['', ''],
       data1_en: ['', ''],
       data1_bn: ['', ''],
       data_title1_en: ['', ''],
@@ -120,14 +129,23 @@ export class AboutUsComponent implements OnInit {
             this.createLoneForm.patchValue({
               id: aboutData.id ? aboutData.id : '0',
               operation: aboutData.id ? 'update' : 'create',
-              page_title: aboutData.page_title,
+              page_title_en: aboutData.page_title_en,
+              page_title_bn: aboutData.page_title_bn,
               page_banner_image: aboutData.page_banner_image,
+              our_story_title_en: aboutData.our_story_title_en,
+              our_story_title_bn: aboutData.our_story_title_bn,
               our_story_en: aboutData.our_story_en,
               our_story_bn: aboutData.our_story_bn,
               our_story_image: aboutData.our_story_image,
+              mission_vision_title_en: aboutData.mission_vision_title_en,
+              mission_vision_title_bn: aboutData.mission_vision_title_bn,
               mission_vision_en: aboutData.mission_vision_en,
               mission_vision_bn: aboutData.mission_vision_bn,
               mission_vision_image: aboutData.mission_vision_image,
+              why_us_title_en: aboutData.why_us_title_en,
+              why_us_title_bn: aboutData.why_us_title_bn,
+              gallery_title_en: aboutData.gallery_title_en,
+              gallery_title_bn: aboutData.gallery_title_bn,
               data1_en: aboutData.data1_en,
               data1_bn: aboutData.data1_bn,
               data_title1_en: aboutData.data_title1_en,
@@ -303,22 +321,31 @@ export class AboutUsComponent implements OnInit {
 
   submitLoneForm(): void {
     if (this.createLoneForm.valid) {
-      this.disabledSubmitBtn = true;
+      // this.disabledSubmitBtn = true;
       const inputData = {
         'id': this.createLoneForm.value.id,
         'operation': this.createLoneForm.value.operation,
         'api_token': this.tokenId,
-        'page_title': this.createLoneForm.value.page_title,
+        'page_title_en': this.createLoneForm.value.page_title_en,
+        'page_title_bn': this.createLoneForm.value.page_title_bn,
         'page_banner_image': this.SelectedBannerFile,
         'old_banner_image': this.createLoneForm.value.page_banner_image,
+        'our_story_title_en': this.createLoneForm.value.our_story_title_en,
+        'our_story_title_bn': this.createLoneForm.value.our_story_title_bn,
         'our_story_en': this.createLoneForm.value.our_story_en,
         'our_story_image': this.SelectedOurStoryFile,
         'old_our_story_image': this.createLoneForm.value.our_story_image,
         'our_story_bn': this.createLoneForm.value.our_story_bn,
+        'mission_vision_title_en': this.createLoneForm.value.mission_vision_title_en,
+        'mission_vision_title_bn': this.createLoneForm.value.mission_vision_title_bn,
         'mission_vision_en': this.createLoneForm.value.mission_vision_en,
         'mission_vision_image': this.SelectedOurMissionFile,
         'old_mission_vision_image': this.createLoneForm.value.mission_vision_image,
         'mission_vision_bn': this.createLoneForm.value.mission_vision_bn,
+        'why_us_title_en': this.createLoneForm.value.why_us_title_en,
+        'why_us_title_bn': this.createLoneForm.value.why_us_title_bn,
+        'gallery_title_en': this.createLoneForm.value.gallery_title_en,
+        'gallery_title_bn': this.createLoneForm.value.gallery_title_bn,
         'data1_en': this.createLoneForm.value.data1_en,
         'data1_bn': this.createLoneForm.value.data1_bn,
         'data_title1_en': this.createLoneForm.value.data_title1_en,
@@ -354,7 +381,7 @@ export class AboutUsComponent implements OnInit {
         .subscribe(data => {
             if (data.response === 200) {
               this.common.openTost('success', 'SUCCESS', data.message);
-              // this.common.onLoneCalculateEvent.emit('Component A is clicked!!');
+              this.common.onLoneCalculateEvent.emit('Component A is clicked!!');
             } else if (data.response === 400) {
               this.common.openTost('warning', 'WARNING', data.message);
             }

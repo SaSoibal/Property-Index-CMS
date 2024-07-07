@@ -21,12 +21,24 @@
             <input nz-input [(ngModel)]="data.title_bn" name="title_bn" id="title_bn"  #title_bn="ngModel" placeholder="Title (BN)"/>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
-             <nz-form-control  nzErrorTip="The role is required!">
-                  <nz-switch id="status" [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
-             </nz-form-control>
-        </nz-form-item>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="homepage" nzRequired>Homepage</nz-form-label>
+              <nz-form-control  nzErrorTip="The role is required!">
+                <nz-switch id="homepage" [ngModel]="data.homepage" [(ngModel)]="data.homepage" name="homepage" nzCheckedChildren="Show" nzUnCheckedChildren="Hide"></nz-switch>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label [nzSm]="12" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
+              <nz-form-control  nzErrorTip="The role is required!">
+                <nz-switch id="status" [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
       </div>
     </div>
   </mat-dialog-content>

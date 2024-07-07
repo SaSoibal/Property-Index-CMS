@@ -356,6 +356,8 @@ import {
   AboutUsGalleryAlbumComponent,
   CreateGalleryAlbum, DeleteGalleryAlbum, ReadGalleryAlbum
 } from '../../pages/about-us/about-us-gallery-album/about-us-gallery-album.component';
+import {CreateJobs, DeleteJobs, ReadJobs} from '../../pages/career/jobs/jobs.component';
+import {CreateCv, DeleteCv, ReadCv} from '../../pages/career/cv-bank/cv-bank.component';
 
 @NgModule({
   imports: [
@@ -521,6 +523,8 @@ import {
     NotificationsComponent, notificationModel,
     CanvasJSChart,
 
+    CreateJobs, ReadJobs, DeleteJobs,
+    CreateCv, ReadCv, DeleteCv,
     AboutUsComponent, AboutUsWhyUsComponent, CreateWhyUs, ReadWhyUs, DeleteWhyUs,
     AboutUsGalleryComponent, CreateAboutUsGallery, ReadAboutUsGallery, DeleteAboutUsGallery,
     AboutUsGalleryAlbumComponent, CreateGalleryAlbum, ReadGalleryAlbum, DeleteGalleryAlbum,
