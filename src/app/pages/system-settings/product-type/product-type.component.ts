@@ -10,6 +10,7 @@ export interface DialogData {
   row_id: string;
   name: string;
   type_option: string;
+  product_category: string;
   status: string;
   operation: string;
 }
@@ -60,6 +61,7 @@ export class BuyingIntentComponent implements OnInit {
       data: {
         name: '',
         type_option: '',
+        product_category: '',
         api_token: this.tokenId,
         operation: 'create',
         status: true,
@@ -78,6 +80,7 @@ export class BuyingIntentComponent implements OnInit {
       data: {
         row_id: type.id,
         name: type.name,
+        product_category: type.product_category,
         type_option: type.type_option,
         api_token: this.tokenId,
         operation: 'update',

@@ -115,7 +115,9 @@
                               </div>
                             </td>
                             <td class="align-middle text-center">{{property?.sale_property?.listing_id?property?.sale_property?.listing_id:'- - -'}}</td>
-                            <td class="align-middle text-center"><strong>{{property?.property_id}}</strong></td>
+                            <td class="align-middle text-center"><strong>
+                              {{property?.sale_property?.property_id?property?.sale_property?.property_id:'- - -'}}
+                            </strong></td>
                             <td class="align-middle">
                               <img style="background: #0c1549;height:45px;width:55px;border-radius:3px;padding: 2px;" src="{{property.sale_thumbnail?rootUrl+'/property/'+property.sale_thumbnail.url:'./assets/img/brand/logo.png'}}"/>
                             </td>

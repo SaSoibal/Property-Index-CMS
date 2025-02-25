@@ -1,381 +1,475 @@
 <div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
-  <div class="container-fluid">
-    <div class="header-body">
-      <!-- Card stats -->
-      <div class="row">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- Page content -->
 <div class="container-fluid mt--8">
-  <div *ngIf="pageBuffer" class="loader"></div>
-  <!-- Table -->
-  <div class="row">
-    <div class="col">
-      <div class="card shadow">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Website Land Sale Listing</h3>
-            </div>
-            <div class="col text-right">
-              <a  *ngIf="permission('read')" [routerLink]="['/website-listing/website-property-listing']" class="btn btn-sm btn-default text-white">
-                <i class="fa fa-list mr-2"></i>For Sale
-              </a>
-              <a  *ngIf="permission('read')" [routerLink]="['/website-listing/website-rent-listing']" class="btn btn-sm btn-default text-white">
-                <i class="fa fa-list mr-2"></i>For Rent
-              </a>
-              <a  *ngIf="permission('read')" [routerLink]="['/website-listing/website-land-sale-listing']" class="btn btn-sm btn-warning text-white">
-                <i class="fa fa-list mr-2"></i>For Land Sale
-              </a>
-              <a *ngIf="permissionAdd('create')" [routerLink]="['/website-listing/add-to-website']" class="btn btn-sm btn-default text-white">
-                <i class="fa fa-plus mr-2"></i>Add to website
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-body border-0" *ngIf="permission('read')">
-          <button nz-button nzType="default" *ngIf="filterOptionButton" class="mb-3" (click)="clickFilterOption()"><i class="fa fa-filter mr-2"></i> Filter Option</button>
-          <div class="row mb-3" *ngIf="showFilterOption">
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="name">Name</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <input nz-input [(ngModel)]="searchName" (ngModelChange)="filterName($event)" id="name"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="contact_no">Contact No</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <input nz-input [(ngModel)]="searchContactNo" (ngModelChange)="filterContactNo($event)" id="contact_no"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="city">City</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzShowSearch  [(ngModel)]="searchCity" (ngModelChange)="filterCity($event)" id="city">
-                    <nz-option *ngFor="let cities of city_list" [nzLabel]="cities.city" [nzValue]="cities.id"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="location">Location</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzShowSearch  [(ngModel)]="searchLocation" (ngModelChange)="filterLocation($event)" id="location">
-                    <nz-option *ngFor="let loc of location_list" [nzLabel]="loc.location" [nzValue]="loc.id"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="purpose">Product Type</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzShowSearch  [(ngModel)]="searchProductType" (ngModelChange)="filterProductType($event)" id="purpose">
-                    <nz-option *ngFor="let type of product_type_list" [nzLabel]="type.name" [nzValue]="type.id"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="property_type">Property Type</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzShowSearch  [(ngModel)]="searchPropertyType" (ngModelChange)="filterPropertyType($event)" id="property_type">
-                    <nz-option [nzLabel]="'Free Hold'" [nzValue]="1"></nz-option>
-                    <nz-option [nzLabel]="'Lease Hold'" [nzValue]="2"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
+    <div *ngIf="pageBuffer" class="loader"></div>
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Website Land Sale Listing</h3>
+                        </div>
+                        <div class="col text-right">
+                            <a *ngIf="permission('read')" [routerLink]="['/website-listing/website-property-listing']"
+                                class="btn btn-sm btn-default text-white">
+                                <i class="fa fa-list mr-2"></i>For Sale
+                            </a>
+                            <a *ngIf="permission('read')" [routerLink]="['/website-listing/website-rent-listing']"
+                                class="btn btn-sm btn-default text-white">
+                                <i class="fa fa-list mr-2"></i>For Rent
+                            </a>
+                            <a *ngIf="permission('read')" [routerLink]="['/website-listing/website-land-sale-listing']"
+                                class="btn btn-sm btn-warning text-white">
+                                <i class="fa fa-list mr-2"></i>For Land Sale
+                            </a>
+                            <a *ngIf="permissionAdd('create')" [routerLink]="['/website-listing/add-to-website']"
+                                class="btn btn-sm btn-default text-white">
+                                <i class="fa fa-plus mr-2"></i>Add to website
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body border-0" *ngIf="permission('read')">
+                    <button nz-button nzType="default" *ngIf="filterOptionButton" class="mb-3"
+                        (click)="clickFilterOption()"><i class="fa fa-filter mr-2"></i> Filter Option</button>
+                    <div class="row mb-3" *ngIf="showFilterOption">
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left"
+                                    nzFor="name">Name</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <input nz-input [(ngModel)]="searchName" (ngModelChange)="filterName($event)"
+                                        id="name" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="contact_no">Contact
+                                    No</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <input nz-input [(ngModel)]="searchContactNo"
+                                        (ngModelChange)="filterContactNo($event)" id="contact_no" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left"
+                                    nzFor="city">City</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-select nzShowSearch [(ngModel)]="searchCity"
+                                        (ngModelChange)="filterCity($event)" id="city">
+                                        <nz-option *ngFor="let cities of city_list" [nzLabel]="cities.city"
+                                            [nzValue]="cities.id"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left"
+                                    nzFor="location">Location</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-select nzShowSearch [(ngModel)]="searchLocation"
+                                        (ngModelChange)="filterLocation($event)" id="location">
+                                        <nz-option *ngFor="let loc of location_list" [nzLabel]="loc.location"
+                                            [nzValue]="loc.id"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="purpose">Product
+                                    Type</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-select nzShowSearch [(ngModel)]="searchProductType"
+                                        (ngModelChange)="filterProductType($event)" id="purpose">
+                                        <nz-option *ngFor="let type of product_type_list" [nzLabel]="type.name"
+                                            [nzValue]="type.id"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="property_type">Property
+                                    Type</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-select nzShowSearch [(ngModel)]="searchPropertyType"
+                                        (ngModelChange)="filterPropertyType($event)" id="property_type">
+                                        <nz-option [nzLabel]="'Free Hold'" [nzValue]="1"></nz-option>
+                                        <nz-option [nzLabel]="'Lease Hold'" [nzValue]="2"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
 
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="construction_status">Const.Status</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzShowSearch  [(ngModel)]="searchConstructionStatus" (ngModelChange)="filterConstructionStatus($event)" id="construction_status">
-                    <nz-option [nzLabel]="'Ready'" [nzValue]="1"></nz-option>
-                    <nz-option [nzLabel]="'On-Going'" [nzValue]="2"></nz-option>
-                    <nz-option [nzLabel]="'upcoming'" [nzValue]="3"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="project_id">Project ID</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <input nz-input [(ngModel)]="searchProjectID" (ngModelChange)="filterProjectID($event)" id="project_id"/>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="price_min">Rent min</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-input-number [(ngModel)]="searchPricemin" class="w-100" (ngModelChange)="filterPricemin($event)" id="price_min"></nz-input-number>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="price_max">Rent max</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-input-number [(ngModel)]="searchPricemax" class="w-100" (ngModelChange)="filterPricemax($event)" id="price_max"></nz-input-number>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="beds">Beds</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzShowSearch  [(ngModel)]="searchBeds" (ngModelChange)="filterBeds($event)" id="property_type">
-                    <nz-option [nzLabel]="1" [nzValue]="1"></nz-option>
-                    <nz-option [nzLabel]="2" [nzValue]="2"></nz-option>
-                    <nz-option [nzLabel]="3" [nzValue]="3"></nz-option>
-                    <nz-option [nzLabel]="4" [nzValue]="4"></nz-option>
-                    <nz-option [nzLabel]="5" [nzValue]="5"></nz-option>
-                    <nz-option [nzLabel]="6" [nzValue]="6"></nz-option>
-                    <nz-option [nzLabel]="7" [nzValue]="7"></nz-option>
-                    <nz-option [nzLabel]="8" [nzValue]="8"></nz-option>
-                    <nz-option [nzLabel]="9" [nzValue]="9"></nz-option>
-                    <nz-option [nzLabel]="10" [nzValue]="10"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="baths">Baths</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzShowSearch  [(ngModel)]="searchBaths" (ngModelChange)="filterBaths($event)" id="baths">
-                    <nz-option [nzLabel]="1" [nzValue]="1"></nz-option>
-                    <nz-option [nzLabel]="2" [nzValue]="2"></nz-option>
-                    <nz-option [nzLabel]="3" [nzValue]="3"></nz-option>
-                    <nz-option [nzLabel]="4" [nzValue]="4"></nz-option>
-                    <nz-option [nzLabel]="5" [nzValue]="5"></nz-option>
-                    <nz-option [nzLabel]="6" [nzValue]="6"></nz-option>
-                    <nz-option [nzLabel]="7" [nzValue]="7"></nz-option>
-                    <nz-option [nzLabel]="8" [nzValue]="8"></nz-option>
-                    <nz-option [nzLabel]="9" [nzValue]="9"></nz-option>
-                    <nz-option [nzLabel]="10" [nzValue]="10"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left"
+                                    nzFor="construction_status">Const.Status</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-select nzShowSearch [(ngModel)]="searchConstructionStatus"
+                                        (ngModelChange)="filterConstructionStatus($event)" id="construction_status">
+                                        <nz-option [nzLabel]="'Ready'" [nzValue]="1"></nz-option>
+                                        <nz-option [nzLabel]="'On-Going'" [nzValue]="2"></nz-option>
+                                        <nz-option [nzLabel]="'upcoming'" [nzValue]="3"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="project_id">Project
+                                    ID</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <input nz-input [(ngModel)]="searchProjectID"
+                                        (ngModelChange)="filterProjectID($event)" id="project_id" />
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="price_min">Rent
+                                    min</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-input-number [(ngModel)]="searchPricemin" class="w-100"
+                                        (ngModelChange)="filterPricemin($event)" id="price_min"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="price_max">Rent
+                                    max</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-input-number [(ngModel)]="searchPricemax" class="w-100"
+                                        (ngModelChange)="filterPricemax($event)" id="price_max"></nz-input-number>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left"
+                                    nzFor="beds">Beds</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-select nzShowSearch [(ngModel)]="searchBeds"
+                                        (ngModelChange)="filterBeds($event)" id="property_type">
+                                        <nz-option [nzLabel]="1" [nzValue]="1"></nz-option>
+                                        <nz-option [nzLabel]="2" [nzValue]="2"></nz-option>
+                                        <nz-option [nzLabel]="3" [nzValue]="3"></nz-option>
+                                        <nz-option [nzLabel]="4" [nzValue]="4"></nz-option>
+                                        <nz-option [nzLabel]="5" [nzValue]="5"></nz-option>
+                                        <nz-option [nzLabel]="6" [nzValue]="6"></nz-option>
+                                        <nz-option [nzLabel]="7" [nzValue]="7"></nz-option>
+                                        <nz-option [nzLabel]="8" [nzValue]="8"></nz-option>
+                                        <nz-option [nzLabel]="9" [nzValue]="9"></nz-option>
+                                        <nz-option [nzLabel]="10" [nzValue]="10"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left"
+                                    nzFor="baths">Baths</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-select nzShowSearch [(ngModel)]="searchBaths"
+                                        (ngModelChange)="filterBaths($event)" id="baths">
+                                        <nz-option [nzLabel]="1" [nzValue]="1"></nz-option>
+                                        <nz-option [nzLabel]="2" [nzValue]="2"></nz-option>
+                                        <nz-option [nzLabel]="3" [nzValue]="3"></nz-option>
+                                        <nz-option [nzLabel]="4" [nzValue]="4"></nz-option>
+                                        <nz-option [nzLabel]="5" [nzValue]="5"></nz-option>
+                                        <nz-option [nzLabel]="6" [nzValue]="6"></nz-option>
+                                        <nz-option [nzLabel]="7" [nzValue]="7"></nz-option>
+                                        <nz-option [nzLabel]="8" [nzValue]="8"></nz-option>
+                                        <nz-option [nzLabel]="9" [nzValue]="9"></nz-option>
+                                        <nz-option [nzLabel]="10" [nzValue]="10"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
 
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="form_added_date">Form Added</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-date-picker [(ngModel)]="searchFormAddedDate" class="w-100" (ngModelChange)="filterFormAddedDate($event)"></nz-date-picker>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="to_added_date">To Added</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-date-picker [(ngModel)]="searchToAddedDate" class="w-100" (ngModelChange)="filterToAddedDate($event)"></nz-date-picker>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-            <div class="col-md-3">
-              <nz-form-item class="mb-2">
-                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="added_by">Added By</nz-form-label>
-                <nz-form-control [nzSm]="16" [nzXs]="24">
-                  <nz-select nzShowSearch [(ngModel)]="searchAddedBy" (ngModelChange)="filterAddedBy($event)" id="added_by">
-                    <nz-option *ngFor="let user of user_list" [nzLabel]="user.name" [nzValue]="user.id"></nz-option>
-                  </nz-select>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="form_added_date">Form
+                                    Added</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-date-picker [(ngModel)]="searchFormAddedDate" class="w-100"
+                                        (ngModelChange)="filterFormAddedDate($event)"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="to_added_date">To
+                                    Added</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-date-picker [(ngModel)]="searchToAddedDate" class="w-100"
+                                        (ngModelChange)="filterToAddedDate($event)"></nz-date-picker>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                        <div class="col-md-3">
+                            <nz-form-item class="mb-2">
+                                <nz-form-label [nzSm]="8" [nzXs]="24" class="text-left" nzFor="added_by">Added
+                                    By</nz-form-label>
+                                <nz-form-control [nzSm]="16" [nzXs]="24">
+                                    <nz-select nzShowSearch [(ngModel)]="searchAddedBy"
+                                        (ngModelChange)="filterAddedBy($event)" id="added_by">
+                                        <nz-option *ngFor="let user of user_list" [nzLabel]="user.name"
+                                            [nzValue]="user.id"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
 
-            <div class="col-md-12 text-right">
-              <nz-form-item class="mb-2">
-                <nz-form-control [nzSm]="24" [nzXs]="24">
-                  <a nz-button nzType="primary" class="text-white mr-2" (click)="clickFilter()"><i class="fa fa-search mr-1"></i>Search</a>
-                  <a nz-button nzType="default" class="mr-2" (click)="clearFilter()"><i class="fa fa-bolt mr-1"></i>Clear</a>
-                  <a nz-button nzType="default" nzDanger (click)="clickFilterOptionClose()"><i class="fa fa-times mr-1"></i>Close</a>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
-          </div>
-          <div class="table-responsive" >
-            <table class="table table-hover table-bordered table-sm  table--darker">
-              <thead>
-              <tr>
-                <th class="text-center align-middle" *ngIf="permission('update') || permission('delete')">Action</th>
+                        <div class="col-md-12 text-right">
+                            <nz-form-item class="mb-2">
+                                <nz-form-control [nzSm]="24" [nzXs]="24">
+                                    <a nz-button nzType="primary" class="text-white mr-2" (click)="clickFilter()"><i
+                                            class="fa fa-search mr-1"></i>Search</a>
+                                    <a nz-button nzType="default" class="mr-2" (click)="clearFilter()"><i
+                                            class="fa fa-bolt mr-1"></i>Clear</a>
+                                    <a nz-button nzType="default" nzDanger (click)="clickFilterOptionClose()"><i
+                                            class="fa fa-times mr-1"></i>Close</a>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-sm  table--darker">
+                            <thead>
+                                <tr>
+                                    <th class="text-center align-middle"
+                                        *ngIf="permission('update') || permission('delete')">Action</th>
 
-                <th class="align-middle" (click)="sort('property_id')">
-                  <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Project ID
-                </th>
-                <th class="align-middle" (click)="sort('listing_id')">
-                  <i *ngIf="sortColumn==='listing_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='listing_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Listing ID
-                </th>
-                <th class="align-middle" (click)="sort('property_id')">
-                  <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Image
-                </th>
-                <th class="align-middle" (click)="sort('title')">
-                  <i *ngIf="sortColumn==='title' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='title' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Name
-                </th>
-                <th class="align-middle" (click)="sort('address')">
-                  <i *ngIf="sortColumn==='address' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='address' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Address
-                </th>
-                <th class="align-middle" (click)="sort('block')">
-                  <i *ngIf="sortColumn==='block' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='block' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Block
-                </th>
-                <th class="align-middle" (click)="sort('sector')">
-                  <i *ngIf="sortColumn==='sector' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='sector' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Sector
-                </th>
-                <th class="align-middle" (click)="sort('road')">
-                  <i *ngIf="sortColumn==='road' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='road' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Road
-                </th>
-                <th class="align-middle" (click)="sort('road_size')">
-                  <i *ngIf="sortColumn==='road_size' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='road_size' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Road Size
-                </th>
-                <th class="align-middle" (click)="sort('plot_no')">
-                  <i *ngIf="sortColumn==='plot_no' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='plot_no' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Plot No
-                </th>
-                <th class="align-middle" (click)="sort('plot_size')">
-                  <i *ngIf="sortColumn==='plot_size' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='plot_size' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Plot Size
-                </th>
-                <th class="align-middle" (click)="sort('facing')">
-                  <i *ngIf="sortColumn==='facing' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='facing' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Facing
-                </th>
-                <th class="align-middle" (click)="sort('property_registration')">
-                  <i *ngIf="sortColumn==='property_registration' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='property_registration' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Reg. Status
-                </th>
-                <th class="align-middle" (click)="sort('plot_boundary')">
-                  <i *ngIf="sortColumn==='plot_boundary' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='plot_boundary' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Boundary
-                </th>
-                <th class="align-middle" (click)="sort('category')">
-                  <i *ngIf="sortColumn==='category' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='category' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Category
-                </th>
-                <th class="align-middle" >
-                  Price
-                </th>
-                <th class="align-middle" (click)="sort('status')">
-                  <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Status
-                </th>
-                <th class="align-middle" (click)="sort('created_by')">
-                  <i *ngIf="sortColumn==='created_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='created_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Added by
-                </th>
-                <th class="align-middle" (click)="sort('updated_by')">
-                  <i *ngIf="sortColumn==='updated_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-                  <i *ngIf="sortColumn==='updated_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-                  Updated by
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <ng-container *ngIf="collection.length > 0;else notFound">
-                <tr *ngFor="let property of collection| paginate: {
+                                    <th class="align-middle" (click)="sort('property_id')">
+                                        <i *ngIf="sortColumn==='property_id' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='property_id' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Project ID
+                                    </th>
+                                    <th class="align-middle" (click)="sort('listing_id')">
+                                        <i *ngIf="sortColumn==='listing_id' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='listing_id' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Listing ID
+                                    </th>
+                                    <th class="align-middle" (click)="sort('property_id')">
+                                        <i *ngIf="sortColumn==='property_id' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='property_id' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Image
+                                    </th>
+                                    <th class="align-middle" (click)="sort('title')">
+                                        <i *ngIf="sortColumn==='title' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='title' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Name
+                                    </th>
+                                    <th class="align-middle" (click)="sort('address')">
+                                        <i *ngIf="sortColumn==='address' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='address' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Address
+                                    </th>
+                                    <th class="align-middle" (click)="sort('block')">
+                                        <i *ngIf="sortColumn==='block' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='block' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Block
+                                    </th>
+                                    <th class="align-middle" (click)="sort('sector')">
+                                        <i *ngIf="sortColumn==='sector' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='sector' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Sector
+                                    </th>
+                                    <th class="align-middle" (click)="sort('road')">
+                                        <i *ngIf="sortColumn==='road' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='road' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Road
+                                    </th>
+                                    <th class="align-middle" (click)="sort('road_size')">
+                                        <i *ngIf="sortColumn==='road_size' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='road_size' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Road Size
+                                    </th>
+                                    <th class="align-middle" (click)="sort('plot_no')">
+                                        <i *ngIf="sortColumn==='plot_no' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='plot_no' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Plot No
+                                    </th>
+                                    <th class="align-middle" (click)="sort('plot_size')">
+                                        <i *ngIf="sortColumn==='plot_size' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='plot_size' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Plot Size
+                                    </th>
+                                    <th class="align-middle" (click)="sort('facing')">
+                                        <i *ngIf="sortColumn==='facing' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='facing' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Facing
+                                    </th>
+                                    <th class="align-middle" (click)="sort('property_registration')">
+                                        <i *ngIf="sortColumn==='property_registration' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='property_registration' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Reg. Status
+                                    </th>
+                                    <th class="align-middle" (click)="sort('plot_boundary')">
+                                        <i *ngIf="sortColumn==='plot_boundary' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='plot_boundary' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Boundary
+                                    </th>
+                                    <th class="align-middle" (click)="sort('category')">
+                                        <i *ngIf="sortColumn==='category' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='category' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Category
+                                    </th>
+                                    <th class="align-middle">
+                                        Price
+                                    </th>
+                                    <th class="align-middle" (click)="sort('status')">
+                                        <i *ngIf="sortColumn==='status' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='status' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Status
+                                    </th>
+                                    <th class="align-middle" (click)="sort('created_by')">
+                                        <i *ngIf="sortColumn==='created_by' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='created_by' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Added by
+                                    </th>
+                                    <th class="align-middle" (click)="sort('updated_by')">
+                                        <i *ngIf="sortColumn==='updated_by' && dataOrderBy"
+                                            class="fas fa-arrow-up text-danger"></i>
+                                        <i *ngIf="sortColumn==='updated_by' && !dataOrderBy"
+                                            class="fas fa-arrow-down text-danger"></i>
+                                        Updated by
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngIf="collection.length > 0;else notFound">
+                                    <tr *ngFor="let property of collection| paginate: {
                         currentPage: pageNumber,
                         itemsPerPage: itemPerPage,
                         totalItems: totalrow
                         } ; index as i;">
-                  <td class="align-middle text-center" *ngIf="permission('update') || permission('delete')">
-                    <div class="d-flex" style="width:80px">
-                      <a *ngIf="permission('read')" (click)="openRedModel(property)" class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="View"><i class="fas fa-eye"></i></a>
-                      <a *ngIf="permission('update')" [routerLink]="[ '/website-listing/website-land-sale-listing/edit',property.id,property.property_id]" class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Edit"><i class="fas fa-edit"></i></a>
+                                        <td class="align-middle text-center"
+                                            *ngIf="permission('update') || permission('delete')">
+                                            <div class="d-flex" style="width:80px">
+                                                <a *ngIf="permission('read')" (click)="openRedModel(property)"
+                                                    class="btn btn-sm btn-default text-white" placement="top"
+                                                    ngbTooltip="View"><i class="fas fa-eye"></i></a>
+                                                <a *ngIf="permission('update')"
+                                                    [routerLink]="[ '/website-listing/website-land-sale-listing/edit',property.id,property.property_id]"
+                                                    class="btn btn-sm btn-default text-white" placement="top"
+                                                    ngbTooltip="Edit"><i class="fas fa-edit"></i></a>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center"><strong>{{property.property_id}}</strong>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            {{property.listing_id?property.listing_id:'- - -'}}</td>
+                                        <td class="align-middle">
+                                            <img style="background: #0c1549;height:45px;width:55px;border-radius:3px;padding: 2px;"
+                                                src="{{property.property_thumbnail?rootUrl+'/property/'+property.property_thumbnail.url:'./assets/img/brand/logo.png'}}" />
+                                        </td>
+                                        <td class="align-middle m-width-200">{{property.title}}</td>
+                                        <td class="align-middle m-width-150"><span class="text-warning cursor-pointer"
+                                                ngbPopover="{{property.property_address}}"
+                                                triggers="mouseenter:mouseleave" popoverTitle="Address">
+                                                <i class="fas fa-comment"></i> Address
+                                            </span></td>
+                                        <td class="align-middle m-width-100">{{property.block}}</td>
+                                        <td class="align-middle m-width-100">{{property.sector}}</td>
+                                        <td class="align-middle m-width-100">{{property.road}}</td>
+                                        <td class="align-middle m-width-100">{{property.road_size}}</td>
+                                        <td class="align-middle m-width-100">{{property.plot_no}}</td>
+                                        <td class="align-middle m-width-100">{{property.plot_size}}</td>
+                                        <td class="align-middle m-width-100">{{property.facing}}</td>
+                                        <td class="align-middle m-width-100">
+                                            {{getPropertyRegistration(property.property_registration)}}</td>
+                                        <td class="align-middle m-width-100">{{property.plot_boundary}}</td>
+                                        <td class="align-middle m-width-100">{{property.category}}</td>
+                                        <td class="align-middle m-width-100">
+                                            {{property.price_contact?property.price_contact.offer_price:'0.00'}}</td>
+                                        <td class="align-middle m-width-150">
+                                            <span class="badge status_btn text-wrap mb-0 badge-warning"
+                                                *ngIf="property.status ==1">Inactive</span>
+                                            <span class="badge status_btn text-wrap mb-0 badge-info"
+                                                *ngIf="property.status ==2">Draft</span>
+                                            <span class="badge status_btn text-wrap mb-0 badge-success"
+                                                *ngIf="property.status ==3">Published</span>
+                                        </td>
+                                        <td class="align-middle m-width-150">
+                                            {{property.created_by?property.created_by.name:''}}<br>
+                                            {{property.created_at|date:'shortDate'}}
+                                        </td>
+                                        <td class="align-middle m-width-150">
+                                            <span *ngIf="property.updated_by">
+                                                {{property.updated_by?property.updated_by.name:''}}<br>
+                                                {{property.updated_at|date:'shortDate'}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-template #notFound>
+                                    <tr>
+                                        <td colspan="100%" class="text-danger">Data Not Found ...</td>
+                                    </tr>
+                                </ng-template>
+                            </tbody>
+                        </table>
                     </div>
-                  </td>
-                  <td class="align-middle text-center"><strong>{{property.property_id}}</strong></td>
-                  <td class="align-middle text-center">{{property.listing_id?property.listing_id:'- - -'}}</td>
-                  <td class="align-middle">
-                    <img style="background: #0c1549;height:45px;width:55px;border-radius:3px;padding: 2px;" src="{{property.property_thumbnail?rootUrl+'/property/'+property.property_thumbnail.url:'./assets/img/brand/logo.png'}}"/>
-                  </td>
-                  <td class="align-middle m-width-200">{{property.title}}</td>
-                  <td class="align-middle m-width-150">{{property.property_address}}</td>
-                  <td class="align-middle m-width-100">{{property.block}}</td>
-                  <td class="align-middle m-width-100">{{property.sector}}</td>
-                  <td class="align-middle m-width-100">{{property.road}}</td>
-                  <td class="align-middle m-width-100">{{property.road_size}}</td>
-                  <td class="align-middle m-width-100">{{property.plot_no}}</td>
-                  <td class="align-middle m-width-100">{{property.plot_size}}</td>
-                  <td class="align-middle m-width-100">{{property.facing}}</td>
-                  <td class="align-middle m-width-100">{{getPropertyRegistration(property.property_registration)}}</td>
-                  <td class="align-middle m-width-100">{{property.plot_boundary}}</td>
-                  <td class="align-middle m-width-100">{{property.category}}</td>
-                  <td class="align-middle m-width-100">{{property.price_contact?property.price_contact.offer_price:'0.00'}}</td>
-                  <td class="align-middle m-width-150">
-                    <span class="badge status_btn text-wrap mb-0 badge-warning" *ngIf="property.status ==1">Inactive</span>
-                    <span class="badge status_btn text-wrap mb-0 badge-info" *ngIf="property.status ==2">Draft</span>
-                    <span class="badge status_btn text-wrap mb-0 badge-success" *ngIf="property.status ==3">Published</span>
-                  </td>
-                  <td class="align-middle m-width-150">
-                    {{property.created_by?property.created_by.name:''}}<br>
-                    {{property.created_at|date:'shortDate'}}
-                  </td>
-                  <td class="align-middle m-width-150" >
-                      <span *ngIf="property.updated_by">
-                        {{property.updated_by?property.updated_by.name:''}}<br>
-                        {{property.updated_at|date:'shortDate'}}
-                      </span>
-                  </td>
-                </tr>
-              </ng-container>
-              <ng-template  #notFound>
-                <tr>
-                  <td colspan="100%" class="text-danger">Data Not Found ...</td>
-                </tr>
-              </ng-template>
-              </tbody>
-            </table>
-          </div>
+                </div>
+                <div class="card-footer">
+                    <mat-paginator [length]="totalrow" [pageSize]="itemPerPage" [pageSizeOptions]="pageSizeOptions"
+                        (page)="pageEvent($event)">
+                    </mat-paginator>
+                </div>
+            </div>
         </div>
-        <div class="card-footer">
-          <mat-paginator
-            [length]="totalrow"
-            [pageSize]="itemPerPage"
-            [pageSizeOptions]="pageSizeOptions"
-            (page)="pageEvent($event)">
-          </mat-paginator>
-        </div>
-      </div>
     </div>
-  </div>
 </div>

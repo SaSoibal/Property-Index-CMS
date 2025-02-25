@@ -16,25 +16,29 @@
             <div class="card shadow">
                 <div class="card-header">
                     <div class="row align-items-center">
-                      <div class="col d-flex justify-content-between">
-                        <div class="">
-                          <h3 class="mb-0">For Land Sale</h3>
+                        <div class="col d-flex justify-content-between">
+                            <div class="">
+                                <h3 class="mb-0">For Land Sale</h3>
+                            </div>
+                            <div class="" *ngIf="permission('create')">
+                                <a [routerLink]="['/property-management/for-sales']"
+                                    class="btn btn-sm btn-default text-white">
+                                    <i class="fa fa-plus mr-2"></i>For Sale
+                                </a>
+                                <a [routerLink]="['/property-management/for-rent']"
+                                    class="btn btn-sm btn-default text-white">
+                                    <i class="fa fa-plus mr-2"></i>To Rent
+                                </a>
+                                <a [routerLink]="['/property-management/for-land-sale']"
+                                    class="btn btn-sm btn-warning text-white">
+                                    <i class="fa fa-plus mr-2"></i>For Land Sale
+                                </a>
+                                <a [routerLink]="['/property-management/qc-land-sale-property-list']"
+                                    class="btn btn-sm btn-default text-white">
+                                    <i class="fa fa-list mr-2"></i>QC Property List
+                                </a>
+                            </div>
                         </div>
-                        <div class="" *ngIf="permission('create')">
-                          <a [routerLink]="['/property-management/for-sales']" class="btn btn-sm btn-default text-white">
-                            <i class="fa fa-plus mr-2"></i>For Sale
-                          </a>
-                          <a [routerLink]="['/property-management/for-rent']" class="btn btn-sm btn-default text-white">
-                            <i class="fa fa-plus mr-2"></i>To Rent
-                          </a>
-                          <a [routerLink]="['/property-management/for-land-sale']" class="btn btn-sm btn-warning text-white">
-                            <i class="fa fa-plus mr-2"></i>For Land Sale
-                          </a>
-                          <a  [routerLink]="['/property-management/qc-land-sale-property-list']" class="btn btn-sm btn-default text-white">
-                            <i class="fa fa-list mr-2"></i>QC Property List
-                          </a>
-                        </div>
-                      </div>
                     </div>
                 </div>
                 <div class="card-body border-0" *ngIf="permission('create')">
@@ -43,645 +47,808 @@
                             <form (ngSubmit)="submitBasicForm()" [formGroup]="basicFormGroup">
                                 <ng-template matStepLabel>Basic Info</ng-template>
                                 <div class="row mt-4">
-                                   <div class="col-md-6">
-                                    <input type="hidden" formControlName="property_id">
-                             
-                                    <nz-form-item >
-                                      <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="listing_id">Listing ID </nz-form-label>
-                                      <nz-form-control nzErrorTip="Listing Id is required!">
-                                        <nz-input-number-group  nzCompact>
-                                          <nz-input-number nz-input formControlName="listing_id" id="listing_id" [nzMin]="1" style="width: calc(100% - 65px)"></nz-input-number>
-                                          <button type="button" (click)="checkListingID()" nz-button nzType="primary">Filter</button>
-                                        </nz-input-number-group>
-                                      </nz-form-control>
-                                    </nz-form-item>
+                                    <div class="col-md-6">
+                                        <input type="hidden" formControlName="property_id">
 
-                                    <nz-form-item *ngIf="listing_property.length > 0">
-                                      <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left">Listed Properties </nz-form-label>
-                                      <nz-form-control  [nzSm]="17" [nzXs]="24">
-                                        <a *ngFor="let lp of listing_property" (click)="idWiseProperty(lp.id)">
-                                          <u>{{lp.property_id}} - {{lp.title}}</u><br>
-                                        </a>
-                                      </nz-form-control>
-                                    </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="listing_id">Listing ID </nz-form-label>
+                                            <nz-form-control nzErrorTip="Listing Id is required!">
+                                                <nz-input-number-group nzCompact>
+                                                    <nz-input-number nz-input formControlName="listing_id"
+                                                        id="listing_id" [nzMin]="1"
+                                                        style="width: calc(100% - 65px)"></nz-input-number>
+                                                    <button type="button" (click)="checkListingID()" nz-button
+                                                        nzType="primary">Filter</button>
+                                                </nz-input-number-group>
+                                            </nz-form-control>
+                                        </nz-form-item>
 
-                                    <nz-form-item>
-                                      <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="pid">Property ID </nz-form-label>
-                                      <nz-form-control nzErrorTip="Property Id is required!">
-                                        <nz-input-group>
-                                          <input type="text" nz-input formControlName="pid" id="pid"/>
-                                        </nz-input-group>
-                                      </nz-form-control>
-                                    </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="title">Title</nz-form-label>
-                                       <nz-form-control nzErrorTip="Title is required!">
-                                         <input nz-input formControlName="title" id="title" required />
-                                       </nz-form-control>
-                                     </nz-form-item>
+                                        <nz-form-item *ngIf="listing_property.length > 0">
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left">Listed Properties
+                                            </nz-form-label>
+                                            <nz-form-control [nzSm]="17" [nzXs]="24">
+                                                <a *ngFor="let lp of listing_property" (click)="idWiseProperty(lp.id)">
+                                                    <u>{{lp.property_id}} - {{lp.title}}</u><br>
+                                                </a>
+                                            </nz-form-control>
+                                        </nz-form-item>
 
-                                     <nz-form-item>
-                                      <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="leads_type">Type</nz-form-label>
-                                      <nz-form-control nzErrorTip="Type is required!">
-                                        <nz-radio-group formControlName="leads_type" id="leads_type" (ngModelChange)="leadsTypeChange($event)">
-                                          <label nz-radio [nzValue]="0">Primary</label>
-                                          <label nz-radio [nzValue]="1">Secondary</label>
-                                        </nz-radio-group>
-                                      </nz-form-control>
-                                    </nz-form-item>
-      
-                                    <nz-form-item>
-                                      <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired class="ant-label text-left" nzFor="product_type">
-                                          <span>Product Type</span>
-                                      </nz-form-label>
-                                      <nz-form-control>
-                                          <div class="card">
-                                              <div class="card-header pb-2">
-                                                <nz-radio-group  formControlName="product_type" id="product_type" (ngModelChange)="changeProductName($event)">
-                                                  <label nz-radio [nzValue]="1">Residential</label>
-                                                  <label nz-radio [nzValue]="2">Commercial</label>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="pid">Property
+                                                ID </nz-form-label>
+                                            <nz-form-control nzErrorTip="Property Id is required!">
+                                                <nz-input-group>
+                                                    <input type="text" nz-input formControlName="pid" id="pid" />
+                                                </nz-input-group>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired
+                                                nzFor="title">Title</nz-form-label>
+                                            <nz-form-control nzErrorTip="Title is required!">
+                                                <input nz-input formControlName="title" id="title" required />
+                                            </nz-form-control>
+                                        </nz-form-item>
+
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired
+                                                nzFor="leads_type">Type</nz-form-label>
+                                            <nz-form-control nzErrorTip="Type is required!">
+                                                <nz-radio-group formControlName="leads_type" id="leads_type"
+                                                    (ngModelChange)="leadsTypeChange($event)">
+                                                    <label nz-radio [nzValue]="0">Primary</label>
+                                                    <label nz-radio [nzValue]="1">Secondary</label>
                                                 </nz-radio-group>
-                                              </div>
-                                              <ul class="list-group list-group-flush">
-                                                <li class="list-group-item pl-4">
-                                                    <nz-radio-group  formControlName="product" id="product">
-                                                      <ng-container *ngIf="show_type_of_product == 1">
-                                                        <label nz-radio [nzValue]="'apartments'">Apartments</label><br>
-                                                        <label nz-radio [nzValue]="'rooms'">Rooms</label><br>
-                                                        <label nz-radio [nzValue]="'penthouses'">Penthouses</label><br>
-                                                      </ng-container>
-                                                      <ng-container *ngIf="show_type_of_product == 2">
-                                                          <label nz-radio [nzValue]="'offices'">Offices</label><br>
-                                                          <label nz-radio [nzValue]="'shops'">Shops</label><br>
-                                                          <label nz-radio [nzValue]="'open floor'">Open floor</label><br>
-                                                          <label nz-radio [nzValue]="'office apartments'">Office apartments</label><br>
-                                                      </ng-container>   
-                                                          <label nz-radio [nzValue]="'duplex'">Duplex</label><br>
-                                                          <label nz-radio [nzValue]="'triplex'">Triplex</label><br>
-                                                          <label nz-radio [nzValue]="'plazas'">Plazas</label><br>
-                                                          <label nz-radio [nzValue]="'buildings'">Buildings</label><br>
-                                                          <label nz-radio [nzValue]="'plots'">Plots</label><br>
-                                                      <ng-container *ngIf="show_type_of_product == 2">
-                                                        <label nz-radio [nzValue]="'warehouse'">Warehouse</label><br>
-                                                        <label nz-radio [nzValue]="'factory'">Factory</label><br>
-                                                      </ng-container>
-                                                  </nz-radio-group>
-                                                </li>
-                                              </ul>
-                                          </div>
-                                      </nz-form-control>
-                                    </nz-form-item>
-                                    <ng-container *ngIf="showProjectInput == 0">
-                                      <nz-form-item>
-                                        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="project_name">Project Name</nz-form-label>
-                                        <nz-form-control nzErrorTip="Project Name is required!">
-                                          <nz-select nzShowSearch   formControlName="project_name" id="project_name">
-                                            <nz-option *ngFor="let project of project_list" [nzLabel]="project.project_name" [nzValue]="project.id"></nz-option>
-                                          </nz-select>
-                                        </nz-form-control>
-                                      </nz-form-item>
-      
-                                      <nz-form-item>
-                                        <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="project_type">Project Type</nz-form-label>
-                                        <nz-form-control nzErrorTip="Project Type is required!">
-                                          <nz-select nzShowSearch   formControlName="project_type" id="project_type">
-                                            <nz-option *ngFor="let type of project_type_list" [nzLabel]="type.type" [nzValue]="type.id"></nz-option>
-                                          </nz-select>
-                                        </nz-form-control>
-                                      </nz-form-item>
-                                    </ng-container>
-                                    
-                                    <nz-form-item>
-                                      <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="property_type">Property Type</nz-form-label>
-                                      <nz-form-control nzErrorTip="Property Type is required!">
-                                        <nz-radio-group formControlName="property_type" id="property_type" (ngModelChange)="changePropertyType($event)">
-                                          <label nz-radio [nzValue]="1">Free Hold</label>
-                                          <label nz-radio [nzValue]="2">Lease Hold</label>
-                                        </nz-radio-group>
-                                      </nz-form-control>
-                                    </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="city">City</nz-form-label>
-                                       <nz-form-control nzErrorTip="City is required!">
-                                         <nz-select nzShowSearch nzAllowClear formControlName="city" id="city" (ngModelChange)="changeCity($event)"  required>
-                                          <nz-option *ngFor="let cities of city_list" [nzLabel]="cities.city" [nzValue]="cities.id"></nz-option>
-                                         </nz-select>
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="area">Area</nz-form-label>
-                                       <nz-form-control nzErrorTip="Area is required!">
-                                         <nz-select nzShowSearch nzAllowClear formControlName="area" id="area" (ngModelChange)="changeArea($event)" required>
-                                          <nz-option *ngFor="let area of area_list" [nzLabel]="area.area_name" [nzValue]="area.id"></nz-option>
-                                        </nz-select>
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired nzFor="property_location">Property Location</nz-form-label>
-                                       <nz-form-control nzErrorTip="Property Location is required!">
-                                         <nz-select nzShowSearch nzAllowClear formControlName="property_location" id="property_location">
-                                           <nz-option *ngFor="let loc of location_list" [nzLabel]="loc.location" [nzValue]="loc.id"></nz-option>
-                                         </nz-select>
-                                       </nz-form-control>
-                                     </nz-form-item>
+                                            </nz-form-control>
+                                        </nz-form-item>
 
-                                     <nz-divider nzPlain nzText="Information" nzOrientation="left"></nz-divider>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="block">Block</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Block is Required!">
-                                         <input nz-input formControlName="block" id="block" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="sector">Sector</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Sector is Required!">
-                                         <input nz-input formControlName="sector" id="sector" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="road">Road</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Road is Required!">
-                                         <input nz-input formControlName="road" id="road" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="road">Road Size</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Road Size is Required!">
-                                         <input nz-input formControlName="road_size" id="road_size" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="plot_no">Plot No</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Plot No is Required!">
-                                         <input nz-input formControlName="plot_no" id="plot_no" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="plot_size">Plot Size</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Plot Size is Required!">
-                                         <input nz-input formControlName="plot_size" id="plot_size" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="facing">Facing</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Facing is Required!">
-                                         <input nz-input formControlName="facing" id="facing" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"  nzFor="category">Category</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Category is Required!">
-                                         <input nz-input formControlName="category" id="category" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="plot_boundary">Plot Boundary</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Plot Boundary is Required!">
-                                         <input nz-input formControlName="plot_boundary" id="plot_boundary" />
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item *ngIf="showPropertyReg">
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="property_registration">Property Reg. Status</nz-form-label>
-                                       <nz-form-control  [nzSm]="17" [nzXs]="24" nzErrorTip="Property Reg. Status is Required!">
-                                         <nz-radio-group formControlName="property_registration" id="property_registration">
-                                           <label nz-radio [nzValue]="1">Registered</label>
-                                           <label nz-radio [nzValue]="2">Unregistered</label>
-                                           <label nz-radio [nzValue]="3">Mutation</label>
-                                           <label nz-radio [nzValue]="4">Rajuk Approval</label>
-                                         </nz-radio-group>
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item *ngIf="showPaperStatus">
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="paper_status">Paper Status</nz-form-label>
-                                       <nz-form-control  [nzSm]="17" [nzXs]="24" nzErrorTip="Paper Status is Required!">
-                                         <nz-radio-group formControlName="paper_status" id="paper_status">
-                                           <label nz-radio [nzValue]="1">Full Payment</label><br>
-                                           <label nz-radio [nzValue]="2">Lease dead Complete</label><br>
-                                           <label nz-radio [nzValue]="3">Lease dead and Mutation Complete</label><br>
-                                           <label nz-radio [nzValue]="4">Full Paper Complete</label>
-                                         </nz-radio-group>
-                                       </nz-form-control>
-                                     </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" nzRequired class="ant-label text-left"
+                                                nzFor="product_type">
+                                                <span>Product Type</span>
+                                            </nz-form-label>
+                                            <nz-form-control>
+                                                <div class="card">
+                                                    <div class="card-header pb-2">
+                                                        <nz-radio-group formControlName="product_type" id="product_type"
+                                                            (ngModelChange)="changeProductName($event)">
+                                                            <label nz-radio [nzValue]="1">Residential</label>
+                                                            <label nz-radio [nzValue]="2">Commercial</label>
+                                                        </nz-radio-group>
+                                                    </div>
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item pl-4">
+                                                            <nz-radio-group formControlName="product" id="product">
+                                                                <ng-container *ngIf="show_type_of_product == 1">
+                                                                    <label nz-radio [nzValue]="101">Lands</label><br>
+                                                                    <label nz-radio [nzValue]="102">Flat</label><br>
+                                                                    <label nz-radio [nzValue]="103">Buildings</label><br>
+                                                                    <label nz-radio [nzValue]="104">Rooms</label><br>
+                                                                    <label nz-radio [nzValue]="105">Penthouses</label><br>
+                                                                    <label nz-radio [nzValue]="106">Duplex</label><br>
+                                                                    <label nz-radio [nzValue]="107">Triplex</label><br>
+                                                                    <label nz-radio [nzValue]="108">Plazas</label><br>
+                                                                </ng-container>
+                                                                <ng-container *ngIf="show_type_of_product == 2">
+                                                                  <label nz-radio [nzValue]="201">Space</label><br>
+                                                                  <label nz-radio [nzValue]="202">Lands</label><br>
+                                                                  <label nz-radio [nzValue]="203">Buildings</label><br>
+                                                                  <label nz-radio [nzValue]="204">Offices</label><br>
+                                                                  <label nz-radio [nzValue]="205">Warehouse</label><br>
+                                                                  <label nz-radio [nzValue]="206">Factory</label><br>
+                                                                  <label nz-radio [nzValue]="207">Duplex</label><br>
+                                                                  <label nz-radio [nzValue]="208">Triplex</label><br>
+                                                                  <label nz-radio [nzValue]="209">Plazas</label><br>
+                                                                </ng-container>
+                                                            </nz-radio-group>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <ng-container *ngIf="showProjectInput == 0">
+                                            <nz-form-item>
+                                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                    nzFor="project_name">Project Name</nz-form-label>
+                                                <nz-form-control nzErrorTip="Project Name is required!">
+                                                    <nz-select nzShowSearch formControlName="project_name"
+                                                        id="project_name">
+                                                        <nz-option *ngFor="let project of project_list"
+                                                            [nzLabel]="project.project_name"
+                                                            [nzValue]="project.id"></nz-option>
+                                                    </nz-select>
+                                                </nz-form-control>
+                                            </nz-form-item>
 
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="description">Description</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Description is Required!">
-                                         <textarea rows="4" nz-input formControlName="description" id="description"></textarea>
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                     <nz-form-item>
-                                       <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="property_address">Property Address</nz-form-label>
-                                       <nz-form-control  nzErrorTip="Property Address is Required!">
-                                         <textarea rows="4" nz-input formControlName="property_address" id="property_address"></textarea>
-                                       </nz-form-control>
-                                     </nz-form-item>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <nz-form-item>
-                                      <nz-form-label [nzSm]="7" [nzXs]="24" class="ant-label">
-                                        Lat & Long
-                                      </nz-form-label>
-                                      <nz-form-control nz-row [nzSm]="17" [nzXs]="24">
-                                        <nz-input-group>
-                                          <div nz-row [nzGutter]="8">
-                                            <div nz-col nzSpan="12">
-                                              <input nz-input placeholder="latitude" formControlName="latitude" />
-                                            </div>
-                                            <div nz-col nzSpan="12">
-                                              <input nz-input placeholder="longitude" formControlName="longitude" />
-                                            </div>
-                                          </div>
-                                        </nz-input-group>
-                                        <br>
-                                        <ng-container *ngIf="basicFormGroup.get('latitude').value && basicFormGroup.get('longitude').value">
-                                          <a nz-button class="btn-block" [nzType]="'primary'" (click)="showMap()">
-                                            <span class="text-white">Lat: {{basicFormGroup.get('latitude').value}}, Long: {{basicFormGroup.get('longitude').value}} wise map view</span>
-                                          </a>
+                                            <nz-form-item>
+                                                <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                    nzFor="project_type">Project Type</nz-form-label>
+                                                <nz-form-control nzErrorTip="Project Type is required!">
+                                                    <nz-select nzShowSearch formControlName="project_type"
+                                                        id="project_type">
+                                                        <nz-option *ngFor="let type of project_type_list"
+                                                            [nzLabel]="type.type" [nzValue]="type.id"></nz-option>
+                                                    </nz-select>
+                                                </nz-form-control>
+                                            </nz-form-item>
                                         </ng-container>
-                                      </nz-form-control>
-                                    </nz-form-item>
-                                  </div>
 
-                                  <div class="col-md-12">
-                                    <div class="row">
-                                      <div class="col-md-6"></div>
-                                      <div class="col-md-6 text-right" >
-                                        <nz-input-group nzCompact>
-                                          <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
-                                            <label nz-radio [nzValue]="1">Publish</label>
-                                            <label nz-radio [nzValue]="2">Draft</label>
-                                            <label *ngIf="basicFormGroup.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="property_type">Property Type</nz-form-label>
+                                            <nz-form-control nzErrorTip="Property Type is required!">
+                                                <nz-radio-group formControlName="property_type" id="property_type"
+                                                    (ngModelChange)="changePropertyType($event)">
+                                                    <label nz-radio [nzValue]="1">Free Hold</label>
+                                                    <label nz-radio [nzValue]="2">Lease Hold</label>
+                                                </nz-radio-group>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired
+                                                nzFor="city">City</nz-form-label>
+                                            <nz-form-control nzErrorTip="City is required!">
+                                                <nz-select nzShowSearch nzAllowClear formControlName="city" id="city"
+                                                    (ngModelChange)="changeCity($event)" required>
+                                                    <nz-option *ngFor="let cities of city_list" [nzLabel]="cities.city"
+                                                        [nzValue]="cities.id"></nz-option>
+                                                </nz-select>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired
+                                                nzFor="area">Area</nz-form-label>
+                                            <nz-form-control nzErrorTip="Area is required!">
+                                                <nz-select nzShowSearch nzAllowClear formControlName="area" id="area"
+                                                    (ngModelChange)="changeArea($event)" required>
+                                                    <nz-option *ngFor="let area of area_list" [nzLabel]="area.area_name"
+                                                        [nzValue]="area.id"></nz-option>
+                                                </nz-select>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzRequired
+                                                nzFor="property_location">Property Location</nz-form-label>
+                                            <nz-form-control nzErrorTip="Property Location is required!">
+                                                <nz-select nzShowSearch nzAllowClear formControlName="property_location"
+                                                    id="property_location">
+                                                    <nz-option *ngFor="let loc of location_list"
+                                                        [nzLabel]="loc.location" [nzValue]="loc.id"></nz-option>
+                                                </nz-select>
+                                            </nz-form-control>
+                                        </nz-form-item>
 
-                                          </nz-radio-group>
-                                          <button class="btn btn-sm btn-default ml-4" mat-button><i class="fa fa-arrow-right mr-2"></i>  Submit</button>
-                                        </nz-input-group>
-                                      </div>
+                                        <nz-divider nzPlain nzText="Information" nzOrientation="left"></nz-divider>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="block">Block</nz-form-label>
+                                            <nz-form-control nzErrorTip="Block is Required!">
+                                                <input nz-input formControlName="block" id="block" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="sector">Sector</nz-form-label>
+                                            <nz-form-control nzErrorTip="Sector is Required!">
+                                                <input nz-input formControlName="sector" id="sector" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="road">Road</nz-form-label>
+                                            <nz-form-control nzErrorTip="Road is Required!">
+                                                <input nz-input formControlName="road" id="road" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="road">Road
+                                                Size</nz-form-label>
+                                            <nz-form-control nzErrorTip="Road Size is Required!">
+                                                <input nz-input formControlName="road_size" id="road_size" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left" nzFor="plot_no">Plot
+                                                No</nz-form-label>
+                                            <nz-form-control nzErrorTip="Plot No is Required!">
+                                                <input nz-input formControlName="plot_no" id="plot_no" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="plot_size">Plot Size</nz-form-label>
+                                            <nz-form-control nzErrorTip="Plot Size is Required!">
+                                                <input nz-input formControlName="plot_size" id="plot_size" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="facing">Facing</nz-form-label>
+                                            <nz-form-control nzErrorTip="Facing is Required!">
+                                                <input nz-input formControlName="facing" id="facing" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="category">Category</nz-form-label>
+                                            <nz-form-control nzErrorTip="Category is Required!">
+                                                <input nz-input formControlName="category" id="category" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="plot_boundary">Plot Boundary</nz-form-label>
+                                            <nz-form-control nzErrorTip="Plot Boundary is Required!">
+                                                <input nz-input formControlName="plot_boundary" id="plot_boundary" />
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item *ngIf="showPropertyReg">
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="property_registration">Property Reg. Status</nz-form-label>
+                                            <nz-form-control [nzSm]="17" [nzXs]="24"
+                                                nzErrorTip="Property Reg. Status is Required!">
+                                                <nz-radio-group formControlName="property_registration"
+                                                    id="property_registration">
+                                                    <label nz-radio [nzValue]="1">Registered</label>
+                                                    <label nz-radio [nzValue]="2">Unregistered</label>
+                                                    <label nz-radio [nzValue]="3">Mutation</label>
+                                                    <label nz-radio [nzValue]="4">Rajuk Approval</label>
+                                                </nz-radio-group>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item *ngIf="showPaperStatus">
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="paper_status">Paper Status</nz-form-label>
+                                            <nz-form-control [nzSm]="17" [nzXs]="24"
+                                                nzErrorTip="Paper Status is Required!">
+                                                <nz-radio-group formControlName="paper_status" id="paper_status">
+                                                    <label nz-radio [nzValue]="1">Full Payment</label><br>
+                                                    <label nz-radio [nzValue]="2">Lease dead Complete</label><br>
+                                                    <label nz-radio [nzValue]="3">Lease dead and Mutation
+                                                        Complete</label><br>
+                                                    <label nz-radio [nzValue]="4">Full Paper Complete</label>
+                                                </nz-radio-group>
+                                            </nz-form-control>
+                                        </nz-form-item>
+
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="description">Description</nz-form-label>
+                                            <nz-form-control nzErrorTip="Description is Required!">
+                                                <textarea rows="4" nz-input formControlName="description"
+                                                    id="description"></textarea>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="text-left"
+                                                nzFor="property_address">Property Address</nz-form-label>
+                                            <nz-form-control nzErrorTip="Property Address is Required!">
+                                                <textarea rows="4" nz-input formControlName="property_address"
+                                                    id="property_address"></textarea>
+                                            </nz-form-control>
+                                        </nz-form-item>
                                     </div>
-                                  </div>
+                                    <div class="col-md-6">
+                                        <nz-form-item>
+                                            <nz-form-label [nzSm]="7" [nzXs]="24" class="ant-label">
+                                                Lat & Long
+                                            </nz-form-label>
+                                            <nz-form-control nz-row [nzSm]="17" [nzXs]="24">
+                                                <nz-input-group>
+                                                    <div nz-row [nzGutter]="8">
+                                                        <div nz-col nzSpan="12">
+                                                            <input nz-input placeholder="latitude"
+                                                                formControlName="latitude" />
+                                                        </div>
+                                                        <div nz-col nzSpan="12">
+                                                            <input nz-input placeholder="longitude"
+                                                                formControlName="longitude" />
+                                                        </div>
+                                                    </div>
+                                                </nz-input-group>
+                                                <br>
+                                                <ng-container
+                                                    *ngIf="basicFormGroup.get('latitude').value && basicFormGroup.get('longitude').value">
+                                                    <a nz-button class="btn-block" [nzType]="'primary'"
+                                                        (click)="showMap()">
+                                                        <span class="text-white">Lat:
+                                                            {{basicFormGroup.get('latitude').value}}, Long:
+                                                            {{basicFormGroup.get('longitude').value}} wise map
+                                                            view</span>
+                                                    </a>
+                                                </ng-container>
+                                            </nz-form-control>
+                                        </nz-form-item>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6 text-right">
+                                                <nz-input-group nzCompact>
+                                                    <nz-radio-group formControlName="is_publish" class="mt-2"
+                                                        id="is_publish">
+                                                        <label nz-radio [nzValue]="1">Publish</label>
+                                                        <label nz-radio [nzValue]="2">Draft</label>
+                                                        <label *ngIf="basicFormGroup.controls['is_publish'].value === 3"
+                                                            nz-radio [nzValue]="3">Approved</label>
+
+                                                    </nz-radio-group>
+                                                    <button class="btn btn-sm btn-default ml-4" mat-button><i
+                                                            class="fa fa-arrow-right mr-2"></i> Submit</button>
+                                                </nz-input-group>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </mat-step>
 
                         <mat-step [stepControl]="imageVideoForm">
-                          <form (ngSubmit)="imageAndVideoForm()" [formGroup]="imageVideoForm">
-                            <ng-template matStepLabel>Image & Video</ng-template>
-                            <div class="row">
-                              <div class="col-md-6  mt-3">
-                                <nz-card nzTitle="Thumbnail">
-                                  <nz-card nzHoverable  [nzCover]="coverTemplate" class="ant-img-up-card"  style="width: 280px;margin: auto;">
-                                    <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg' class="btn btn-sm btn-default text-white btn-block">
-                                      <i class="fa fa-upload mr-2"></i> Upload Image
-                                    </button>
-                                    <input style="display: none" type="file" (change)="Changed($event)" #fileInput>
-                                    <button type="button" (click)="fileInput.click()" *ngIf='ChangeImg' class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload" ></i> Change </button>
-                                    <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile" *ngIf='ChangeImg' (click)="RemoveImage()"><i class="fa fa-times"> </i> Remove</button>
-                                  </nz-card>
-                                  <ng-template #coverTemplate>
-                                    <img alt="image" class="p-2" height="250px" [src]="ImageFile" />
-                                  </ng-template>
-                                </nz-card>
-                              </div>
-                              <div class="col-md-6  mt-3">
-                                <nz-card nzTitle="Area Map">
-                                  <nz-card nzHoverable  [nzCover]="AreaTemplate" class="ant-img-up-card"  style="width: 280px;margin: auto;">
-                                    <button type="button" (click)="AreafileInput.click()" *ngIf='!AreaChangeImg' class="btn btn-sm btn-default text-white btn-block">
-                                      <i class="fa fa-upload mr-2"></i> Upload Image
-                                    </button>
-                                    <input style="display: none" type="file" (change)="AreaChanged($event)" #AreafileInput>
-                                    <button type="button" (click)="AreafileInput.click()" *ngIf='AreaChangeImg' class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload" ></i> Change </button>
-                                    <button type="button" class="btn btn-danger btn-sm text-white" *ngIf='AreaChangeImg' (click)="AreaRemoveImage()"><i class="fa fa-times"> </i> Remove</button>
-                                  </nz-card>
-                                  <ng-template #AreaTemplate>
-                                    <img alt="image" class="p-2" height="250px" [src]="AreaImageFile" />
-                                  </ng-template>
-                                </nz-card>
-                              </div>
-                              <div class="col-md-12  mt-3">
-                                <nz-card nzTitle="Property Image">
-                                  <div *ngIf="upload_documents.length > 0;else notFound">
-                                    <div cdkDropList cdkDropListOrientation="horizontal" class="drag-drop-list" (cdkDropListDropped)="drop($event)">
-                                      <div class="drag-drop-box" *ngFor="let document of upload_documents" cdkDrag>
-                                        <img *ngIf="document.action=='edit'"
-                                           [src]="rootUrl+document.view_file"
-                                           height="100" width="100%"
-                                           alt="capital-image">
-                                      <img *ngIf="document.action=='create'"
-                                           [src]="document.view_file"
-                                           height="100"
-                                           width="100%" alt="capital-image">
-                                      <button (click)="removeFile(document)" *ngIf="document.edit_file" class="btn-block btn-sm btn btn-danger">
-                                        <i class="fa fa-times mr-2"></i> Remove
-                                      </button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <ng-template #notFound>
-                                    <nz-empty></nz-empty>
-                                  </ng-template>
-                                  <ng-container>
-                                      <hr>
-                                      <input #fileUpload
-                                            (change)="onFileUpload($event)"
-                                            accept=".jpg, .jpeg, .png, .mov, .mp4, .3gp, .ogg"
-                                            multiple
-                                            style="display: none" type="file"
-                                            required>
-                                      <button (click)="fileUpload.click()"
-                                              [nzSize]="'default'" nz-button
-                                              nzType="primary"
-                                              type="button"
-                                              nzBlock><i class="fa fa-cloud-upload mr-2"></i>
-                                        Click to upload File
-                                      </button>
-                                   </ng-container>
-                                <small class="text-danger"><i class="fa fa-info-circle"></i> Allow File extension: .jpg, .jpeg, .png, .mov, .mp4, .3gp, .ogg</small>
-                                </nz-card>
-                              </div>
-                            </div>
-
-                            <div class="row mt-5">
-                              <div class="col-md-12">
+                            <form (ngSubmit)="imageAndVideoForm()" [formGroup]="imageVideoForm">
+                                <ng-template matStepLabel>Image & Video</ng-template>
                                 <div class="row">
-                                  <div class="col-md-6">
-                                    <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i class="fa fa-arrow-left mr-2"></i>  Back</button>
-                                  </div>
-                                  <div class="col-md-6 text-right" >
-                                    <nz-input-group nzCompact>
-                                      <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
-                                        <label nz-radio [nzValue]="1">Publish</label>
-                                        <label nz-radio [nzValue]="2">Draft</label>
-                                        <label *ngIf="imageVideoForm.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
-
-                                      </nz-radio-group>
-                                      <button class="btn btn-sm btn-default  ml-4" mat-button><i class="fa fa-arrow-right mr-2"></i>  Submit</button>
-                                    </nz-input-group>
-                                  </div>
+                                    <div class="col-md-6  mt-3">
+                                        <nz-card nzTitle="Thumbnail">
+                                            <nz-card nzHoverable [nzCover]="coverTemplate" class="ant-img-up-card"
+                                                style="width: 280px;margin: auto;">
+                                                <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg'
+                                                    class="btn btn-sm btn-default text-white btn-block">
+                                                    <i class="fa fa-upload mr-2"></i> Upload Image
+                                                </button>
+                                                <input style="display: none" type="file" (change)="Changed($event)"
+                                                    #fileInput>
+                                                <button type="button" (click)="fileInput.click()" *ngIf='ChangeImg'
+                                                    class="btn btn-primary mr-2 btn-sm btn-default text-white"><i
+                                                        class="fa fa-upload"></i> Change </button>
+                                                <button type="button" class="btn btn-danger btn-sm text-white"
+                                                    data-dismiss="inputfile" *ngIf='ChangeImg'
+                                                    (click)="RemoveImage()"><i class="fa fa-times"> </i> Remove</button>
+                                            </nz-card>
+                                            <ng-template #coverTemplate>
+                                                <img alt="image" class="p-2" height="250px" [src]="ImageFile" />
+                                            </ng-template>
+                                        </nz-card>
+                                    </div>
+                                    <div class="col-md-6  mt-3">
+                                        <nz-card nzTitle="Area Map">
+                                            <nz-card nzHoverable [nzCover]="AreaTemplate" class="ant-img-up-card"
+                                                style="width: 280px;margin: auto;">
+                                                <button type="button" (click)="AreafileInput.click()"
+                                                    *ngIf='!AreaChangeImg'
+                                                    class="btn btn-sm btn-default text-white btn-block">
+                                                    <i class="fa fa-upload mr-2"></i> Upload Image
+                                                </button>
+                                                <input style="display: none" type="file" (change)="AreaChanged($event)"
+                                                    #AreafileInput>
+                                                <button type="button" (click)="AreafileInput.click()"
+                                                    *ngIf='AreaChangeImg'
+                                                    class="btn btn-primary mr-2 btn-sm btn-default text-white"><i
+                                                        class="fa fa-upload"></i> Change </button>
+                                                <button type="button" class="btn btn-danger btn-sm text-white"
+                                                    *ngIf='AreaChangeImg' (click)="AreaRemoveImage()"><i
+                                                        class="fa fa-times"> </i> Remove</button>
+                                            </nz-card>
+                                            <ng-template #AreaTemplate>
+                                                <img alt="image" class="p-2" height="250px" [src]="AreaImageFile" />
+                                            </ng-template>
+                                        </nz-card>
+                                    </div>
+                                    <div class="col-md-12  mt-3">
+                                        <nz-card nzTitle="Property Image">
+                                            <div *ngIf="upload_documents.length > 0;else notFound">
+                                                <div cdkDropList cdkDropListOrientation="horizontal"
+                                                    class="drag-drop-list" (cdkDropListDropped)="drop($event)">
+                                                    <div class="drag-drop-box" *ngFor="let document of upload_documents"
+                                                        cdkDrag>
+                                                        <img *ngIf="document.action=='edit'"
+                                                            [src]="rootUrl+document.view_file" height="100" width="100%"
+                                                            alt="capital-image">
+                                                        <img *ngIf="document.action=='create'"
+                                                            [src]="document.view_file" height="100" width="100%"
+                                                            alt="capital-image">
+                                                        <button (click)="removeFile(document)"
+                                                            *ngIf="document.edit_file"
+                                                            class="btn-block btn-sm btn btn-danger">
+                                                            <i class="fa fa-times mr-2"></i> Remove
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ng-template #notFound>
+                                                <nz-empty></nz-empty>
+                                            </ng-template>
+                                            <ng-container>
+                                                <hr>
+                                                <input #fileUpload (change)="onFileUpload($event)"
+                                                    accept=".jpg, .jpeg, .png, .mov, .mp4, .3gp, .ogg" multiple
+                                                    style="display: none" type="file" required>
+                                                <button (click)="fileUpload.click()" [nzSize]="'default'" nz-button
+                                                    nzType="primary" type="button" nzBlock><i
+                                                        class="fa fa-cloud-upload mr-2"></i>
+                                                    Click to upload File
+                                                </button>
+                                            </ng-container>
+                                            <small class="text-danger"><i class="fa fa-info-circle"></i> Allow File
+                                                extension: .jpg, .jpeg, .png, .mov, .mp4, .3gp, .ogg</small>
+                                        </nz-card>
+                                    </div>
                                 </div>
-                              </div>
-                            </div>
-                          </form>
+
+                                <div class="row mt-5">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i
+                                                        class="fa fa-arrow-left mr-2"></i> Back</button>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <nz-input-group nzCompact>
+                                                    <nz-radio-group formControlName="is_publish" class="mt-2"
+                                                        id="is_publish">
+                                                        <label nz-radio [nzValue]="1">Publish</label>
+                                                        <label nz-radio [nzValue]="2">Draft</label>
+                                                        <label *ngIf="imageVideoForm.controls['is_publish'].value === 3"
+                                                            nz-radio [nzValue]="3">Approved</label>
+
+                                                    </nz-radio-group>
+                                                    <button class="btn btn-sm btn-default  ml-4" mat-button><i
+                                                            class="fa fa-arrow-right mr-2"></i> Submit</button>
+                                                </nz-input-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </mat-step>
 
                         <mat-step [stepControl]="priceAndContactDetails">
-                          <form (ngSubmit)="submitPriceContactForm()" [formGroup]="priceAndContactDetails">
-                            <ng-template matStepLabel>Price and Contact Details</ng-template>
-                            <nz-divider nzPlain nzText="Price" nzOrientation="left"></nz-divider>
-                            <nz-form-item class="mt-4">
-                              <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="offer_price">Offer Price</nz-form-label>
-                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Offer Price is required!">
-                                <input nz-input formControlName="offer_price" id="offer_price" (input)="changeComissionAmount($event.target.value)" />
-                              </nz-form-control>
-                            </nz-form-item>
-                            <nz-form-item>
-                              <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="bottom_price">Bottom Price</nz-form-label>
-                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Bottom Price is required!">
-                                <input nz-input formControlName="bottom_price" id="bottom_price"  />
-                              </nz-form-control>
-                            </nz-form-item>
-                            <nz-form-item>
-                              <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="property_owner_commission">Property Owner Commission</nz-form-label>
-                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Property Owner Commission is required!">
-                                <div nz-row [nzGutter]="24">
-                                  <div nz-col nzSpan="10">
-                                    <nz-input-group nzSuffix="%">
-                                      <input nz-input formControlName="property_owner_commission_percent"  (input)="changeComissionPercent($event.target.value)" id="property_owner_commission_percent" />
-                                    </nz-input-group>
-                                  </div>
-                                  <div nz-col nzSpan="3">OR</div>
-                                  <div nz-col nzSpan="11">
-                                    <nz-input-group nzSuffix="Fixed">
-                                      <input nz-input formControlName="property_owner_commission_fixed" (input)="changeComissionFixed($event.target.value)" id="property_owner_commission_fixed" />
-                                    </nz-input-group>
-                                  </div>
-                                </div>
-                              </nz-form-control>
-                            </nz-form-item>
-                            <nz-form-item>
-                              <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="property_owner_commission_amount">Property Owner Com. Amount</nz-form-label>
-                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Property Owner Com. Amount is required!">
-                                <input nz-input formControlName="property_owner_commission_amount" id="property_owner_commission_amount"  />
-                              </nz-form-control>
-                            </nz-form-item>
-                            <nz-divider nzPlain nzText="Property Channel" nzOrientation="left"></nz-divider>
-                            <nz-form-item>
-                              <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="property_channel">Property Channel</nz-form-label>
-                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Property Channel is required!">
-                                <nz-select nzShowSearch nzAllowClear (ngModelChange)="changePropertyChannel($event)" formControlName="property_channel" id="property_channel">
-                                  <nz-option [nzLabel]="'In-house'" [nzValue]="1"></nz-option>
-                                  <nz-option [nzLabel]="'Company'" [nzValue]="2"></nz-option>
-                                  <nz-option [nzLabel]="'Agent & Media'" [nzValue]="3"></nz-option>
-                                </nz-select>
-                              </nz-form-control>
-                            </nz-form-item>
-                            <nz-form-item>
-                              <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="product_person">Product person</nz-form-label>
-                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Product person is required!">
-                                <input nz-input formControlName="product_person" id="product_person"  />
-                              </nz-form-control>
-                            </nz-form-item>
-                            <nz-form-item>
-                              <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="source">Source</nz-form-label>
-                              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Product person is required!">
-                                <input nz-input formControlName="source" id="source"  />
-                              </nz-form-control>
-                            </nz-form-item>
+                            <form (ngSubmit)="submitPriceContactForm()" [formGroup]="priceAndContactDetails">
+                                <ng-template matStepLabel>Price and Contact Details</ng-template>
+                                <nz-divider nzPlain nzText="Price" nzOrientation="left"></nz-divider>
+                                <nz-form-item class="mt-4">
+                                    <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="offer_price">Offer
+                                        Price</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Offer Price is required!">
+                                        <input nz-input formControlName="offer_price" id="offer_price"
+                                            (input)="changeComissionAmount($event.target.value)" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="bottom_price">Bottom
+                                        Price</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Bottom Price is required!">
+                                        <input nz-input formControlName="bottom_price" id="bottom_price" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="property_owner_commission">Property
+                                        Owner Commission</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24"
+                                        nzErrorTip="Property Owner Commission is required!">
+                                        <div nz-row [nzGutter]="24">
+                                            <div nz-col nzSpan="10">
+                                                <nz-input-group nzSuffix="%">
+                                                    <input nz-input formControlName="property_owner_commission_percent"
+                                                        (input)="changeComissionPercent($event.target.value)"
+                                                        id="property_owner_commission_percent" />
+                                                </nz-input-group>
+                                            </div>
+                                            <div nz-col nzSpan="3">OR</div>
+                                            <div nz-col nzSpan="11">
+                                                <nz-input-group nzSuffix="Fixed">
+                                                    <input nz-input formControlName="property_owner_commission_fixed"
+                                                        (input)="changeComissionFixed($event.target.value)"
+                                                        id="property_owner_commission_fixed" />
+                                                </nz-input-group>
+                                            </div>
+                                        </div>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="7" [nzXs]="24"
+                                        nzFor="property_owner_commission_amount">Property Owner Com.
+                                        Amount</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24"
+                                        nzErrorTip="Property Owner Com. Amount is required!">
+                                        <input nz-input formControlName="property_owner_commission_amount"
+                                            id="property_owner_commission_amount" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-divider nzPlain nzText="Property Channel" nzOrientation="left"></nz-divider>
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="property_channel">Property
+                                        Channel</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Property Channel is required!">
+                                        <nz-select nzShowSearch nzAllowClear
+                                            (ngModelChange)="changePropertyChannel($event)"
+                                            formControlName="property_channel" id="property_channel">
+                                            <nz-option [nzLabel]="'In-house'" [nzValue]="1"></nz-option>
+                                            <nz-option [nzLabel]="'Company'" [nzValue]="2"></nz-option>
+                                            <nz-option [nzLabel]="'Agent & Media'" [nzValue]="3"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="product_person">Product
+                                        person</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Product person is required!">
+                                        <input nz-input formControlName="product_person" id="product_person" />
+                                    </nz-form-control>
+                                </nz-form-item>
+                                <nz-form-item>
+                                    <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="source">Source</nz-form-label>
+                                    <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Product person is required!">
+                                        <input nz-input formControlName="source" id="source" />
+                                    </nz-form-control>
+                                </nz-form-item>
 
-                            <ng-container *ngIf="channel == 1 || channel == 2 || channel == 3">
-                              <nz-divider nzPlain nzText="Contact Details" nzOrientation="left"></nz-divider>
-                              <nz-form-item *ngIf="channel == 2">
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="company_name">Company Name</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Company Name is required!">
-                                  <input nz-input formControlName="company_name" id="company_name"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item *ngIf="channel == 2">
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="company_website">Company website</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Company website is required!">
-                                  <input nz-input formControlName="company_website" id="company_website"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item *ngIf="channel == 2">
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="designation">Designation</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Designation is required!">
-                                  <input nz-input formControlName="designation" id="designation"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item>
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_person">Contact Person</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Contact Person is required!">
-                                  <input nz-input formControlName="contact_person" id="contact_person"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item>
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_number">Contact Number</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Contact Number is required!">
-                                  <input nz-input formControlName="contact_number" id="contact_number"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item>
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_address">Address</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Contact Address is required!">
-                                  <input nz-input formControlName="contact_address" id="contact_address"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item *ngIf="channel == 2">
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_zipcode">Zip Code</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Zip Code is required!">
-                                  <input nz-input formControlName="contact_zipcode" id="contact_zipcode"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item>
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_email">Contact Email</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Contact Email is required!">
-                                  <input nz-input formControlName="contact_email" id="contact_email"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item>
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_phone_no">Phone Number</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Phone Number is required!">
-                                  <input nz-input formControlName="contact_phone_no" id="contact_phone_no"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item *ngIf="channel == 2 || channel == 3">
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="alternative_contact_no">Alternative Contact</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Alternative Contact is required!">
-                                  <input nz-input formControlName="alternative_contact_no" id="alternative_contact_no"  />
-                                </nz-form-control>
-                              </nz-form-item>
+                                <ng-container *ngIf="channel == 1 || channel == 2 || channel == 3">
+                                    <nz-divider nzPlain nzText="Contact Details" nzOrientation="left"></nz-divider>
+                                    <nz-form-item *ngIf="channel == 2">
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="company_name">Company
+                                            Name</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Company Name is required!">
+                                            <input nz-input formControlName="company_name" id="company_name" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item *ngIf="channel == 2">
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="company_website">Company
+                                            website</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24"
+                                            nzErrorTip="Company website is required!">
+                                            <input nz-input formControlName="company_website" id="company_website" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item *ngIf="channel == 2">
+                                        <nz-form-label [nzSm]="7" [nzXs]="24"
+                                            nzFor="designation">Designation</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Designation is required!">
+                                            <input nz-input formControlName="designation" id="designation" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_person">Contact
+                                            Person</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24"
+                                            nzErrorTip="Contact Person is required!">
+                                            <input nz-input formControlName="contact_person" id="contact_person" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_number">Contact
+                                            Number</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24"
+                                            nzErrorTip="Contact Number is required!">
+                                            <input nz-input formControlName="contact_number" id="contact_number" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="7" [nzXs]="24"
+                                            nzFor="contact_address">Address</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24"
+                                            nzErrorTip="Contact Address is required!">
+                                            <input nz-input formControlName="contact_address" id="contact_address" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item *ngIf="channel == 2">
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_zipcode">Zip
+                                            Code</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Zip Code is required!">
+                                            <input nz-input formControlName="contact_zipcode" id="contact_zipcode" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_email">Contact
+                                            Email</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24"
+                                            nzErrorTip="Contact Email is required!">
+                                            <input nz-input formControlName="contact_email" id="contact_email" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="contact_phone_no">Phone
+                                            Number</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Phone Number is required!">
+                                            <input nz-input formControlName="contact_phone_no" id="contact_phone_no" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item *ngIf="channel == 2 || channel == 3">
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="alternative_contact_no">Alternative
+                                            Contact</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24"
+                                            nzErrorTip="Alternative Contact is required!">
+                                            <input nz-input formControlName="alternative_contact_no"
+                                                id="alternative_contact_no" />
+                                        </nz-form-control>
+                                    </nz-form-item>
 
-                              <nz-form-item *ngIf="channel == 1">
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="representative_name">Representative Name</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Representative Name is required!">
-                                  <input nz-input formControlName="representative_name" id="representative_name"  />
-                                </nz-form-control>
-                              </nz-form-item>
-                              <nz-form-item *ngIf="channel == 1">
-                                <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="agreement_upload">Agreement Upload</nz-form-label>
-                                <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="Agreement Upload is required!">
-                                  <nz-card nzTitle="Property Image">
-                                    <div class="row" *ngIf="upload_agreement.length > 0;else notFound">
-                                      <div *ngFor="let document of upload_agreement" class="col-md-4">
-                                        <nz-card class="cart-select-image" *ngIf="document.type=='docx' || document.type=='pdf'">
-                                          <i *ngIf="document.type=='docx'"
-                                             class="ni ni-single-copy-04 fa-3x icon-fix-position"></i>
-                                          <i *ngIf="document.type=='pdf'"
-                                             class="ni ni-single-copy-04 fa-3x icon-fix-position"></i>
-                                          <button (click)="AgrementRemoveImage(document)" *ngIf="document.edit_file" class="btn-block btn-sm btn btn-danger">
-                                            <i class="fa fa-times mr-2"></i> Remove
-                                          </button>
-                                        </nz-card>
-                                        <nz-card
-                                          *ngIf="document.type=='jpg' || document.type=='JPG' || document.type=='png' || document.type=='gif' || document.type=='jpeg'"
-                                          class="cart-select-image">
-                                          <img *ngIf="document.action=='edit'"
-                                               [src]="rootUrl+document.view_file"
-                                               height="100" width="100%"
-                                               alt="capital-image">
-                                          <img *ngIf="document.action=='create'"
-                                               [src]="document.view_file"
-                                               height="100"
-                                               width="100%" alt="capital-image">
-                                          <button (click)="AgrementRemoveImage(document)" *ngIf="document.edit_file" class="btn-block btn-sm btn btn-danger">
-                                            <i class="fa fa-times mr-2"></i> Remove
-                                          </button>
-                                        </nz-card>
-                                      </div>
+                                    <nz-form-item *ngIf="channel == 1">
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="representative_name">Representative
+                                            Name</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24"
+                                            nzErrorTip="Representative Name is required!">
+                                            <input nz-input formControlName="representative_name"
+                                                id="representative_name" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item *ngIf="channel == 1">
+                                        <nz-form-label [nzSm]="7" [nzXs]="24" nzFor="agreement_upload">Agreement
+                                            Upload</nz-form-label>
+                                        <nz-form-control [nzSm]="10" [nzXs]="24"
+                                            nzErrorTip="Agreement Upload is required!">
+                                            <nz-card nzTitle="Property Image">
+                                                <div class="row" *ngIf="upload_agreement.length > 0;else notFound">
+                                                    <div *ngFor="let document of upload_agreement" class="col-md-4">
+                                                        <nz-card class="cart-select-image"
+                                                            *ngIf="document.type=='docx' || document.type=='pdf'">
+                                                            <i *ngIf="document.type=='docx'"
+                                                                class="ni ni-single-copy-04 fa-3x icon-fix-position"></i>
+                                                            <i *ngIf="document.type=='pdf'"
+                                                                class="ni ni-single-copy-04 fa-3x icon-fix-position"></i>
+                                                            <button (click)="AgrementRemoveImage(document)"
+                                                                *ngIf="document.edit_file"
+                                                                class="btn-block btn-sm btn btn-danger">
+                                                                <i class="fa fa-times mr-2"></i> Remove
+                                                            </button>
+                                                        </nz-card>
+                                                        <nz-card
+                                                            *ngIf="document.type=='jpg' || document.type=='JPG' || document.type=='png' || document.type=='gif' || document.type=='jpeg'"
+                                                            class="cart-select-image">
+                                                            <img *ngIf="document.action=='edit'"
+                                                                [src]="rootUrl+document.view_file" height="100"
+                                                                width="100%" alt="capital-image">
+                                                            <img *ngIf="document.action=='create'"
+                                                                [src]="document.view_file" height="100" width="100%"
+                                                                alt="capital-image">
+                                                            <button (click)="AgrementRemoveImage(document)"
+                                                                *ngIf="document.edit_file"
+                                                                class="btn-block btn-sm btn btn-danger">
+                                                                <i class="fa fa-times mr-2"></i> Remove
+                                                            </button>
+                                                        </nz-card>
+                                                    </div>
+                                                </div>
+                                                <ng-template #notFound>
+                                                    <nz-empty></nz-empty>
+                                                </ng-template>
+                                                <ng-container>
+                                                    <hr>
+                                                    <input #fileUploadonAgrement (change)="onAgrementUpload($event)"
+                                                        accept=".jpg, .jpeg, .png, .docx, .pdf" multiple
+                                                        style="display: none" type="file" required>
+                                                    <button (click)="fileUploadonAgrement.click()" [nzSize]="'default'"
+                                                        nz-button nzType="primary" type="button" nzBlock><i
+                                                            class="fa fa-cloud-upload mr-2"></i>
+                                                        Click to upload File
+                                                    </button>
+                                                </ng-container>
+                                                <small class="text-danger"><i class="fa fa-info-circle"></i> Allow File
+                                                    extension: .jpg, .jpeg, .png, .docx, .pdf</small>
+                                            </nz-card>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </ng-container>
+
+                                <div class="row mt-5">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i
+                                                        class="fa fa-arrow-left mr-2"></i> Back</button>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <nz-input-group nzCompact>
+                                                    <nz-radio-group formControlName="is_publish" class="mt-2"
+                                                        id="is_publish">
+                                                        <label nz-radio [nzValue]="1">Publish</label>
+                                                        <label nz-radio [nzValue]="2">Draft</label>
+                                                        <label
+                                                            *ngIf="priceAndContactDetails.controls['is_publish'].value === 3"
+                                                            nz-radio [nzValue]="3">Approved</label>
+
+                                                    </nz-radio-group>
+                                                    <button class="btn btn-sm btn-default  ml-4" mat-button><i
+                                                            class="fa fa-arrow-right mr-2"></i> Submit</button>
+                                                </nz-input-group>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <ng-template #notFound>
-                                      <nz-empty></nz-empty>
-                                    </ng-template>
-                                    <ng-container>
-                                      <hr>
-                                      <input #fileUploadonAgrement
-                                             (change)="onAgrementUpload($event)"
-                                             accept=".jpg, .jpeg, .png, .docx, .pdf"
-                                             multiple
-                                             style="display: none" type="file"
-                                             required>
-                                      <button (click)="fileUploadonAgrement.click()"
-                                              [nzSize]="'default'" nz-button
-                                              nzType="primary"
-                                              type="button"
-                                              nzBlock><i class="fa fa-cloud-upload mr-2"></i>
-                                        Click to upload File
-                                      </button>
-                                    </ng-container>
-                                    <small class="text-danger"><i class="fa fa-info-circle"></i> Allow File extension: .jpg, .jpeg, .png, .docx, .pdf</small>
-                                  </nz-card>
-                                </nz-form-control>
-                              </nz-form-item>
-                            </ng-container>
-
-                            <div class="row mt-5">
-                              <div class="col-md-12">
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i class="fa fa-arrow-left mr-2"></i>  Back</button>
-                                  </div>
-                                  <div class="col-md-6 text-right" >
-                                    <nz-input-group nzCompact>
-                                      <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
-                                        <label nz-radio [nzValue]="1">Publish</label>
-                                        <label nz-radio [nzValue]="2">Draft</label>
-                                        <label *ngIf="priceAndContactDetails.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
-
-                                      </nz-radio-group>
-                                      <button class="btn btn-sm btn-default  ml-4" mat-button><i class="fa fa-arrow-right mr-2"></i>  Submit</button>
-                                    </nz-input-group>
-                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                          </form>
+                            </form>
                         </mat-step>
 
                         <mat-step [stepControl]="extraInformation">
-                          <form (ngSubmit)="submitExtraInformation()" [formGroup]="extraInformation">
-                            <ng-template matStepLabel>Extra Information</ng-template>
+                            <form (ngSubmit)="submitExtraInformation()" [formGroup]="extraInformation">
+                                <ng-template matStepLabel>Extra Information</ng-template>
 
-                            <nz-form-item class="mt-4">
-                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="others_info">Others Information</nz-form-label>
-                              <nz-form-control nzErrorTip="Please input Others Information!">
-                                <app-tinymce nz-input formControlName="others_info"  #tinymce='tinymce' name="description_bn" id="description_bn"  placeholder="Other Information"></app-tinymce>
-                              </nz-form-control>
-                            </nz-form-item>
+                                <nz-form-item class="mt-4">
+                                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="others_info">Others
+                                        Information</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please input Others Information!">
+                                        <app-tinymce nz-input formControlName="others_info" #tinymce='tinymce'
+                                            name="description_bn" id="description_bn"
+                                            placeholder="Other Information"></app-tinymce>
+                                    </nz-form-control>
+                                </nz-form-item>
 
-                            <nz-form-item class="mt-4">
-                              <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="others_info">Allocate Information</nz-form-label>
-                              <nz-form-control nzErrorTip="Please input Allocate Information!">
-                                <nz-select  style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear formControlName="branch_id" [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
-                                    <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
-                                </nz-select>
-                                <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear formControlName="team_id" [(ngModel)]="team_id" (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
-                                  <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
-                                </nz-select>
-                                <nz-select style="width:180px;" nzShowSearch nzAllowClear formControlName="member_id" [(ngModel)]="member_id" nzPlaceHolder="Select Member">
-                                  <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id" [nzLabel]="member?.member?.name"></nz-option>
-                                </nz-select>                              
-                              </nz-form-control>
-                            </nz-form-item>
+                                <nz-form-item class="mt-4">
+                                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="sticker">Sticker</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please select sticker Information!">
+                                        <nz-select style="width:100%;margin-right: 5px;" nzShowSearch nzAllowClear
+                                            formControlName="sticker_id" nzPlaceHolder="Select Sticker">
+                                            <nz-option *ngFor="let sticker of sticker_list" [nzLabel]="sticker.type"
+                                                [nzValue]="sticker.id"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
 
-                            <div class="row" class="mt-5">
-                              <div class="col-md-12">
-                                <div class="row">
-                                  <div class="col-md-6">
-                                    <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i class="fa fa-arrow-left mr-2"></i>  Back</button>
-                                  </div>
-                                  <div class="col-md-6 text-right" >
-                                    <nz-input-group nzCompact>
-                                      <nz-radio-group formControlName="is_publish" class="mt-2" id="is_publish">
-                                        <label nz-radio [nzValue]="1">Publish</label>
-                                        <label nz-radio [nzValue]="2">Draft</label>
-                                        <label *ngIf="extraInformation.controls['is_publish'].value === 3" nz-radio [nzValue]="3">Approved</label>
+                                <nz-form-item class="mt-4">
+                                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="available_in">Available
+                                        In</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please select a section!">
+                                        <nz-select style="width:100%;margin-right: 5px;" nzShowSearch nzAllowClear
+                                            formControlName="available_in" nzPlaceHolder="Select web section">
+                                            <nz-option nzLabel="Hot Deals" nzValue="1"></nz-option>
+                                            <nz-option nzLabel="Urgent Sale" nzValue="2"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
 
-                                      </nz-radio-group>
-                                      <button class="btn btn-sm btn-default  ml-4" mat-button><i class="ni ni-collection mr-2"></i>Final Submit Property</button>
-                                    </nz-input-group>
-                                  </div>
+                                <nz-form-item class="mt-4">
+                                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="others_info">Allocate
+                                        Information</nz-form-label>
+                                    <nz-form-control nzErrorTip="Please input Allocate Information!">
+                                        <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear
+                                            formControlName="branch_id" [(ngModel)]="changeBranch"
+                                            (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
+                                            <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name"
+                                                [nzValue]="branch.id"></nz-option>
+                                        </nz-select>
+                                        <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear
+                                            formControlName="team_id" [(ngModel)]="team_id"
+                                            (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
+                                            <nz-option *ngFor="let team of team_list" [nzValue]="team.id"
+                                                [nzLabel]="team.name"></nz-option>
+                                        </nz-select>
+                                        <nz-select style="width:180px;" nzShowSearch nzAllowClear
+                                            formControlName="member_id" [(ngModel)]="member_id"
+                                            nzPlaceHolder="Select Member">
+                                            <nz-option *ngFor="let member of team_member"
+                                                [nzValue]="member.systemuser_id"
+                                                [nzLabel]="member?.member?.name"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </nz-form-item>
+
+                                <div class="row" class="mt-5">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-sm btn-primary" mat-button matStepperPrevious><i
+                                                        class="fa fa-arrow-left mr-2"></i> Back</button>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <nz-input-group nzCompact>
+                                                    <nz-radio-group formControlName="is_publish" class="mt-2"
+                                                        id="is_publish">
+                                                        <label nz-radio [nzValue]="1">Publish</label>
+                                                        <label nz-radio [nzValue]="2">Draft</label>
+                                                        <label
+                                                            *ngIf="extraInformation.controls['is_publish'].value === 3"
+                                                            nz-radio [nzValue]="3">Approved</label>
+
+                                                    </nz-radio-group>
+                                                    <button class="btn btn-sm btn-default  ml-4" mat-button><i
+                                                            class="ni ni-collection mr-2"></i>Final Submit
+                                                        Property</button>
+                                                </nz-input-group>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
-                            </div>
-                          </form>
+                            </form>
                         </mat-step>
 
                     </mat-stepper>

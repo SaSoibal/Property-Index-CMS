@@ -1,0 +1,19 @@
+<div mat-dialog-title class="d-flex">
+    <h2>{{data.actionType|uppercase}} Notice</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<mat-dialog-content class="mat-typography pt-4">
+    <h1 class="card-title">
+        <i class="fas fa-comment mr-1"></i>
+        {{data?.title}}
+    </h1>
+    <div class="card-text" [innerHTML]="data?.description"></div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+        <i class="fa fa-times mr-2"></i>Close
+    </button>
+</mat-dialog-actions>

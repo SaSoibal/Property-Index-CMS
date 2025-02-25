@@ -7,73 +7,106 @@ import { CommonService } from './../../services/common.service';
 import { DataService } from './../../services/data.service';
 import { BadInput } from './../../core_classes/bad-input';
 import { AppError } from './../../core_classes/app-error';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  tokenId = this.common.mycookie.bearertoken ;
-  public focus;
-  public listTitles: any[];
-  public location: Location;
-  name = this.common.mycookie.name;
-  email = this.common.mycookie.username;
-  notification_list = []
-  constructor(
-      location: Location,  
-      private element: ElementRef, 
-      private router: Router,
-      public auth: AuthService,
-      public common: CommonService,
-      public dataService: DataService,
+    tokenId = this.common.mycookie.bearertoken;
+    public focus;
+    public listTitles: any[];
+    public location: Location;
+    name = this.common.mycookie.name;
+    email = this.common.mycookie.username;
+    notification_list = []
+    noticeCollection: any[] = [];
+    private noticeCollection$: Subscription = new Subscription();
+
+    constructor (
+        location: Location,
+        private element: ElementRef,
+        private router: Router,
+        public auth: AuthService,
+        public common: CommonService,
+        public dataService: DataService,
     ) {
-      this.location = location;
+        this.location = location;
     }
 
-  ngOnInit() {
-    this.listTitles = ROUTES.filter(listTitle => listTitle);
-    this.notification();
-  }
-  getTitle(){
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if(titlee.charAt(0) === '#'){
-        titlee = titlee.slice( 1 );
+    ngOnInit() {
+        this.listTitles = ROUTES.filter(listTitle => listTitle);
+        this.notification();
+        this.getNewNotices();
     }
 
-    for(var item = 0; item < this.listTitles.length; item++){
-        if(this.listTitles[item].path === titlee){
-            return this.listTitles[item].title;
+    getTitle() {
+        var titlee = this.location.prepareExternalUrl(this.location.path());
+        if (titlee.charAt(0) === '#') {
+            titlee = titlee.slice(1);
         }
+
+        for (var item = 0; item < this.listTitles.length; item++) {
+            if (this.listTitles[item].path === titlee) {
+                return this.listTitles[item].title;
+            }
+        }
+        return 'Dashboard';
     }
-    return 'Dashboard';
-  }
 
-  logout(){
-    const token = this.common.mycookie.bearertoken
-    this.auth.logOut(token);
-  }
+    logout() {
+        const token = this.common.mycookie.bearertoken
+        this.auth.logOut(token);
+    }
 
-  notification() {
-    const queryString = "?"
-      + "api_token=" + this.tokenId;
-    this.dataService.getAll('notification-pending-list' + queryString)
-      .subscribe(async(res) => {
-          if (res.code === 200) {
-              this.notification_list = res.list  
-          } else if (res.code === 404) {
-         
-          }
-        },
-        (error: AppError) => {
-          this.common.openTost('error', 'ERROR', 'Please try again later');
-          if (error instanceof BadInput) {
-          } else { throw error; }
-        });
+    notification() {
+        const queryString = "?"
+            + "api_token=" + this.tokenId;
+        this.dataService.getAll('notification-pending-list' + queryString)
+            .subscribe(async (res) => {
+                if (res.code === 200) {
+                    this.notification_list = res.list
+                } else if (res.code === 404) {
 
-  }
+                }
+            },
+                (error: AppError) => {
+                    this.common.openTost('error', 'ERROR', 'Please try again later');
+                    if (error instanceof BadInput) {
+                    } else { throw error; }
+                });
 
+    }
 
+    getNewNotices() {
+        const queryString = "?"
+            + "api_token=" + this.tokenId;
+        this.dataService.getAll('notice/new-list' + queryString)
+            .subscribe({
+                next: (response) => {
+                    if (response?.code == 200) {
+                        this.noticeCollection = response?.data?.list;
+                        console.log(this.noticeCollection, 'notice collection');
+
+                    } else {
+                        this.noticeCollection = [];
+                    }
+                },
+                error: (e) => console.log(e),
+                complete: () => {
+
+                }
+            })
+    }
+
+    goToNotice(notice) {
+        this.router.navigate(['/notice']);
+    }
+
+    ngOnDestroy() {
+        this.noticeCollection$?.unsubscribe();
+    }
 
 }

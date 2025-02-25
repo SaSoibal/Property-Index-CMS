@@ -1,184 +1,206 @@
-
 <div *ngIf="pageBuffer" class="loader"></div>
 <div *ngIf="permission('read')">
-  <div class="row d-flex justify-content-between mb-3">
-    <div class="col-md-6">
-      <nz-select  style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
-          <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
-      </nz-select>
-      <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear [(ngModel)]="team_id" (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
-        <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
-      </nz-select>
-      <nz-select style="width:180px;" nzShowSearch nzAllowClear [(ngModel)]="member_id"  (ngModelChange)="clickMemberData($event)" nzPlaceHolder="Select Member">
-        <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id" [nzLabel]="member?.member?.name"></nz-option>
-      </nz-select>
+    <div class="row d-flex justify-content-between mb-3">
+        <div class="col-md-6">
+            <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear [(ngModel)]="changeBranch"
+                (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
+                <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name"
+                    [nzValue]="branch.id"></nz-option>
+            </nz-select>
+            <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear [(ngModel)]="team_id"
+                (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
+                <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
+            </nz-select>
+            <nz-select style="width:180px;" nzShowSearch nzAllowClear [(ngModel)]="member_id"
+                (ngModelChange)="clickMemberData($event)" nzPlaceHolder="Select Member">
+                <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id"
+                    [nzLabel]="member?.member?.name"></nz-option>
+            </nz-select>
+        </div>
+        <div class="col-md-6">
+            <input class="w-100" nz-input
+                placeholder="Search by Id, Title, Project name, Built in year, Handover year, Developer name"
+                type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+        </div>
     </div>
-    <div class="col-md-6">
-      <input class="w-100" nz-input  placeholder="Search by Id, Title, Project name, Built in year, Handover year, Developer name" type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
-    </div>
-  </div>      
-  <div class="table-responsive" >
-      <table class="table table-hover table-bordered table-sm  table--darker">
-        <thead>
-        <tr>
-          <th class="text-center align-middle" *ngIf="permission('update') || permission('delete')">Action</th>
-          <th class="align-middle" (click)="sort('listing_id')">
-            <i *ngIf="sortColumn==='listing_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='listing_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Listing ID
-          </th>
-          <th class="align-middle" (click)="sort('property_id')">
-            <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Project ID
-          </th>
-  
-          <th class="align-middle" (click)="sort('property_id')">
-            <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Image
-          </th>
-          <th class="align-middle" (click)="sort('title')">
-            <i *ngIf="sortColumn==='title' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='title' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Name
-          </th>
-          <th class="align-middle" (click)="sort('address')">
-            <i *ngIf="sortColumn==='address' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='address' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Address
-          </th>
-          <th class="align-middle" (click)="sort('block')">
-            <i *ngIf="sortColumn==='block' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='block' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Block
-          </th>
-          <th class="align-middle" (click)="sort('sector')">
-            <i *ngIf="sortColumn==='sector' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='sector' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Sector
-          </th>
-          <th class="align-middle" (click)="sort('road')">
-            <i *ngIf="sortColumn==='road' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='road' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Road
-          </th>
-          <th class="align-middle" (click)="sort('road_size')">
-            <i *ngIf="sortColumn==='road_size' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='road_size' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Road Size
-          </th>
-          <th class="align-middle" (click)="sort('plot_no')">
-            <i *ngIf="sortColumn==='plot_no' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='plot_no' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Plot No
-          </th>
-          <th class="align-middle" (click)="sort('plot_size')">
-            <i *ngIf="sortColumn==='plot_size' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='plot_size' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Plot Size
-          </th>
-          <th class="align-middle" (click)="sort('facing')">
-            <i *ngIf="sortColumn==='facing' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='facing' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Facing
-          </th>
-          <th class="align-middle" (click)="sort('property_registration')">
-            <i *ngIf="sortColumn==='property_registration' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='property_registration' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Reg. Status
-          </th>
-          <th class="align-middle" (click)="sort('plot_boundary')">
-            <i *ngIf="sortColumn==='plot_boundary' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='plot_boundary' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Boundary
-          </th>
-          <th class="align-middle" (click)="sort('category')">
-            <i *ngIf="sortColumn==='category' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='category' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Category
-          </th>
-          <th class="align-middle" >
-           Price
-          </th>
-          <th class="align-middle" (click)="sort('status')">
-            <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Status
-          </th>
-          <th class="align-middle" (click)="sort('created_by')">
-            <i *ngIf="sortColumn==='created_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='created_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Added by
-          </th>
-          <th class="align-middle" (click)="sort('updated_by')">
-            <i *ngIf="sortColumn==='updated_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='updated_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Updated by
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <ng-container *ngIf="collection.length > 0;else notFound">
-          <tr *ngFor="let property of collection| paginate: {
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm  table--darker">
+            <thead>
+                <tr>
+                    <th class="text-center align-middle" *ngIf="permission('update') || permission('delete')">Action
+                    </th>
+                    <th class="align-middle" (click)="sort('listing_id')">
+                        <i *ngIf="sortColumn==='listing_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='listing_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Listing ID
+                    </th>
+                    <th class="align-middle" (click)="sort('property_id')">
+                        <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Project ID
+                    </th>
+
+                    <th class="align-middle" (click)="sort('property_id')">
+                        <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Image
+                    </th>
+                    <th class="align-middle" (click)="sort('title')">
+                        <i *ngIf="sortColumn==='title' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='title' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Name
+                    </th>
+                    <th class="align-middle" (click)="sort('address')">
+                        <i *ngIf="sortColumn==='address' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='address' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Address
+                    </th>
+                    <th class="align-middle" (click)="sort('block')">
+                        <i *ngIf="sortColumn==='block' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='block' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Block
+                    </th>
+                    <th class="align-middle" (click)="sort('sector')">
+                        <i *ngIf="sortColumn==='sector' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='sector' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Sector
+                    </th>
+                    <th class="align-middle" (click)="sort('road')">
+                        <i *ngIf="sortColumn==='road' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='road' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Road
+                    </th>
+                    <th class="align-middle" (click)="sort('road_size')">
+                        <i *ngIf="sortColumn==='road_size' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='road_size' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Road Size
+                    </th>
+                    <th class="align-middle" (click)="sort('plot_no')">
+                        <i *ngIf="sortColumn==='plot_no' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='plot_no' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Plot No
+                    </th>
+                    <th class="align-middle" (click)="sort('plot_size')">
+                        <i *ngIf="sortColumn==='plot_size' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='plot_size' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Plot Size
+                    </th>
+                    <th class="align-middle" (click)="sort('facing')">
+                        <i *ngIf="sortColumn==='facing' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='facing' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Facing
+                    </th>
+                    <th class="align-middle" (click)="sort('property_registration')">
+                        <i *ngIf="sortColumn==='property_registration' && dataOrderBy"
+                            class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='property_registration' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Reg. Status
+                    </th>
+                    <th class="align-middle" (click)="sort('plot_boundary')">
+                        <i *ngIf="sortColumn==='plot_boundary' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='plot_boundary' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Boundary
+                    </th>
+                    <th class="align-middle" (click)="sort('category')">
+                        <i *ngIf="sortColumn==='category' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='category' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Category
+                    </th>
+                    <th class="align-middle">
+                        Price
+                    </th>
+                    <th class="align-middle" (click)="sort('status')">
+                        <i *ngIf="sortColumn==='status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Status
+                    </th>
+                    <th class="align-middle" (click)="sort('created_by')">
+                        <i *ngIf="sortColumn==='created_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='created_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Added by
+                    </th>
+                    <th class="align-middle" (click)="sort('updated_by')">
+                        <i *ngIf="sortColumn==='updated_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='updated_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Updated by
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="collection.length > 0;else notFound">
+                    <tr *ngFor="let property of collection| paginate: {
                         currentPage: pageNumber,
                         itemsPerPage: itemPerPage,
                         totalItems: totalrow
                         } ; index as i;">
-            <td class="align-middle text-center" *ngIf="permission('update') || permission('delete')">
-              <div class="d-flex" style="width:110px">
-                <a *ngIf="permission('read')" (click)="openRedModel(property)" class="btn btn-sm btn-default text-white  mr-2" placement="top" ngbTooltip="View"><i class="fas fa-eye"></i></a>
-                <a *ngIf="permission('update')" [routerLink]="[ '/property-management/land-sale/edit',property.id,property.property_id]" class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Edit"><i class="fas fa-edit"></i></a>
-                <a *ngIf="permission('delete')" (click)="opendeleteModel(property)" class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Delete"><i class="fas fa-trash"></i></a>
-              </div>
-            </td>
-            <td class="align-middle text-center">{{property.listing_id?property.listing_id:'- - -'}}</td>
-            <td class="align-middle text-center"><strong>{{property.property_id}}</strong></td>
-            <td class="align-middle">
-              <img style="background: #0c1549;height:45px;width:55px;border-radius:3px;padding: 2px;" src="{{property.property_thumbnail?rootUrl+'/property/'+property.property_thumbnail.url:'./assets/img/brand/logo.png'}}"/>
-            </td>
-            <td class="align-middle m-width-200">{{property.title}}</td>
-            <td class="align-middle m-width-150">{{property.property_address}}</td>
-            <td class="align-middle m-width-100">{{property.block}}</td>
-            <td class="align-middle m-width-100">{{property.sector}}</td>
-            <td class="align-middle m-width-100">{{property.road}}</td>
-            <td class="align-middle m-width-100">{{property.road_size}}</td>
-            <td class="align-middle m-width-100">{{property.plot_no}}</td>
-            <td class="align-middle m-width-100">{{property.plot_size}}</td>
-            <td class="align-middle m-width-100">{{property.facing}}</td>
-            <td class="align-middle m-width-100">{{getPropertyRegistration(property.property_registration)}}</td>
-            <td class="align-middle m-width-100">{{property.plot_boundary}}</td>
-            <td class="align-middle m-width-100">{{property.category}}</td>
-            <td class="align-middle m-width-100">{{property.price_contact?property.price_contact.offer_price:'0.00'}}</td>
-            <td class="align-middle m-width-100">
-              <p class="badge status_btn text-wrap mb-0 badge-info" *ngIf="property.status == 1">Pending</p>
-              <p class="badge status_btn text-wrap mb-0 badge-warning" *ngIf="property.status == 2">Draft</p>
-            </td>
-            <td class="align-middle m-width-150">
-              {{property.created_by?property.created_by.name:''}}<br>
-              {{property.created_at|date:'shortDate'}}
-            </td>
-            <td class="align-middle m-width-150" >
-              <span *ngIf="property.updated_by">
-                {{property.updated_by?property.updated_by.name:''}}<br>
-                {{property.updated_at|date:'shortDate'}}
-              </span>
-            </td>
-          </tr>
-        </ng-container>
-        <ng-template  #notFound>
-          <tr>
-            <td colspan="100%" class="text-danger">Data Not Found ...</td>
-          </tr>
-        </ng-template>
-        </tbody>
-      </table>
+                        <td class="align-middle text-center" *ngIf="permission('update') || permission('delete')">
+                            <div class="d-flex" style="width:110px">
+                                <a *ngIf="permission('read')" (click)="openRedModel(property)"
+                                    class="btn btn-sm btn-default text-white  mr-2" placement="top" ngbTooltip="View"><i
+                                        class="fas fa-eye"></i></a>
+                                <a *ngIf="permission('update')"
+                                    [routerLink]="[ '/property-management/land-sale/edit',property.id,property.property_id]"
+                                    class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Edit"><i
+                                        class="fas fa-edit"></i></a>
+                                <a *ngIf="permission('delete')" (click)="opendeleteModel(property)"
+                                    class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Delete"><i
+                                        class="fas fa-trash"></i></a>
+                            </div>
+                        </td>
+                        <td class="align-middle text-center">{{property.listing_id?property.listing_id:'- - -'}}</td>
+                        <td class="align-middle text-center"><strong>{{property.property_id}}</strong></td>
+                        <td class="align-middle">
+                            <img style="background: #0c1549;height:45px;width:55px;border-radius:3px;padding: 2px;"
+                                src="{{property.property_thumbnail?rootUrl+'/property/'+property.property_thumbnail.url:'./assets/img/brand/logo.png'}}" />
+                        </td>
+                        <td class="align-middle m-width-200">{{property.title}}</td>
+                        <td class="align-middle m-width-150"><span class="text-warning cursor-pointer"
+                                ngbPopover="{{property.property_address}}" triggers="mouseenter:mouseleave"
+                                popoverTitle="Address">
+                                <i class="fas fa-comment"></i> Address
+                            </span></td>
+                        <td class="align-middle m-width-100">{{property.block}}</td>
+                        <td class="align-middle m-width-100">{{property.sector}}</td>
+                        <td class="align-middle m-width-100">{{property.road}}</td>
+                        <td class="align-middle m-width-100">{{property.road_size}}</td>
+                        <td class="align-middle m-width-100">{{property.plot_no}}</td>
+                        <td class="align-middle m-width-100">{{property.plot_size}}</td>
+                        <td class="align-middle m-width-100">{{property.facing}}</td>
+                        <td class="align-middle m-width-100">{{getPropertyRegistration(property.property_registration)}}
+                        </td>
+                        <td class="align-middle m-width-100">{{property.plot_boundary}}</td>
+                        <td class="align-middle m-width-100">{{property.category}}</td>
+                        <td class="align-middle m-width-100">
+                            {{property.price_contact?property.price_contact.offer_price:'0.00'}}</td>
+                        <td class="align-middle m-width-100">
+                            <p class="badge status_btn text-wrap mb-0 badge-info" *ngIf="property.status == 1">Pending
+                            </p>
+                            <p class="badge status_btn text-wrap mb-0 badge-warning" *ngIf="property.status == 2">Draft
+                            </p>
+                        </td>
+                        <td class="align-middle m-width-150">
+                            {{property.created_by?property.created_by.name:''}}<br>
+                            {{property.created_at|date:'shortDate'}}
+                        </td>
+                        <td class="align-middle m-width-150">
+                            <span *ngIf="property.updated_by">
+                                {{property.updated_by?property.updated_by.name:''}}<br>
+                                {{property.updated_at|date:'shortDate'}}
+                            </span>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-template #notFound>
+                    <tr>
+                        <td colspan="100%" class="text-danger">Data Not Found ...</td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
     </div>
-  </div><br>
-    <mat-paginator
-      [length]="totalrow"
-      [pageSize]="itemPerPage"
-      [pageSizeOptions]="pageSizeOptions"
-      (page)="pageEvent($event)">
-    </mat-paginator>
-
+</div><br>
+<mat-paginator [length]="totalrow" [pageSize]="itemPerPage" [pageSizeOptions]="pageSizeOptions"
+    (page)="pageEvent($event)">
+</mat-paginator>

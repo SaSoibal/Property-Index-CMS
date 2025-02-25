@@ -1,68 +1,66 @@
-<div  mat-dialog-title class="d-flex">
-  <h2 class="text-capitalize">{{data.operation}} System User</h2>
-  <button type="button" class="close ml-auto" mat-dialog-close>
-    <span aria-hidden="true">&times;</span>
-  </button>
+<div mat-dialog-title class="d-flex">
+    <h2 class="text-capitalize">{{data.operation}} System User</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <form #userForm="ngForm" (ngSubmit)="onClick()">
-  <mat-dialog-content class="mat-typography pt-4">
-    <div class="row mt-3">
-      <div class="col-md-12">
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Full Name</nz-form-label>
-          <nz-form-control  nzErrorTip="Full Name is required!">
-            <input nz-input [(ngModel)]="data.name" name="name" required id="name"  #name="ngModel" placeholder="Full Name"/>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Email</nz-form-label>
-          <nz-form-control  nzErrorTip="Email is required!">
-            <input type="email" nz-input [(ngModel)]="data.email" name="email" required id="email"  #email="ngModel" placeholder="Email Address"/>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password">Password</nz-form-label>
-          <nz-form-control  nzErrorTip="Password is required!">
-            <nz-input-group [nzSuffix]="suffixTemplate">
-              <input
-                [type]="passwordVisible ? 'text' : 'password'"
-                nz-input
-                placeholder="Password"
-                [(ngModel)]="data.password" required
-              />
-            </nz-input-group>
-            <ng-template #suffixTemplate>
-              <span
-                nz-icon
-                [nzType]="passwordVisible ? 'eye' : 'eye'"
-                (click)="passwordVisible = !passwordVisible"
-              ></span>
-            </ng-template>
-          </nz-form-control>
-        </nz-form-item>
+    <mat-dialog-content class="mat-typography pt-4">
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Full Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Full Name is required!">
+                        <input nz-input [(ngModel)]="data.name" name="name" required id="name" #name="ngModel"
+                            placeholder="Full Name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Email</nz-form-label>
+                    <nz-form-control nzErrorTip="Email is required!">
+                        <input type="email" nz-input [(ngModel)]="data.email" name="email" required id="email"
+                            #email="ngModel" placeholder="Email Address" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="password">Password</nz-form-label>
+                    <nz-form-control nzErrorTip="Password is required!">
+                        <nz-input-group [nzSuffix]="suffixTemplate">
+                            <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Password"
+                                name="password" [(ngModel)]="data.password" required />
+                        </nz-input-group>
+                        <ng-template #suffixTemplate>
+                            <span nz-icon [nzType]="passwordVisible ? 'eye' : 'eye'"
+                                (click)="passwordVisible = !passwordVisible"></span>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
 
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone">Phone</nz-form-label>
-          <nz-form-control  nzErrorTip="Phone is required!">
-            <input nz-input [(ngModel)]="data.phone" name="phone" required id="phone"  #phone="ngModel" placeholder="Phone"/>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
-             <nz-form-control  nzErrorTip="The role is required!">
-                  <nz-switch id="status" [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
-             </nz-form-control>
-        </nz-form-item>
-      </div>
-    </div>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
-      <i class="fa fa-times mr-2"></i>Cancel
-    </button>
-    <button type="submit" [disabled]="!userForm.form.valid || submitButton" class="btn btn-sm btn-default text-white">
-      <i class="fa fa-save mr-2"></i> Submit
-    </button>
-  </mat-dialog-actions>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phone">Phone</nz-form-label>
+                    <nz-form-control nzErrorTip="Phone is required!">
+                        <input nz-input [(ngModel)]="data.phone" name="phone" required id="phone" #phone="ngModel"
+                            placeholder="Phone" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
+                    <nz-form-control nzErrorTip="The role is required!">
+                        <nz-switch id="status" [ngModel]="data.status" [(ngModel)]="data.status" name="status"
+                            nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+            <i class="fa fa-times mr-2"></i>Cancel
+        </button>
+        <button type="submit" [disabled]="!userForm.form.valid || submitButton"
+            class="btn btn-sm btn-default text-white">
+            <i class="fa fa-save mr-2"></i> Submit
+        </button>
+    </mat-dialog-actions>
 </form>

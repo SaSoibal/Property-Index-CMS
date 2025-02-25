@@ -92,12 +92,13 @@ export class TodolistComponent implements OnInit {
   itemPerPage = 10;
   public pageNumber: number = 1;
   pageSizeOptions: number[] = [10, 25, 100, 200, 300, 500];
-  dataOrderBy = true;
-  sortColumn = 'id';
+  dataOrderBy = false;
+  sortColumn = 'allocated_date';
   public searchValues: string = '';
   collection = [];
   dataNotFound = '';
   today = new Date().toISOString().slice(0, 10);
+  classification_id = '';
   selected_date = '';
   selected_date_type = 'only';
   taskStep = 1;
@@ -133,6 +134,25 @@ export class TodolistComponent implements OnInit {
     });
   }
 
+  getTodoClass(allocatedDate: string): string {
+    const today = new Date();
+    const taskDate = new Date(allocatedDate);
+    const diffInTime = taskDate.getTime() - today.getTime();
+    const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
+
+    if (diffInDays < 0) {
+      return 'todo-orange'; // Overdue
+    } else if (diffInDays === 0) {
+      return 'todo-red'; // Today
+    } else if (diffInDays === 1) {
+      return 'todo-green'; // Tomorrow
+    } else if (diffInDays <= 7) {
+      return 'todo-blue'; // Within 7 days
+    } else if (diffInDays <= 30) {
+      return 'todo-yellow'; // Within 30 days
+    }
+    return ''; // No class for dates beyond 30 days
+  }
 
   getBranch(){
     const postdatet = {
@@ -344,6 +364,11 @@ export class TodolistComponent implements OnInit {
     this.showList();
   }
 
+  classification(classification_id) {
+    this.classification_id = classification_id;
+    this.showList();
+  }
+
   onChangeDateRange(result: Date[]) {
     if (result.length > 0) {
       this.date_to_date = formatDate(result[0], 'Y-MM-d', 'en-US') +','+ formatDate(result[1], 'Y-MM-d', 'en-US');
@@ -374,6 +399,7 @@ export class TodolistComponent implements OnInit {
          + "&branch_id=" +  this.changeBranch
          + "&team_id=" +  this.team_id
          + "&member_id=" +  this.member_id;
+         + "&classification_id=" +  this.classification_id;
        this.get_list(curl);
   }
 
@@ -474,6 +500,20 @@ export class TodolistComponent implements OnInit {
       }
     });
   }
+
+  getIconSrc(classificationId: number | undefined): string {
+    if (classificationId === 1) {
+      return './assets/img/brand/fire.png';
+    } else if (classificationId === 2) {
+      return './assets/img/brand/Hot.png';
+    } else if (classificationId === 3) {
+      return './assets/img/brand/Moderate.png';
+    } else if (classificationId === 4) {
+      return './assets/img/brand/Cold.png';
+    }
+    return ''; // Return an empty string if no classificationId or no matching icon
+  }
+
 
   detailsModel(lead) {
     this.pageBuffer = true;

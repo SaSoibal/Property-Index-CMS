@@ -1,0 +1,85 @@
+<div mat-dialog-title class="d-flex">
+    <h2>Add Loan Benefit</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form #bannerForm="ngForm" (ngSubmit)="onClick()">
+    <mat-dialog-content class="mat-typography pt-3">
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <ng-container>
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title_en">Title (EN)</nz-form-label>
+                        <nz-form-control nzErrorTip="Title (EN) is required!">
+                            <input nz-input [(ngModel)]="data.title_en" name="title_en" id="title_en"
+                                #title_en="ngModel" required placeholder="Title (EN)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title_en">Title (BN)</nz-form-label>
+                        <nz-form-control nzErrorTip="Title (BN) is required!">
+                            <input nz-input [(ngModel)]="data.title_bn" name="title_bn" id="title_bn"
+                                #title_bn="ngModel" required placeholder="Title (BN)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="subtitle_en">Sub Title (EN)</nz-form-label>
+                        <nz-form-control nzErrorTip="Sub Title (EN) is required!">
+                            <textarea nz-input [(ngModel)]="data.subtitle_en" name="subtitle_en" id="subtitle_en"
+                                #subtitle_en="ngModel" placeholder="Sub Title (EN)"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="subtitle_bn">Sub Title (BN)</nz-form-label>
+                        <nz-form-control nzErrorTip="Sub Title (BN) is required!">
+                            <textarea nz-input [(ngModel)]="data.subtitle_bn" name="subtitle_bn" id="subtitle_bn"
+                                #subtitle_bn="ngModel" placeholder="Sub Title (BN)"></textarea>
+                        </nz-form-control>
+                    </nz-form-item>
+                </ng-container>
+                <div class="row mb-3">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-9">
+                        <nz-card nzHoverable [nzCover]="coverTemplate" class="ant-img-up-card">
+                            <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg'
+                                class="btn btn-sm btn-default text-white btn-block">
+                                <i class="fa fa-upload mr-2"></i> Upload Thumbnail
+                            </button>
+                            <input style="display: none" type="file" (change)="Changed($event)" #fileInput>
+                            <button type="button" (click)="fileInput.click()" *ngIf='ChangeImg'
+                                class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
+                                Change </button>
+                            <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
+                                *ngIf='ChangeImg' (click)="RemoveImage()"><i class="fa fa-times"> </i> Remove</button>
+                        </nz-card>
+                        <ng-template #coverTemplate>
+                            <span class="ml-2 mt-1">Thumbnail</span>
+                            <img alt="image" class="p-2" height="150px" [src]="ImageFile" />
+                        </ng-template>
+                        <small class="text-danger"><i class="fa fa-info mr-1"></i>Dimensions max ( 1920 x 1080 )
+                            px.</small>
+                    </div>
+                    <div class="col-md-5"></div>
+                </div>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="status">Status</nz-form-label>
+                    <nz-form-control nzErrorTip="Status is required!">
+                        <nz-switch id="status" required [ngModel]="data.status" [(ngModel)]="data.status" name="status"
+                            nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+            <i class="fa fa-times mr-2"></i>Cancel
+        </button>
+        <button type="submit" [disabled]="!bannerForm.form.valid" class="btn btn-sm btn-default text-white">
+            <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+        </button>
+    </mat-dialog-actions>
+</form>

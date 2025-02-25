@@ -1,570 +1,637 @@
 <div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
-  <div class="container-fluid">
-    <div class="header-body">
-      <!-- Card stats -->
-      <div class="row">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- Page content -->
 <div class="container-fluid mt--8">
-  <!-- Table -->
-  <div class="row">
-    <div class="col">
-      <div class="card shadow">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">About us page!</h3>
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">About us page!</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body border-0" *ngIf="permission('read')">
+                    <form (ngSubmit)="submitLoneForm()" [formGroup]="createLoneForm">
+                        <div class="">
+                            <!--Page Banner Section-->
+                            <div class="row gy-5">
+                                <div class="col-md-12 about-title">
+                                    Page Information
+                                </div>
+                                <div class="col-md-6 offset-md-3">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-center" [nzSm]="4" [nzXs]="24" nzFor="page_title_en">
+                                            Page Title (EN)
+                                        </nz-form-label>
+                                        <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="page_title_en" name="page_title_en"
+                                                id="page_title_en" placeholder="Enter Page Title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-center" [nzSm]="4" [nzXs]="24" nzFor="page_title_bn">
+                                            Page Title (BN)
+                                        </nz-form-label>
+                                        <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="page_title_bn" name="page_title_bn"
+                                                id="page_title_bn" placeholder="Enter Page Title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div class="col-md-6 offset-md-3">
+                                    <nz-card nzHoverable [nzCover]="bannerTemplate"
+                                        class="col-xs-12 col-sm-12 ant-img-up-card">
+                                        <button type="button" (click)="fileInputBanner.click()" *ngIf='!ChangeBannerImg'
+                                            class="btn btn-sm btn-default text-white btn-block">
+                                            <i class="fa fa-upload mr-2"></i> Upload Banner
+                                        </button>
+                                        <input style="display: none" type="file" (change)="BannerChanged($event)"
+                                            #fileInputBanner>
+                                        <button type="button" (click)="fileInputBanner.click()" *ngIf='ChangeBannerImg'
+                                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i
+                                                class="fa fa-upload"></i>
+                                            Change
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm text-white"
+                                            data-dismiss="inputfile" *ngIf='ChangeBannerImg'
+                                            (click)="RemoveBannerImage()"><i class="fa fa-times"> </i> Remove
+                                        </button>
+                                    </nz-card>
+                                    <ng-template #bannerTemplate>
+                                        <img alt="image" class="p-2" height="180px" [src]="BannerImageFile" />
+                                    </ng-template>
+                                </div>
+                            </div>
+
+                            <!--Story & Mission Vision Section-->
+                            <!-- <div class="row gy-5">
+                                <div class="col-md-12 about-title">
+                                    Our Story
+                                </div>
+                                <div class="col-sm-8">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="our_story_en">
+                                            Our Story (EN)
+                                        </nz-form-label>
+                                        <nz-form-control>
+                                            <app-tinymce style="width:99%" nz-input formControlName="our_story_en"
+                                                #tinymce='tinymce' id="our_story_en"
+                                                placeholder="Our Story"></app-tinymce>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="our_story_bn">
+                                            Our Story (BN)
+                                        </nz-form-label>
+                                        <nz-form-control>
+                                            <app-tinymce style="width:99%" nz-input formControlName="our_story_bn"
+                                                #tinymce='tinymce' id="our_story_bn"
+                                                placeholder="Our Story BN"></app-tinymce>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <nz-card nzHoverable [nzCover]="ourStoryTemplate"
+                                        class="col-xs-16 col-sm-24 ant-img-up-card">
+                                        <button type="button" (click)="fileInputOurStory.click()"
+                                            *ngIf='!ChangeOurStoryImg'
+                                            class="btn btn-sm btn-default text-white btn-block">
+                                            <i class="fa fa-upload mr-2"></i> Upload Image
+                                        </button>
+                                        <input style="display: none" type="file" (change)="OurStoryChanged($event)"
+                                            #fileInputOurStory>
+                                        <button type="button" (click)="fileInputOurStory.click()"
+                                            *ngIf='ChangeOurStoryImg'
+                                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i
+                                                class="fa fa-upload"></i>
+                                            Change
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm text-white"
+                                            data-dismiss="inputfile" *ngIf='ChangeOurStoryImg'
+                                            (click)="RemoveOurStoryImage()"><i class="fa fa-times"> </i>
+                                            Remove
+                                        </button>
+                                    </nz-card>
+                                    <ng-template #ourStoryTemplate>
+                                        <img alt="image" class="p-2" height="218px" [src]="OurStoryImageFile" />
+                                    </ng-template>
+                                </div>
+                            </div> -->
+
+                            <!--Mission & Vision Section-->
+                            <div class="row gy-5">
+                                <div class="col-md-12 about-title">
+                                    Mission
+                                </div>
+                                <div class="col-sm-4">
+                                    <nz-card nzHoverable [nzCover]="missionTemplate"
+                                        class="col-xs-16 col-sm-24 ant-img-up-card">
+                                        <button type="button" (click)="fileInputOurMission.click()"
+                                            *ngIf='!ChangeOurMissionImg'
+                                            class="btn btn-sm btn-default text-white btn-block">
+                                            <i class="fa fa-upload mr-2"></i> Upload Image
+                                        </button>
+                                        <input style="display: none" type="file" (change)="OurMissionChanged($event)"
+                                            #fileInputOurMission>
+                                        <button type="button" (click)="fileInputOurMission.click()"
+                                            *ngIf='ChangeOurMissionImg'
+                                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i
+                                                class="fa fa-upload"></i>
+                                            Change
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm text-white"
+                                            data-dismiss="inputfile" *ngIf='ChangeOurMissionImg'
+                                            (click)="RemoveOurMissionImage()"><i class="fa fa-times"> </i>
+                                            Remove
+                                        </button>
+                                    </nz-card>
+                                    <ng-template #missionTemplate>
+                                        <img alt="image" class="p-2" height="218px" [src]="OurMissionImageFile" />
+                                    </ng-template>
+                                </div>
+
+                                <div class="col-sm-8 p-1">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="mission_en">
+                                            Mission (EN)
+                                        </nz-form-label>
+                                        <nz-form-control>
+                                            <app-tinymce style="width:99%" nz-input formControlName="mission_en"
+                                                #tinymce='tinymce' id="mission_en" placeholder="Mission"></app-tinymce>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="mission_bn">
+                                            Mission (BN)
+                                        </nz-form-label>
+                                        <nz-form-control>
+                                            <app-tinymce style="width:99%" nz-input formControlName="mission_bn"
+                                                #tinymce='tinymce' id="mission_bn" placeholder="Mission"></app-tinymce>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+
+                            <div class="row gy-5">
+                                <div class="col-md-12 about-title">
+                                    Vision
+                                </div>
+                                <div class="col-sm-4">
+                                    <nz-card nzHoverable [nzCover]="visionTemplate"
+                                        class="col-xs-16 col-sm-24 ant-img-up-card">
+                                        <button type="button" (click)="fileInputOurVision.click()"
+                                            *ngIf='!ChangeOurVisionImg'
+                                            class="btn btn-sm btn-default text-white btn-block">
+                                            <i class="fa fa-upload mr-2"></i> Upload Image
+                                        </button>
+                                        <input style="display: none" type="file" (change)="OurVisionChanged($event)"
+                                            #fileInputOurVision>
+                                        <button type="button" (click)="fileInputOurVision.click()"
+                                            *ngIf='ChangeOurVisionImg'
+                                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i
+                                                class="fa fa-upload"></i>
+                                            Change
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm text-white"
+                                            data-dismiss="inputfile" *ngIf='ChangeOurVisionImg'
+                                            (click)="RemoveOurVisionImage()"><i class="fa fa-times"> </i>
+                                            Remove
+                                        </button>
+                                    </nz-card>
+                                    <ng-template #visionTemplate>
+                                        <img alt="image" class="p-2" height="218px" [src]="OurVisionImageFile" />
+                                    </ng-template>
+                                </div>
+
+                                <div class="col-sm-8 p-1">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="vision_en">
+                                            Vision (EN)
+                                        </nz-form-label>
+                                        <nz-form-control>
+                                            <app-tinymce style="width:99%" nz-input formControlName="vision_en"
+                                                #tinymce='tinymce' id="vision_en" placeholder="Vision"></app-tinymce>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="vision_bn">
+                                            Vision (BN)
+                                        </nz-form-label>
+                                        <nz-form-control>
+                                            <app-tinymce style="width:99%" nz-input formControlName="vision_bn"
+                                                #tinymce='tinymce' id="vision_bn" placeholder="Vision"></app-tinymce>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+
+                            <!--Data Section-->
+                            <div class="row gy-5">
+                                <div class="col-md-12 about-title">
+                                    Data Section
+                                </div>
+                                <div class="col-sm">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title1_en">
+                                            Data 1 Title (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data_title1_en" name="data_title1_en"
+                                                id="data_title1_en" placeholder="Data title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title1_bn">
+                                            Data 1 Title (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data_title1_bn" name="data_title1_bn"
+                                                id="data_title1_bn" placeholder="Data title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data1_en">
+                                            Data 1 Value (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data1_en" name="data1_en" id="data1_en"
+                                                placeholder="Data Value" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data1_bn">
+                                            Data 1 Value (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data1_bn" name="data1_bn" id="data1_bn"
+                                                placeholder="Data Value" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div class="col-sm">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title2_en">
+                                            Data 2 Title (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data_title2_en" name="data_title2_en"
+                                                id="data_title2_en" placeholder="Data Title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title2_bn">
+                                            Data 2 Title (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data_title2_bn" name="data_title2_bn"
+                                                id="data_title2_bn" placeholder="Data Title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data2_en">
+                                            Data 2 Value (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data2_en" name="data2_en" id="data2_en"
+                                                placeholder="Data Value" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data2_bn">
+                                            Data 2 Value (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data2_bn" name="data2_bn" id="data2_bn"
+                                                placeholder="Data Value" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div class="col-sm">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title3_en">
+                                            Data 3 Title (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data_title3_en" name="data_title3_en"
+                                                id="data_title3_en" placeholder="Data Title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title3_bn">
+                                            Data 3 Title (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data_title3_bn" name="data_title3_bn"
+                                                id="data_title3_bn" placeholder="Data Title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data3_en">
+                                            Data 3 Value (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data3_en" name="data3_en" id="data3_en"
+                                                placeholder="Data Value" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data3_bn">
+                                            Data 3 Value (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data3_bn" name="data3_bn" id="data3_bn"
+                                                placeholder="Data Value" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                                <div class="col-sm">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title4_en">
+                                            Data 4 Title (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data_title4_en" name="data_title4_en"
+                                                id="data_title4_en" placeholder="Data Title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title4_bn">
+                                            Data 4 Title (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data_title4_bn" name="data_title4_bn"
+                                                id="data_title4_bn" placeholder="Data Title" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data4_en">
+                                            Data 4 Value (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data4_en" name="data4_en" id="data4_en"
+                                                placeholder="Data Value" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data4_bn">
+                                            Data 4 Value (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="data4_bn" name="data4_bn" id="data4_bn"
+                                                placeholder="Data Value" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+
+                            <!--Video Section-->
+                            <!-- <div class="row gy-5">
+                                <div class="col-md-12 about-title">
+                                    Video Section
+                                </div>
+                                <div class="col-sm">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="4" [nzXs]="24" nzFor="video">Video Link
+                                        </nz-form-label>
+                                        <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Data missing!">
+                                            <input nz-input formControlName="video_link" name="video_link"
+                                                id="video_link" placeholder="Video url" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div> -->
+
+                            <!--Mastermind Section-->
+                            <div class="row gy-5">
+                                <div class="col-md-12 about-title">
+                                    Mastermind Section
+                                </div>
+                                <div class="col-sm-4">
+                                    <nz-card nzHoverable [nzCover]="masterMindTemplate"
+                                        class="col-xs-12 col-sm-20 ant-img-up-card">
+                                        <button type="button" (click)="fileInputMasterMind.click()"
+                                            *ngIf='!ChangeMasterMindImg'
+                                            class="btn btn-sm btn-default text-white btn-block">
+                                            <i class="fa fa-upload mr-2"></i> Upload Image
+                                        </button>
+                                        <input style="display: none" type="file" (change)="MasterMindChanged($event)"
+                                            #fileInputMasterMind>
+                                        <button type="button" (click)="fileInputMasterMind.click()"
+                                            *ngIf='ChangeMasterMindImg'
+                                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i
+                                                class="fa fa-upload"></i>
+                                            Change
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm text-white"
+                                            data-dismiss="inputfile" *ngIf='ChangeMasterMindImg'
+                                            (click)="RemoveMasterMindImage()"><i class="fa fa-times"> </i>
+                                            Remove
+                                        </button>
+                                    </nz-card>
+                                    <ng-template #masterMindTemplate>
+                                        <img alt="image" class="p-2" style="height:200px; width:200px"
+                                            [src]="MasterMindImageFile" />
+                                    </ng-template>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="master_mind_name_en">
+                                            Mastermind Name (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Mastermind Name missing!">
+                                            <input nz-input formControlName="master_mind_name_en"
+                                                name="master_mind_name_en" id="master_mind_name_en"
+                                                placeholder="Mastermind Name" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="master_mind_name_bn">
+                                            Mastermind Name (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Mastermind Name missing!">
+                                            <input nz-input formControlName="master_mind_name_bn"
+                                                name="master_mind_name_bn" id="master_mind_name_bn"
+                                                placeholder="Mastermind Name" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="master_mind_designation_en">
+                                            Mastermind Designation (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Mastermind Designation missing!">
+                                            <input nz-input formControlName="master_mind_designation_en"
+                                                name="master_mind_designation_en" id="master_mind_designation_en"
+                                                placeholder="Mastermind Designation" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="master_mind_designation_bn">
+                                            Mastermind Designation (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Mastermind Designation missing!">
+                                            <input nz-input formControlName="master_mind_designation_bn"
+                                                name="master_mind_designation_bn" id="master_mind_designation_bn"
+                                                placeholder="Mastermind Designation" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-sm-8">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="master_mind_text_en">
+                                            Mastermind Text (EN)
+                                        </nz-form-label>
+                                        <app-tinymce style="width:99%" nz-input formControlName="master_mind_text_en"
+                                            #tinymce='tinymce' id="master_mind_text_en"
+                                            placeholder="Mastermind Text"></app-tinymce>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="master_mind_text_bn">
+                                            Mastermind Text (BN)
+                                        </nz-form-label>
+                                        <app-tinymce style="width:99%" nz-input formControlName="master_mind_text_bn"
+                                            #tinymce='tinymce' id="master_mind_text_bn"
+                                            placeholder="Mastermind Text"></app-tinymce>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+
+                            <div class="row gy-5">
+                                <div class="col-md-12 about-title">
+                                    Second Mastermind Section
+                                </div>
+                                <div class="col-sm-4">
+                                    <nz-card nzHoverable [nzCover]="secondMasterMindTemplate"
+                                        class="col-xs-12 col-sm-20 ant-img-up-card">
+                                        <button type="button" (click)="fileInputSecondMasterMind.click()"
+                                            *ngIf='!ChangeSecondMasterMindImg'
+                                            class="btn btn-sm btn-default text-white btn-block">
+                                            <i class="fa fa-upload mr-2"></i> Upload Image
+                                        </button>
+                                        <input style="display: none" type="file"
+                                            (change)="secondMasterMindChanged($event)" #fileInputSecondMasterMind>
+                                        <button type="button" (click)="fileInputSecondMasterMind.click()"
+                                            *ngIf='ChangeSecondMasterMindImg'
+                                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i
+                                                class="fa fa-upload"></i>
+                                            Change
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm text-white"
+                                            data-dismiss="inputfile" *ngIf='ChangeSecondMasterMindImg'
+                                            (click)="RemoveSecondMasterMindImage()"><i class="fa fa-times"> </i>
+                                            Remove
+                                        </button>
+                                    </nz-card>
+                                    <ng-template #secondMasterMindTemplate>
+                                        <img alt="image" class="p-2" style="height:200px; width:200px"
+                                            [src]="secondMasterMindImageFile" />
+                                    </ng-template>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="second_master_mind_name_en">
+                                            Mastermind Name (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Mastermind Name missing!">
+                                            <input nz-input formControlName="second_master_mind_name_en"
+                                                name="second_master_mind_name_en" id="second_master_mind_name_en"
+                                                placeholder="Mastermind Name" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="second_master_mind_name_bn">
+                                            Mastermind Name (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Mastermind Name missing!">
+                                            <input nz-input formControlName="second_master_mind_name_bn"
+                                                name="second_master_mind_name_bn" id="second_master_mind_name_bn"
+                                                placeholder="Mastermind Name" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="second_master_mind_designation_en">
+                                            Mastermind Designation (EN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Mastermind Designation missing!">
+                                            <input nz-input formControlName="second_master_mind_designation_en"
+                                                name="second_master_mind_designation_en"
+                                                id="second_master_mind_designation_en"
+                                                placeholder="Mastermind Designation" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="second_master_mind_designation_bn">
+                                            Mastermind Designation (BN)
+                                        </nz-form-label>
+                                        <nz-form-control nzErrorTip="Mastermind Designation missing!">
+                                            <input nz-input formControlName="second_master_mind_designation_bn"
+                                                name="second_master_mind_designation_bn"
+                                                id="second_master_mind_designation_bn"
+                                                placeholder="Mastermind Designation" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div class="col-sm-8">
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="second_master_mind_text_en">
+                                            Mastermind Text (EN)
+                                        </nz-form-label>
+                                        <app-tinymce style="width:99%" nz-input
+                                            formControlName="second_master_mind_text_en" #tinymce='tinymce'
+                                            id="second_master_mind_text_en" placeholder="Mastermind Text"></app-tinymce>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24"
+                                            nzFor="second_master_mind_text_bn">
+                                            Mastermind Text (BN)
+                                        </nz-form-label>
+                                        <app-tinymce style="width:99%" nz-input
+                                            formControlName="second_master_mind_text_bn" #tinymce='tinymce'
+                                            id="second_master_mind_text_bn" placeholder="Mastermind Text"></app-tinymce>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div align="end">
+                            <button type="submit" [disabled]="!this.createLoneForm.valid || disabledSubmitBtn"
+                                class="btn btn-sm btn-default text-white">
+                                <i class="fa fa-save mr-2"></i> Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+
             </div>
-          </div>
         </div>
-        <div class="card-body border-0" *ngIf="permission('read')">
-          <form (ngSubmit)="submitLoneForm()" [formGroup]="createLoneForm">
-            <div class="">
-              <!--Page Banner Section-->
-              <div class="row gy-5">
-                <div class="col-md-12 about-title">
-                  Page Information
-                </div>
-                <div class="col-md-6 offset-md-3">
-                  <nz-form-item>
-                    <nz-form-label class="text-center" [nzSm]="4" [nzXs]="24" nzFor="page_title_en">
-                      Page Title (EN)
-                    </nz-form-label>
-                    <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Data missing!">
-                      <input nz-input formControlName="page_title_en" name="page_title_en" id="page_title_en"
-                             placeholder="Enter Page Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-center" [nzSm]="4" [nzXs]="24" nzFor="page_title_bn">
-                      Page Title (BN)
-                    </nz-form-label>
-                    <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Data missing!">
-                      <input nz-input formControlName="page_title_bn" name="page_title_bn" id="page_title_bn"
-                             placeholder="Enter Page Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-
-                <div class="col-md-6 offset-md-3">
-                  <nz-card nzHoverable [nzCover]="bannerTemplate" class="col-xs-12 col-sm-12 ant-img-up-card">
-                    <button type="button" (click)="fileInputBanner.click()" *ngIf='!ChangeBannerImg'
-                            class="btn btn-sm btn-default text-white btn-block">
-                      <i class="fa fa-upload mr-2"></i> Upload Banner
-                    </button>
-                    <input style="display: none" type="file" (change)="BannerChanged($event)" #fileInputBanner>
-                    <button type="button" (click)="fileInputBanner.click()" *ngIf='ChangeBannerImg'
-                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
-                      Change
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
-                            *ngIf='ChangeBannerImg' (click)="RemoveBannerImage()"><i class="fa fa-times"> </i> Remove
-                    </button>
-                  </nz-card>
-                  <ng-template #bannerTemplate>
-                    <img alt="image" class="p-2" height="180px" [src]="BannerImageFile"/>
-                  </ng-template>
-                </div>
-              </div>
-
-              <!--Story & Mission Vision Section-->
-              <div class="row gy-5">
-                <div class="col-md-12 about-title">
-                  Our Story
-                </div>
-                <div class="col-sm-8">
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="our_story_en">
-                      Our Story (EN)
-                    </nz-form-label>
-                    <nz-form-control>
-                      <app-tinymce style="width:99%" nz-input formControlName="our_story_en" #tinymce='tinymce'
-                                   id="our_story_en" placeholder="Our Story"></app-tinymce>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="our_story_bn">
-                      Our Story (BN)
-                    </nz-form-label>
-                    <nz-form-control>
-                      <app-tinymce style="width:99%" nz-input formControlName="our_story_bn" #tinymce='tinymce'
-                                   id="our_story_bn" placeholder="Our Story BN"></app-tinymce>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-
-                <div class="col-sm-4">
-                  <nz-form-item>
-                    <nz-form-label class="text-center" [nzSm]="6" [nzXs]="24" nzFor="our_story_title_en">
-                      Section Title (EN)
-                    </nz-form-label>
-                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
-                      <input nz-input formControlName="our_story_title_en" name="our_story_title_en"
-                             id="our_story_title_en"
-                             placeholder="Enter Section Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-center" [nzSm]="6" [nzXs]="24" nzFor="our_story_title_bn">
-                      Section Title (BN)
-                    </nz-form-label>
-                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
-                      <input nz-input formControlName="our_story_title_bn" name="our_story_title_bn"
-                             id="our_story_title_bn"
-                             placeholder="Enter Section Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-card nzHoverable [nzCover]="ourStoryTemplate" class="col-xs-16 col-sm-24 ant-img-up-card">
-                    <button type="button" (click)="fileInputOurStory.click()" *ngIf='!ChangeOurStoryImg'
-                            class="btn btn-sm btn-default text-white btn-block">
-                      <i class="fa fa-upload mr-2"></i> Upload Image
-                    </button>
-                    <input style="display: none" type="file" (change)="OurStoryChanged($event)" #fileInputOurStory>
-                    <button type="button" (click)="fileInputOurStory.click()" *ngIf='ChangeOurStoryImg'
-                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
-                      Change
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
-                            *ngIf='ChangeOurStoryImg' (click)="RemoveOurStoryImage()"><i class="fa fa-times"> </i>
-                      Remove
-                    </button>
-                  </nz-card>
-                  <ng-template #ourStoryTemplate>
-                    <img alt="image" class="p-2" height="218px" [src]="OurStoryImageFile"/>
-                  </ng-template>
-                </div>
-              </div>
-
-              <!--Mission & Vision Section-->
-              <div class="row gy-5">
-                <div class="col-md-12 about-title">
-                  Mission & Vision
-                </div>
-                <div class="col-sm-4">
-                  <nz-form-item>
-                    <nz-form-label class="text-center" [nzSm]="6" [nzXs]="24" nzFor="mission_vision_title_en">
-                      Section Title (EN)
-                    </nz-form-label>
-                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
-                      <input nz-input formControlName="mission_vision_title_en" name="mission_vision_title_en"
-                             id="mission_vision_title_en"
-                             placeholder="Enter Section Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-center" [nzSm]="6" [nzXs]="24" nzFor="mission_vision_title_bn">
-                      Section Title (BN)
-                    </nz-form-label>
-                    <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
-                      <input nz-input formControlName="mission_vision_title_bn" name="mission_vision_title_bn"
-                             id="mission_vision_title_bn"
-                             placeholder="Enter Section Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-card nzHoverable [nzCover]="missionTemplate" class="col-xs-16 col-sm-24 ant-img-up-card">
-                    <button type="button" (click)="fileInputOurMission.click()" *ngIf='!ChangeOurMissionImg'
-                            class="btn btn-sm btn-default text-white btn-block">
-                      <i class="fa fa-upload mr-2"></i> Upload Image
-                    </button>
-                    <input style="display: none" type="file" (change)="OurMissionChanged($event)" #fileInputOurMission>
-                    <button type="button" (click)="fileInputOurMission.click()" *ngIf='ChangeOurMissionImg'
-                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
-                      Change
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
-                            *ngIf='ChangeOurMissionImg' (click)="RemoveOurMissionImage()"><i class="fa fa-times"> </i>
-                      Remove
-                    </button>
-                  </nz-card>
-                  <ng-template #missionTemplate>
-                    <img alt="image" class="p-2" height="218px" [src]="OurMissionImageFile"/>
-                  </ng-template>
-                </div>
-
-                <div class="col-sm-8 p-1">
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="mission_vision_en">
-                      Mission Vision (EN)
-                    </nz-form-label>
-                    <nz-form-control>
-                      <app-tinymce style="width:99%" nz-input formControlName="mission_vision_en" #tinymce='tinymce'
-                                   id="mission_vision_en" placeholder="Our Story"></app-tinymce>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="mission_vision_bn">
-                      Mission Vision (BN)
-                    </nz-form-label>
-                    <nz-form-control>
-                      <app-tinymce style="width:99%" nz-input formControlName="mission_vision_bn" #tinymce='tinymce'
-                                   id="mission_vision_bn" placeholder="Mission Vision"></app-tinymce>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-              </div>
-
-              <!--Why Us Section-->
-              <div class="row gy-5">
-                <div class="col-md-12 about-title">
-                  Why Us Section
-                </div>
-                <div class="col-md-12 d-flex">
-                  <div class="col-6">
-                    <nz-form-item>
-                      <nz-form-label class="text-left" [nzSm]="6" [nzXs]="24" nzFor="why_us_title_en">
-                        Section Title (EN)
-                      </nz-form-label>
-                      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
-                        <input nz-input formControlName="why_us_title_en" name="why_us_title_en"
-                               id="why_us_title_en"
-                               placeholder="Enter Section Title"/>
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
-                  <div class="col-6">
-                    <nz-form-item>
-                      <nz-form-label class="text-left" [nzSm]="6" [nzXs]="24" nzFor="why_us_title_bn">
-                        Section Title (BN)
-                      </nz-form-label>
-                      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
-                        <input nz-input formControlName="why_us_title_bn" name="why_us_title_bn"
-                               id="why_us_title_bn"
-                               placeholder="Enter Section Title"/>
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
-                </div>
-              </div>
-
-              <!--Data Section-->
-              <div class="row gy-5">
-                <div class="col-md-12 about-title">
-                  Data Section
-                </div>
-                <div class="col-sm">
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title1_en">
-                      Data 1 Title (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data_title1_en" name="data_title1_en" id="data_title1_en"
-                             placeholder="Data title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title1_bn">
-                      Data 1 Title (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data_title1_bn" name="data_title1_bn"
-                             id="data_title1_bn" placeholder="Data title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data1_en">
-                      Data 1 Value (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data1_en" name="data1_en" id="data1_en"
-                             placeholder="Data Value"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data1_bn">
-                      Data 1 Value (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data1_bn" name="data1_bn" id="data1_bn"
-                             placeholder="Data Value"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-
-                <div class="col-sm">
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title2_en">
-                      Data 2 Title (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data_title2_en" name="data_title2_en" id="data_title2_en"
-                             placeholder="Data Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title2_bn">
-                      Data 2 Title (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data_title2_bn" name="data_title2_bn"
-                             id="data_title2_bn" placeholder="Data Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data2_en">
-                      Data 2 Value (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data2_en" name="data2_en" id="data2_en"
-                             placeholder="Data Value"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data2_bn">
-                      Data 2 Value (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data2_bn" name="data2_bn" id="data2_bn"
-                             placeholder="Data Value"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-
-                <div class="col-sm">
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title3_en">
-                      Data 3 Title (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data_title3_en" name="data_title3_en" id="data_title3_en"
-                             placeholder="Data Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title3_bn">
-                      Data 3 Title (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data_title3_bn" name="data_title3_bn"
-                             id="data_title3_bn" placeholder="Data Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data3_en">
-                      Data 3 Value (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data3_en" name="data3_en" id="data3_en"
-                             placeholder="Data Value"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data3_bn">
-                      Data 3 Value (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data3_bn" name="data3_bn" id="data3_bn"
-                             placeholder="Data Value"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-
-                <div class="col-sm">
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title4_en">
-                      Data 4 Title (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data_title4_en" name="data_title4_en" id="data_title4_en"
-                             placeholder="Data Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data_title4_bn">
-                      Data 4 Title (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data_title4_bn" name="data_title4_bn"
-                             id="data_title4_bn" placeholder="Data Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data4_en">
-                      Data 4 Value (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data4_en" name="data4_en" id="data4_en"
-                             placeholder="Data Value"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="data4_bn">
-                      Data 4 Value (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Data missing!">
-                      <input nz-input formControlName="data4_bn" name="data4_bn" id="data4_bn"
-                             placeholder="Data Value"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-              </div>
-
-              <!--Video Section-->
-              <div class="row gy-5">
-                <div class="col-md-12 about-title">
-                  Video Section
-                </div>
-                <div class="col-sm">
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="4" [nzXs]="24" nzFor="video">Video Link
-                    </nz-form-label>
-                    <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Data missing!">
-                      <input nz-input formControlName="video_link" name="video_link" id="video_link"
-                             placeholder="Video url"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-              </div>
-
-              <!--Mastermind Section-->
-              <div class="row gy-5">
-                <div class="col-md-12 about-title">
-                  Mastermind Section
-                </div>
-                <div class="col-sm-4">
-                  <nz-card nzHoverable [nzCover]="masterMindTemplate" class="col-xs-12 col-sm-20 ant-img-up-card">
-                    <button type="button" (click)="fileInputMasterMind.click()" *ngIf='!ChangeMasterMindImg'
-                            class="btn btn-sm btn-default text-white btn-block">
-                      <i class="fa fa-upload mr-2"></i> Upload Image
-                    </button>
-                    <input style="display: none" type="file" (change)="MasterMindChanged($event)" #fileInputMasterMind>
-                    <button type="button" (click)="fileInputMasterMind.click()" *ngIf='ChangeMasterMindImg'
-                            class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
-                      Change
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
-                            *ngIf='ChangeMasterMindImg' (click)="RemoveMasterMindImage()"><i class="fa fa-times"> </i>
-                      Remove
-                    </button>
-                  </nz-card>
-                  <ng-template #masterMindTemplate>
-                    <img alt="image" class="p-2" style="height:200px; width:200px" [src]="MasterMindImageFile"/>
-                  </ng-template>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="master_mind_name_en">
-                      Mastermind Name (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Mastermind Name missing!">
-                      <input nz-input formControlName="master_mind_name_en" name="master_mind_name_en"
-                             id="master_mind_name_en" placeholder="Mastermind Name"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="master_mind_name_bn">
-                      Mastermind Name (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Mastermind Name missing!">
-                      <input nz-input formControlName="master_mind_name_bn" name="master_mind_name_bn"
-                             id="master_mind_name_bn" placeholder="Mastermind Name"/>
-                    </nz-form-control>
-                  </nz-form-item>
-
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="master_mind_designation_en">
-                      Mastermind Designation (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Mastermind Designation missing!">
-                      <input nz-input formControlName="master_mind_designation_en" name="master_mind_designation_en"
-                             id="master_mind_designation_en" placeholder="Mastermind Designation"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="master_mind_designation_bn">
-                      Mastermind Designation (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Mastermind Designation missing!">
-                      <input nz-input formControlName="master_mind_designation_bn" name="master_mind_designation_bn"
-                             id="master_mind_designation_bn" placeholder="Mastermind Designation"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                </div>
-                <div class="col-sm-8">
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="master_mind_title_en">
-                      Mastermind Title (EN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Mastermind Title missing!">
-                      <input nz-input formControlName="master_mind_title_en" name="master_mind_title_en"
-                             id="master_mind_title_en" placeholder="Mastermind Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="master_mind_title_bn">
-                      Mastermind Title (BN)
-                    </nz-form-label>
-                    <nz-form-control nzErrorTip="Mastermind Title missing!">
-                      <input nz-input formControlName="master_mind_title_bn" name="master_mind_title_bn"
-                             id="master_mind_title_bn" placeholder="Mastermind Title"/>
-                    </nz-form-control>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="master_mind_text_en">
-                      Mastermind Text (EN)
-                    </nz-form-label>
-                    <app-tinymce style="width:99%" nz-input formControlName="master_mind_text_en" #tinymce='tinymce'
-                                 id="master_mind_text_en" placeholder="Mastermind Text"></app-tinymce>
-                  </nz-form-item>
-                  <nz-form-item>
-                    <nz-form-label class="text-left" [nzSm]="24" [nzXs]="24" nzFor="master_mind_text_bn">
-                      Mastermind Text (BN)
-                    </nz-form-label>
-                    <app-tinymce style="width:99%" nz-input formControlName="master_mind_text_bn" #tinymce='tinymce'
-                                 id="master_mind_text_bn" placeholder="Mastermind Text"></app-tinymce>
-                  </nz-form-item>
-                </div>
-              </div>
-
-              <!--Gallery Section-->
-              <div class="row gy-5">
-                <div class="col-md-12 about-title">
-                  Gallery Section
-                </div>
-                <div class="col-md-12 d-flex">
-                  <div class="col-6">
-                    <nz-form-item>
-                      <nz-form-label class="text-left" [nzSm]="6" [nzXs]="24" nzFor="gallery_title_en">
-                        Section Title (EN)
-                      </nz-form-label>
-                      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
-                        <input nz-input formControlName="gallery_title_en" name="gallery_title_en"
-                               id="gallery_title_en"
-                               placeholder="Enter Section Title"/>
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
-                  <div class="col-6">
-                    <nz-form-item>
-                      <nz-form-label class="text-left" [nzSm]="6" [nzXs]="24" nzFor="gallery_title_bn">
-                        Section Title (BN)
-                      </nz-form-label>
-                      <nz-form-control [nzSm]="18" [nzXs]="24" nzErrorTip="Data missing!">
-                        <input nz-input formControlName="gallery_title_bn" name="gallery_title_bn"
-                               id="gallery_title_bn"
-                               placeholder="Enter Section Title"/>
-                      </nz-form-control>
-                    </nz-form-item>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-
-
-            <div align="end">
-              <button type="submit" [disabled]="!this.createLoneForm.valid || disabledSubmitBtn"
-                      class="btn btn-sm btn-default text-white">
-                <i class="fa fa-save mr-2"></i> Submit
-              </button>
-            </div>
-          </form>
-        </div>
-
-
-      </div>
     </div>
-  </div>
 </div>

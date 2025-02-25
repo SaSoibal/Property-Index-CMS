@@ -17,6 +17,16 @@
           </nz-form-item>
 
           <nz-form-item>
+            <nz-form-label  [nzSm]="6" [nzXs]="24" nzFor="product_category" nzRequired>Category</nz-form-label>
+            <nz-form-control nzErrorTip="Product Category option is required!">
+              <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Product Category" [(ngModel)]="data.product_category" name="product_category" id="product_category"  #product_category="ngModel">
+                <nz-option nzLabel="Residential" nzValue="residential"></nz-option>
+                <nz-option nzLabel="Commercial" nzValue="commercial"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
             <nz-form-label  [nzSm]="6" [nzXs]="24" nzFor="rating" nzRequired>Type Option</nz-form-label>
             <nz-form-control nzErrorTip="Product Type option is required!">
               <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Type option" [(ngModel)]="data.type_option" name="type_option" id="type_option"  #type_option="ngModel">

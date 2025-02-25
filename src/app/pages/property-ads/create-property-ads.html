@@ -1,0 +1,136 @@
+<div mat-dialog-title class="d-flex">
+    <h2>Add Property Ads</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form #bannerForm="ngForm" nz-form nzLayout="vertical" (ngSubmit)="onClick()">
+    <mat-dialog-content class="mat-typography pt-3">
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <ng-container>
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzFor="title_en">Title (EN)</nz-form-label>
+                        <nz-form-control nzErrorTip="Title (EN) is required!">
+                            <input nz-input [(ngModel)]="data.title_en" name="title_en" id="title_en"
+                                #title_en="ngModel" required placeholder="Title (EN)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired nzFor="title_bn">Title (BN)</nz-form-label>
+                        <nz-form-control nzErrorTip="Title (BN) is required!">
+                            <input nz-input [(ngModel)]="data.title_bn" name="title_bn" id="title_bn"
+                                #title_bn="ngModel" required placeholder="Title (BN)" />
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzRequired>Valid From - Valid To</nz-form-label>
+                        <nz-form-control nzErrorTip="Start and end date is required!">
+                            <nz-date-picker name="start_date" required [(ngModel)]="data.start_date"></nz-date-picker> -
+                            <nz-date-picker name="end_date" required [(ngModel)]="data.end_date"></nz-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <nz-form-item>
+                        <nz-form-label nzRequired>Ads Type</nz-form-label>
+                        <nz-form-control nzErrorTip="Ads type is required!">
+                            <nz-select nzPlaceHolder="Please select type" [(ngModel)]="data.ads_type"
+                                style="width: 100%;" name="ads_type" required>
+                                <nz-option [nzLabel]="'Banner ads'" [nzValue]="1"></nz-option>
+                                <nz-option [nzLabel]="'Side ads'" [nzValue]="2"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+
+                    <ng-container *ngIf="data.ads_type == 1">
+                        <nz-form-item>
+                            <nz-form-label nzRequired>Product Type</nz-form-label>
+                            <nz-form-control nzErrorTip="Product type is required!">
+                                <nz-select nzPlaceHolder="Please select type" [(ngModel)]="data.product_type"
+                                    style="width: 100%;" name="product_type" required>
+                                    <nz-option [nzLabel]="'Sale'" [nzValue]="1"></nz-option>
+                                    <nz-option [nzLabel]="'Rent'" [nzValue]="2"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </ng-container>
+
+                    <ng-container *ngIf="data.product_type == 1 && data.ads_type == 1">
+                        <nz-form-item>
+                            <nz-form-label nzRequired>Products</nz-form-label>
+                            <nz-form-control nzErrorTip="Products is required!">
+                                <nz-select [nzMaxTagCount]="3" [nzMaxTagPlaceholder]="'...'" nzMode="multiple"
+                                    nzPlaceHolder="Please select product" [(ngModel)]="data.products"
+                                    style="width: 100%;" name="sale_product" required>
+                                    <nz-option *ngFor="let item of saleProductCollection" [nzLabel]="item.title"
+                                        [nzValue]="item.id"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </ng-container>
+
+                    <ng-container *ngIf="data.product_type == 2 && data.ads_type == 1">
+                        <nz-form-item>
+                            <nz-form-label nzRequired>Products</nz-form-label>
+                            <nz-form-control nzErrorTip="Products is required!">
+                                <nz-select [nzMaxTagCount]="3" [nzMaxTagPlaceholder]="'...'" nzMode="multiple"
+                                    nzPlaceHolder="Please select product" [(ngModel)]="data.products"
+                                    style="width: 100%;" name="rent_product" required>
+                                    <nz-option *ngFor="let item of rentProductCollection" [nzLabel]="item.title"
+                                        [nzValue]="item.id"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </ng-container>
+                </ng-container>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <nz-card nzHoverable [nzCover]="coverTemplate" class="ant-img-up-card">
+                            <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg'
+                                class="btn btn-sm btn-default text-white btn-block">
+                                <i class="fa fa-upload mr-2"></i> Upload Thumbnail
+                            </button>
+                            <input style="display: none" required type="file" (change)="Changed($event)" #fileInput>
+                            <button type="button" (click)="fileInput.click()" *ngIf='ChangeImg'
+                                class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
+                                Change </button>
+                            <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
+                                *ngIf='ChangeImg' (click)="RemoveImage()"><i class="fa fa-times"> </i> Remove</button>
+                        </nz-card>
+                        <ng-template #coverTemplate>
+                            <span class="ml-2 mt-1">Thumbnail</span>
+                            <img alt="image" class="p-2" height="150px" [src]="ImageFile" />
+                        </ng-template>
+                        <small class="text-danger"><i class="fa fa-info mr-1"></i>
+                            <ng-container *ngIf="data.ads_type == 1">
+                                Dimensions max ( 966 x 100 )
+                            </ng-container>
+
+                            <ng-container *ngIf="data.ads_type == 2">
+                                Dimensions max ( 300 x 350 )
+                            </ng-container>
+                        </small>
+                    </div>
+                    <div class="col-md-5"></div>
+                </div>
+                <nz-form-item>
+                    <nz-form-label nzRequired nzFor="status">Status</nz-form-label>
+                    <nz-form-control nzErrorTip="Status is required!">
+                        <nz-switch id="status" required [ngModel]="data.status" [(ngModel)]="data.status" name="status"
+                            nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+            <i class="fa fa-times mr-2"></i>Cancel
+        </button>
+        <button type="submit" [disabled]="!bannerForm.form.valid" class="btn btn-sm btn-default text-white">
+            <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+        </button>
+    </mat-dialog-actions>
+</form>

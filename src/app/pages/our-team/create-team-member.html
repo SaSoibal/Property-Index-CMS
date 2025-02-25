@@ -1,0 +1,100 @@
+<div mat-dialog-title class="d-flex">
+    <h2>Add Team Member</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form #bannerForm="ngForm" nz-form nzLayout="vertical" (ngSubmit)="onClick()">
+    <mat-dialog-content class="mat-typography pt-3">
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzFor="name_en">Name (EN)</nz-form-label>
+                    <nz-form-control nzErrorTip="Name (EN) is required!">
+                        <input nz-input [(ngModel)]="data.name_en" name="name_en" id="name_en" #name_en="ngModel"
+                            required placeholder="Name (EN)" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-6">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzFor="name_bn">Name (BN)</nz-form-label>
+                    <nz-form-control nzErrorTip="Name (BN) is required!">
+                        <input nz-input [(ngModel)]="data.name_bn" name="name_bn" id="name_bn" #name_bn="ngModel"
+                            placeholder="Name (BN)" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-6">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzFor="designation_en">Designation (EN)</nz-form-label>
+                    <nz-form-control nzErrorTip="Designation (EN) is required!">
+                        <input nz-input [(ngModel)]="data.designation_en" name="designation_en" id="designation_en"
+                            placeholder="Designation (EN)" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-6">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzFor="designation_bn">Designation (BN)</nz-form-label>
+                    <nz-form-control nzErrorTip="Designation (BN) is required!">
+                        <input nz-input [(ngModel)]="data.designation_bn" name="designation_bn" id="designation_bn"
+                            placeholder="Designation (BN)" required />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-6">
+                <nz-form-item>
+                    <nz-form-label nzRequired nzFor="sort_order">Sort Order</nz-form-label>
+                    <nz-form-control nzErrorTip="Sort Order is required!">
+                        <nz-input-number nzMin="1" nz-input [(ngModel)]="data.sort_order" name="sort_order"
+                            id="sort_order" placeholder="Sort Order" required style="width: 100%;"></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-6">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <nz-card nzHoverable [nzCover]="coverTemplate" class="ant-img-up-card">
+                            <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg'
+                                class="btn btn-sm btn-default text-white btn-block">
+                                <i class="fa fa-upload mr-2"></i> Upload Thumbnail
+                            </button>
+                            <input style="display: none" type="file" (change)="Changed($event)" #fileInput>
+                            <button type="button" (click)="fileInput.click()" *ngIf='ChangeImg'
+                                class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i>
+                                Change </button>
+                            <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
+                                *ngIf='ChangeImg' (click)="RemoveImage()"><i class="fa fa-times"> </i> Remove</button>
+                        </nz-card>
+                        <ng-template #coverTemplate>
+                            <span class="ml-2 mt-1">Thumbnail</span>
+                            <img alt="image" class="p-2" height="150px" [src]="ImageFile" />
+                        </ng-template>
+                        <small class="text-danger"><i class="fa fa-info mr-1"></i>Dimensions max ( 300 x 400 )
+                            px.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="status">Status</nz-form-label>
+                    <nz-form-control nzErrorTip="Status is required!">
+                        <nz-switch id="status" required [ngModel]="data.status" [(ngModel)]="data.status" name="status"
+                            nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+            <i class="fa fa-times mr-2"></i>Cancel
+        </button>
+        <button type="submit" [disabled]="!bannerForm.form.valid" class="btn btn-sm btn-default text-white">
+            <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+        </button>
+    </mat-dialog-actions>
+</form>

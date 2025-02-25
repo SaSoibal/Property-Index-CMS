@@ -1,606 +1,547 @@
 <div class="header bg-gradient-default pb-8 pt-5 pt-md-8">
-  <div class="container-fluid">
-    <div class="header-body">
-      <!-- Card stats -->
-      <div class="row mb-4">
-        <div class="col-xl-3 col-lg-6" *ngIf="show_user">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Total User</h5>
-                  <span class="h2 font-weight-bold mb-0">{{total_users_count}}</span>
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row mb-4">
+                <div class="col-xl-3 col-lg-6" *ngIf="show_user">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total User</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{total_users_count}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                    <i class="fas fa-chart-bar"></i>
-                  </div>
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Leads</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{total_leads_count}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Deal Success</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{success_leads_count}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Deal Failed</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{failed_leads_count}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                        <i class="fas fa-percent"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Total Leads</h5>
-                  <span class="h2 font-weight-bold mb-0">{{total_leads_count}}</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                    <i class="fas fa-chart-pie"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Total Deal Success</h5>
-                  <span class="h2 font-weight-bold mb-0">{{success_leads_count}}</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                    <i class="fas fa-users"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Total Deal Failed</h5>
-                  <span class="h2 font-weight-bold mb-0">{{failed_leads_count}}</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                    <i class="fas fa-percent"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Total Property</h5>
-                  <span class="h2 font-weight-bold mb-0">{{total_property}}</span>
+            <div class="row">
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Property</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{total_property}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                    <i class="fas fa-chart-bar"></i>
-                  </div>
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Residential</h5>
+                                    <span class="h2 font-weight-bold mb-0">{{total_residential}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Commercial </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{total_commercial}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Building </h5>
+                                    <span class="h2 font-weight-bold mb-0">{{total_buildings}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                        <i class="fas fa-percent"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Residential</h5>
-                  <span class="h2 font-weight-bold mb-0">{{total_residential}}</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                    <i class="fas fa-chart-pie"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Commercial </h5>
-                  <span class="h2 font-weight-bold mb-0">{{total_commercial}}</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                    <i class="fas fa-users"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Building </h5>
-                  <span class="h2 font-weight-bold mb-0">{{total_buildings}}</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                    <i class="fas fa-percent"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="container-fluid mt--7">
-  <div class="row">
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Prospect Stage Funnel</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Average Prospect Stage Changing Time (In Days)</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Lead Stage Funnel</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Average Prospect Stage Changing Time (In Days)</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
+    <div class="row">
 
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Average Lead Maturity Time win or loss avg (In Day)</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="averageLeadMaturityTime"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Active Lead Board</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="activeLeadBoard"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-12 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Token Receive Leader Board</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="tokenReceiveLeaderBoard"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Sales Leader Board</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="salesLeaderBoard"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Lead Win Leader Board</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="leadWinLeaderBoard"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Lead Loss Leader Board</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="leadLossLeaderBoard"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Lead Win Factors</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="leadWinFactors"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-6 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Lead Loss Factors</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="leadLossFactors"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-12 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0"> Prospect Leads Sales by Product type</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="prospectLeadsSalesByProductType"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-12 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0"> Prospect Leads Sales by Stage</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="prospectLeadsSalesByStage"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-12 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">  Prospect Leads Source</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="prospectLeadsSource"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-12 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0"> Designation Wise Prospect Contact Person</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="designationWiseProspectContactPerson"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-12 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Lead Closing Forecast</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="leadClosingForecast"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-12 mb-xl-0">
-      <div class="card shadow mb-4">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0"> Lead Closing Target vs Actual Vs Pending vs Loss (By Amount/Number)</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-0">
-          <canvasjs-chart [options]="leadClosingTargetActualPendingLoss"></canvasjs-chart>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  
-  <div class="row d-none">
-    <div class="col-xl-8 mb-xl-0">
-      <div class="card bg-white shadow ">
-        <div class="card-header bg-transparent">
-          <div class="row align-items-center">
-            <div class="col">
-              <h6 class="text-uppercase text-light ls-1 mb-1">Overview</h6>
-              <h2 class="text-primary mb-0">Lead Report</h2>
-            </div>
-            <div class="col text-right">
-              <h3 class="text-warning mb-0">Total : {{total_leads_count}}</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-        
-          <!-- Chart -->
-          <div class="chart">
-            <canvas id="chart-sales" class="chart-canvas"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-4">
-      <div class="card shadow">
-        <div class="card-header bg-transparent">
-          <div class="row align-items-center">
-            <div class="col">
-              <h6 class="text-uppercase text-muted ls-1 mb-1">Sales</h6>
-              <h2 class="mb-0">Deal Success</h2>
-            </div>
-            <div class="col text-right">
-              <h3 class="text-warning mb-0">Total : {{success_leads_count}}</h3>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart">
-            <canvas id="chart-orders" class="chart-canvas"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
- 
-
-  <div class="row mt-5 d-none">
-    <div class="col-xl-6 mb-5 mb-xl-0">
-      <div class="card shadow">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Page visits</h3>
-            </div>
-            <div class="col text-right">
-              <a href="#!" class="btn btn-sm btn-primary">See all</a>
-            </div>
-          </div>
-        </div>
-        <!-- <div class="table-responsive"> -->
-          <!-- Projects table -->
-          <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
-        <!-- </div> -->
-      </div>
-    </div>
-    <div class="col-xl-4">
-      <div class="card shadow">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h3 class="mb-0">Social traffic</h3>
-            </div>
-            <div class="col text-right">
-              <a href="#!" class="btn btn-sm btn-primary">See all</a>
-            </div>
-          </div>
-        </div>
-        <div class="table-responsive">
-          <!-- Projects table -->
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Referral</th>
-                <th scope="col">Visitors</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  Facebook
-                </th>
-                <td>
-                  1,480
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">60%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-default" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                      </div>
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Lead Stage Funnel</h3>
+                        </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Facebook
-                </th>
-                <td>
-                  5,480
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">70%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Google
-                </th>
-                <td>
-                  4,807
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">80%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Instagram
-                </th>
-                <td>
-                  3,678
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">75%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  twitter
-                </th>
-                <td>
-                  2,645
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">30%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-warning" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="col-12 mb-1">
+            <label for="" class="mr-1">Filter By Year</label>
+            <nz-date-picker style="width: 20%;" nzMode="year" [(ngModel)]="datePicker" nzPlaceHolder="Select a year"
+                (ngModelChange)="changeYear($event)"></nz-date-picker>
+        </div>
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Active Lead Board {{currentYear}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="activeLeadBoard"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Token Receive Lead Board {{currentYear}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="tokenReceiveLeaderBoard"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Lead Success Leader Board {{currentYear}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="leadWinLeaderBoard"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Lead Failed Leader Board {{currentYear}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="leadLossLeaderBoard"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Lead Win Factors {{currentYear}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="leadWinFactors"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Lead Loss Factors {{currentYear}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="leadLossFactors"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0"> Prospect Leads Sales by Product type</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="prospectLeadsSalesByProductType"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0"> Prospect Leads Sales by Stage</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="prospectLeadsSalesByStage"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0"> Prospect Leads Source</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="prospectLeadsSource"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0"> Designation Wise Prospect Contact Person</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="designationWiseProspectContactPerson"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Lead Closing Forecast</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="leadClosingForecast"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12 mb-xl-0">
+            <div class="card shadow mb-4">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0"> Lead Closing Target vs Actual Vs Pending vs Loss (By Amount/Number)</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-0">
+                    <canvasjs-chart [options]="leadClosingTargetActualPendingLoss"></canvasjs-chart>
+                </div>
+            </div>
+        </div>
+
     </div>
-  </div>
+
+    <div class="row d-none">
+        <div class="col-xl-8 mb-xl-0">
+            <div class="card bg-white shadow ">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-light ls-1 mb-1">Overview</h6>
+                            <h2 class="text-primary mb-0">Lead Report</h2>
+                        </div>
+                        <div class="col text-right">
+                            <h3 class="text-warning mb-0">Total : {{total_leads_count}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <!-- Chart -->
+                    <div class="chart">
+                        <canvas id="chart-sales" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted ls-1 mb-1">Sales</h6>
+                            <h2 class="mb-0">Deal Success</h2>
+                        </div>
+                        <div class="col text-right">
+                            <h3 class="text-warning mb-0">Total : {{success_leads_count}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="chart-orders" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row mt-5 d-none">
+        <div class="col-xl-6 mb-5 mb-xl-0">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Page visits</h3>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="table-responsive"> -->
+                <!-- Projects table -->
+                <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
+                <!-- </div> -->
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Social traffic</h3>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Referral</th>
+                                <th scope="col">Visitors</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">
+                                    Facebook
+                                </th>
+                                <td>
+                                    1,480
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">60%</span>
+                                        <div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-default" role="progressbar"
+                                                    aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 60%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    Facebook
+                                </th>
+                                <td>
+                                    5,480
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">70%</span>
+                                        <div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-success" role="progressbar"
+                                                    aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 70%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    Google
+                                </th>
+                                <td>
+                                    4,807
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">80%</span>
+                                        <div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-primary" role="progressbar"
+                                                    aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 80%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    Instagram
+                                </th>
+                                <td>
+                                    3,678
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">75%</span>
+                                        <div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-info" role="progressbar"
+                                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 75%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    twitter
+                                </th>
+                                <td>
+                                    2,645
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="mr-2">30%</span>
+                                        <div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-warning" role="progressbar"
+                                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"
+                                                    style="width: 30%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-

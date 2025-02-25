@@ -27,6 +27,11 @@
               <i *ngIf="sortColumn==='name' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
               Product Type
             </th>
+            <th class="text-center" (click)="sort('product_category')">
+              <i *ngIf="sortColumn==='product_category' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+              <i *ngIf="sortColumn==='product_category' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+              Product Category
+            </th>
             <th class="text-center" (click)="sort('type_option')">
               <i *ngIf="sortColumn==='type_option' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
               <i *ngIf="sortColumn==='type_option' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
@@ -69,6 +74,7 @@
               } ; index as i;">
               <td class="text-center align-middle">{{getSL(i+1)}}</td>
               <td class="text-center align-middle" width="20%">{{data.name}}</td>
+              <td class="text-center align-middle text-capitalize" width="20%">{{data.product_category}}</td>
               <td class="text-center align-middle">{{data.type_option|titlecase}}</td>
               <td class="text-center align-middle">{{data.created_by?data.created_by.name:''}}</td>
               <td class="text-center align-middle">{{data.created_at|date}}</td>

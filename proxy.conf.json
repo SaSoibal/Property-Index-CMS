@@ -1,7 +1,7 @@
 {
-  "/property-index-back-end/*": {
-    "target": "http://localhost",
-    "secure": false, 
-    "logLevel": "debug"
-  }
+    "/property-index-back-end-main/*": {
+        "target": "http://localhost",
+        "secure": false,
+        "logLevel": "debug"
+    }
 }

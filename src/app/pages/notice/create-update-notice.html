@@ -1,0 +1,80 @@
+<div mat-dialog-title class="d-flex">
+    <h2>{{data.actionType|uppercase}} Notice</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form #userForm="ngForm" nz-form nzLayout="vertical" (ngSubmit)="submitForm()">
+    <mat-dialog-content class="mat-typography pt-4">
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Notice title</nz-form-label>
+                    <nz-form-control nzErrorTip="Title is required!">
+                        <input nz-input [(ngModel)]="data.title" name="notice-title" required id="notice-title"
+                            [(ngModel)]="data.title" placeholder="Notice title" />
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <div class="col-md-6">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Send type</nz-form-label>
+                    <nz-form-control nzErrorTip="Send type is required!">
+                        <nz-radio-group [(ngModel)]="data.sendType" (ngModelChange)="clearSendTo()" name="send-type"
+                            required="">
+                            <label nz-radio [nzValue]="0">All</label>
+                            <label nz-radio [nzValue]="1">Team</label>
+                            <label nz-radio [nzValue]="2">User</label>
+                        </nz-radio-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+            <ng-container *ngIf="data.sendType == 1">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="send-to">Select team</nz-form-label>
+                        <nz-form-control nzErrorTip="Team is required!">
+                            <nz-select nzShowSearch nzAllowClear required [(ngModel)]="data.sendToTeam"
+                                name="send-to-team" nzPlaceHolder="Team">
+                                <nz-option *ngFor="let team of teamCollection" [nzLabel]="team.name"
+                                    [nzValue]="team.id"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data.sendType == 2">
+                <div class="col-md-12">
+                    <nz-form-item>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="send-to">Select user</nz-form-label>
+                        <nz-form-control nzErrorTip="User is required!">
+                            <nz-select nzShowSearch nzAllowClear name="send-to-user" nzMode="multiple"
+                                nzPlaceHolder="User" [(ngModel)]="data.sendToUser" required>
+                                <nz-option *ngFor="let user of userCollection" [nzLabel]="user?.name"
+                                    [nzValue]="user?.id"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </div>
+            </ng-container>
+            <div class="col-md-12">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="content">Description</nz-form-label>
+                    <nz-form-control nzErrorTip="Content is required!">
+                        <app-tinymce nz-input [(ngModel)]="data.description" #tinymce='tinymce' name="description"
+                            required id="description" placeholder="Blog Description (EN)"></app-tinymce>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+            <i class="fa fa-times mr-2"></i>Cancel
+        </button>
+        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-sm btn-default text-white">
+            <i class="fa fa-save mr-2"></i> Submit
+        </button>
+    </mat-dialog-actions>
+</form>

@@ -1,233 +1,261 @@
-
 <div *ngIf="pageBuffer" class="loader"></div>
 <div *ngIf="permission('read')">
     <div class="row d-flex justify-content-between mb-3">
-      <div class="col-md-6">
-        <nz-select  style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
-            <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name" [nzValue]="branch.id"></nz-option>
-        </nz-select>
-        <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear [(ngModel)]="team_id" (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
-          <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
-        </nz-select>
-        <nz-select style="width:180px;" nzShowSearch nzAllowClear [(ngModel)]="member_id"  (ngModelChange)="clickMemberData($event)" nzPlaceHolder="Select Member">
-          <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id" [nzLabel]="member?.member?.name"></nz-option>
-        </nz-select>
-      </div>
-      <div class="col-md-6">
-        <input class="w-100" nz-input  placeholder="Search by Id, Title, Project name, Built in year, Handover year, Developer name" type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
-      </div>
-    </div>    
-    <div class="table-responsive" >
-      <table class="table table-hover table-bordered table-sm  table--darker">
-        <thead>
-        <tr>
-          <th class="text-center align-middle" *ngIf="permission('update') || permission('delete')">Action</th>
-          <th class="align-middle" (click)="sort('listing_id')">
-            <i *ngIf="sortColumn==='listing_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='listing_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Listing ID
-          </th>
+        <div class="col-md-6">
+            <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear [(ngModel)]="changeBranch"
+                (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
+                <nz-option *ngFor="let branch of branch_list" [nzLabel]="branch.branch_name"
+                    [nzValue]="branch.id"></nz-option>
+            </nz-select>
+            <nz-select style="width:180px;margin-right: 5px;" nzShowSearch nzAllowClear [(ngModel)]="team_id"
+                (ngModelChange)="teamWiseMember($event)" nzPlaceHolder="Select Team">
+                <nz-option *ngFor="let team of team_list" [nzValue]="team.id" [nzLabel]="team.name"></nz-option>
+            </nz-select>
+            <nz-select style="width:180px;" nzShowSearch nzAllowClear [(ngModel)]="member_id"
+                (ngModelChange)="clickMemberData($event)" nzPlaceHolder="Select Member">
+                <nz-option *ngFor="let member of team_member" [nzValue]="member.systemuser_id"
+                    [nzLabel]="member?.member?.name"></nz-option>
+            </nz-select>
+        </div>
+        <div class="col-md-6">
+            <input class="w-100" nz-input
+                placeholder="Search by Id, Title, Project name, Built in year, Handover year, Developer name"
+                type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered table-sm  table--darker">
+            <thead>
+                <tr>
+                    <th class="text-center align-middle" *ngIf="permission('update') || permission('delete')">Action
+                    </th>
+                    <th class="align-middle" (click)="sort('listing_id')">
+                        <i *ngIf="sortColumn==='listing_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='listing_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Listing ID
+                    </th>
 
-          <th class="align-middle" (click)="sort('property_id')">
-            <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Property ID
-          </th>
-          
-          <th class="align-middle" (click)="sort('property_id')">
-            <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Image
-          </th>
-          <th class="align-middle" (click)="sort('title')">
-            <i *ngIf="sortColumn==='title' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='title' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Name
-          </th>
-          <th class="align-middle" (click)="sort('address')">
-            <i *ngIf="sortColumn==='address' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='address' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Address
-          </th>
-          <th class="align-middle" (click)="sort('sector')">
-            <i *ngIf="sortColumn==='sector' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='sector' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Sector
-          </th>
-          <th class="align-middle" (click)="sort('block')">
-            <i *ngIf="sortColumn==='block' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='block' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Block
-          </th>
-          <th class="align-middle" (click)="sort('road')">
-            <i *ngIf="sortColumn==='road' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='road' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Road
-          </th>
-          <th class="align-middle" (click)="sort('house_no')">
-            <i *ngIf="sortColumn==='house_no' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='house_no' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            House No
-          </th>
-          <th class="align-middle" (click)="sort('plot_size')">
-            <i *ngIf="sortColumn==='plot_size' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='plot_size' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Plot Size
-          </th>
-          <th class="align-middle" (click)="sort('square_feet')">
-            <i *ngIf="sortColumn==='square_feet' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='square_feet' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Square Feet (sqft)
-          </th>
-          <th class="align-middle" (click)="sort('bedroom')">
-            <i *ngIf="sortColumn==='bedroom' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='bedroom' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Bedroom
-          </th>
-          <th class="align-middle" (click)="sort('bathroom')">
-            <i *ngIf="sortColumn==='bathroom' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='bathroom' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Bathroom
-          </th>
-          <th class="align-middle" (click)="sort('balcony')">
-            <i *ngIf="sortColumn==='balcony' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='balcony' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Balcony
-          </th>
-          <th class="align-middle" (click)="sort('servant_room')">
-            <i *ngIf="sortColumn==='servant_room' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='servant_room' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Servant Room
-          </th>
-          <th class="align-middle" (click)="sort('available_floor')">
-            <i *ngIf="sortColumn==='available_floor' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='available_floor' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Available Floor
-          </th>
-          <th class="align-middle" (click)="sort('facing')">
-            <i *ngIf="sortColumn==='facing' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='facing' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Facing
-          </th>
-          <th class="align-middle" (click)="sort('parking')">
-            <i *ngIf="sortColumn==='parking' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='parking' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Parking
-          </th>
-          <th class="align-middle" (click)="sort('total_unit_per_floor')">
-            <i *ngIf="sortColumn==='total_unit_per_floor' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='total_unit_per_floor' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Total/Unit per floor
-          </th>
-          <th class="align-middle" (click)="sort('building_storied')">
-            <i *ngIf="sortColumn==='building_storied' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='building_storied' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Building Storied
-          </th>
-          <th class="align-middle" (click)="sort('construction_status')">
-            <i *ngIf="sortColumn==='construction_status' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='construction_status' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Construction Status
-          </th>
-          <th class="align-middle" (click)="sort('developer_name')">
-            <i *ngIf="sortColumn==='developer_name' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='developer_name' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Developer Name
-          </th>
-          <th class="align-middle" (click)="sort('handover_year')">
-            <i *ngIf="sortColumn==='handover_year' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='handover_year' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Hand over year
-          </th>
-          <th class="align-middle" (click)="sort('bank_loan')">
-            <i *ngIf="sortColumn==='bank_loan' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='bank_loan' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Bank Loan
-          </th>
-          <th class="align-middle" (click)="sort('rajuk_approval')">
-            <i *ngIf="sortColumn==='rajuk_approval' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='rajuk_approval' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Rajuk Approval
-          </th>
-          <th class="align-middle" >
-           Price
-          </th>
-          <th class="align-middle" (click)="sort('created_by')">
-            <i *ngIf="sortColumn==='created_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='created_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Added by
-          </th>
-          <th class="align-middle" (click)="sort('approved_by')">
-            <i *ngIf="sortColumn==='approved_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
-            <i *ngIf="sortColumn==='approved_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
-            Deleted by
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <ng-container *ngIf="collection.length > 0;else notFound">
-          <tr *ngFor="let property of collection| paginate: {
+                    <th class="align-middle" (click)="sort('property_id')">
+                        <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Property ID
+                    </th>
+
+                    <th class="align-middle" (click)="sort('property_id')">
+                        <i *ngIf="sortColumn==='property_id' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='property_id' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Image
+                    </th>
+                    <th class="align-middle" (click)="sort('title')">
+                        <i *ngIf="sortColumn==='title' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='title' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Name
+                    </th>
+                    <th class="align-middle" (click)="sort('address')">
+                        <i *ngIf="sortColumn==='address' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='address' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Address
+                    </th>
+                    <th class="align-middle" (click)="sort('sector')">
+                        <i *ngIf="sortColumn==='sector' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='sector' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Sector
+                    </th>
+                    <th class="align-middle" (click)="sort('block')">
+                        <i *ngIf="sortColumn==='block' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='block' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Block
+                    </th>
+                    <th class="align-middle" (click)="sort('road')">
+                        <i *ngIf="sortColumn==='road' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='road' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Road
+                    </th>
+                    <th class="align-middle" (click)="sort('house_no')">
+                        <i *ngIf="sortColumn==='house_no' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='house_no' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        House No
+                    </th>
+                    <th class="align-middle" (click)="sort('plot_size')">
+                        <i *ngIf="sortColumn==='plot_size' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='plot_size' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Plot Size
+                    </th>
+                    <th class="align-middle" (click)="sort('square_feet')">
+                        <i *ngIf="sortColumn==='square_feet' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='square_feet' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Square Feet (sqft)
+                    </th>
+                    <th class="align-middle" (click)="sort('bedroom')">
+                        <i *ngIf="sortColumn==='bedroom' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='bedroom' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Bedroom
+                    </th>
+                    <th class="align-middle" (click)="sort('bathroom')">
+                        <i *ngIf="sortColumn==='bathroom' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='bathroom' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Bathroom
+                    </th>
+                    <th class="align-middle" (click)="sort('balcony')">
+                        <i *ngIf="sortColumn==='balcony' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='balcony' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Balcony
+                    </th>
+                    <th class="align-middle" (click)="sort('servant_room')">
+                        <i *ngIf="sortColumn==='servant_room' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='servant_room' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Servant Room
+                    </th>
+                    <th class="align-middle" (click)="sort('available_floor')">
+                        <i *ngIf="sortColumn==='available_floor' && dataOrderBy"
+                            class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='available_floor' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Available Floor
+                    </th>
+                    <th class="align-middle" (click)="sort('facing')">
+                        <i *ngIf="sortColumn==='facing' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='facing' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Facing
+                    </th>
+                    <th class="align-middle" (click)="sort('parking')">
+                        <i *ngIf="sortColumn==='parking' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='parking' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Parking
+                    </th>
+                    <th class="align-middle" (click)="sort('total_unit_per_floor')">
+                        <i *ngIf="sortColumn==='total_unit_per_floor' && dataOrderBy"
+                            class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='total_unit_per_floor' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Total/Unit per floor
+                    </th>
+                    <th class="align-middle" (click)="sort('building_storied')">
+                        <i *ngIf="sortColumn==='building_storied' && dataOrderBy"
+                            class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='building_storied' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Building Storied
+                    </th>
+                    <th class="align-middle" (click)="sort('construction_status')">
+                        <i *ngIf="sortColumn==='construction_status' && dataOrderBy"
+                            class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='construction_status' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Construction Status
+                    </th>
+                    <th class="align-middle" (click)="sort('developer_name')">
+                        <i *ngIf="sortColumn==='developer_name' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='developer_name' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Developer Name
+                    </th>
+                    <th class="align-middle" (click)="sort('handover_year')">
+                        <i *ngIf="sortColumn==='handover_year' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='handover_year' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Hand over year
+                    </th>
+                    <th class="align-middle" (click)="sort('bank_loan')">
+                        <i *ngIf="sortColumn==='bank_loan' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='bank_loan' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Bank Loan
+                    </th>
+                    <th class="align-middle" (click)="sort('rajuk_approval')">
+                        <i *ngIf="sortColumn==='rajuk_approval' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='rajuk_approval' && !dataOrderBy"
+                            class="fas fa-arrow-down text-danger"></i>
+                        Rajuk Approval
+                    </th>
+                    <th class="align-middle">
+                        Price
+                    </th>
+                    <th class="align-middle" (click)="sort('created_by')">
+                        <i *ngIf="sortColumn==='created_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='created_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Added by
+                    </th>
+                    <th class="align-middle" (click)="sort('approved_by')">
+                        <i *ngIf="sortColumn==='approved_by' && dataOrderBy" class="fas fa-arrow-up text-danger"></i>
+                        <i *ngIf="sortColumn==='approved_by' && !dataOrderBy" class="fas fa-arrow-down text-danger"></i>
+                        Deleted by
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="collection.length > 0;else notFound">
+                    <tr *ngFor="let property of collection| paginate: {
                         currentPage: pageNumber,
                         itemsPerPage: itemPerPage,
                         totalItems: totalrow
                         } ; index as i;">
-            <td class="align-middle text-center" *ngIf="permission('update') || permission('delete')">
-              <div class="d-flex" style="width:80px">
-                <a *ngIf="permission('read')" (click)="openRedModel(property)" class="btn btn-sm btn-default text-white  mr-2" placement="top" ngbTooltip="View"><i class="fas fa-eye"></i></a>
-                <a *ngIf="permission('update')" [routerLink]="[ '/property-management/edit',property.id,property.property_id]" class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Edit"><i class="fas fa-edit"></i></a>
-              </div>
-            </td>
-            <td class="align-middle text-center">{{property.listing_id?property.listing_id:'- - -'}}</td>
-            <td class="align-middle text-center"><strong>{{property.property_id}}</strong></td>
-            <td class="align-middle">
-              <img style="background: #0c1549;height:45px;width:55px;border-radius:3px;padding: 2px;" src="{{property.property_thumbnail?rootUrl+'/property/'+property.property_thumbnail.url:'./assets/img/brand/logo.png'}}"/>
-            </td>
-            <td class="align-middle m-width-200">{{property.title}}</td>
-            <td class="align-middle m-width-150">{{property.property_address}}</td>
-            <td class="align-middle m-width-100">{{property.sector}}</td>
-            <td class="align-middle m-width-100">{{property.block}}</td>
-            <td class="align-middle m-width-100">{{property.road}}</td>
-            <td class="align-middle m-width-100">{{property.house_no}}</td>
-            <td class="align-middle m-width-100">{{property.plot_size}}</td>
-            <td class="align-middle m-width-100">{{property.square_feet}}</td>
-            <td class="align-middle m-width-100">{{property.bedroom}}</td>
-            <td class="align-middle m-width-100">{{property.bathroom}}</td>
-            <td class="align-middle m-width-100">{{property.balcony}}</td>
-            <td class="align-middle m-width-100">{{property.servant_room}}</td>
-            <td class="align-middle m-width-100">{{property.available_floor}}</td>
-            <td class="align-middle m-width-100">{{property.facing}}</td>
-            <td class="align-middle m-width-100">{{property.parking}}</td>
-            <td class="align-middle m-width-100">{{property.total_unit_per_floor}}</td>
-            <td class="align-middle m-width-100">{{property.building_storied}}</td>
-            <td class="align-middle m-width-100">{{property.construction_status?property.construction_status.construction_status:''}}</td>
-            <td class="align-middle m-width-150">{{property.developer_name}}</td>
-            <td class="align-middle m-width-100">{{property.handover_year}}</td>
-            <td class="align-middle m-width-100">{{property.bank_loan}}</td>
-            <td class="align-middle m-width-100">{{property.rajuk_approval}}</td>
-            <td class="align-middle m-width-100">{{property.price_contact?property.price_contact.offer_price:'0.00'}}</td>
-            <td class="align-middle m-width-150">
-              {{property.created_by?property.created_by.name:''}}<br>
-              {{property.created_at|date:'shortDate'}}
-            </td>
-            <td class="align-middle m-width-150">
-              {{property.approved_by?property.approved_by.name:''}}<br>
-              {{property.approved_at|date:'shortDate'}}
-            </td>
-          </tr>
-        </ng-container>
-        <ng-template  #notFound>
-          <tr>
-            <td colspan="100%" class="text-danger">Data Not Found ...</td>
-          </tr>
-        </ng-template>
-        </tbody>
-      </table>
+                        <td class="align-middle text-center" *ngIf="permission('update') || permission('delete')">
+                            <div class="d-flex" style="width:80px">
+                                <a *ngIf="permission('read')" (click)="openRedModel(property)"
+                                    class="btn btn-sm btn-default text-white  mr-2" placement="top" ngbTooltip="View"><i
+                                        class="fas fa-eye"></i></a>
+                                <a *ngIf="permission('update')"
+                                    [routerLink]="[ '/property-management/edit',property.id,property.property_id]"
+                                    class="btn btn-sm btn-default text-white" placement="top" ngbTooltip="Edit"><i
+                                        class="fas fa-edit"></i></a>
+                            </div>
+                        </td>
+                        <td class="align-middle text-center">{{property.listing_id?property.listing_id:'- - -'}}</td>
+                        <td class="align-middle text-center"><strong>{{property.property_id}}</strong></td>
+                        <td class="align-middle">
+                            <img style="background: #0c1549;height:45px;width:55px;border-radius:3px;padding: 2px;"
+                                src="{{property.property_thumbnail?rootUrl+'/property/'+property.property_thumbnail.url:'./assets/img/brand/logo.png'}}" />
+                        </td>
+                        <td class="align-middle m-width-200">{{property.title}}</td>
+                        <td class="align-middle m-width-150">
+                            <span class="text-warning cursor-pointer" ngbPopover="{{property.property_address}}"
+                                triggers="mouseenter:mouseleave" popoverTitle="Address">
+                                <i class="fas fa-comment"></i> Address
+                            </span>
+                        </td>
+                        <td class="align-middle m-width-100">{{property.sector}}</td>
+                        <td class="align-middle m-width-100">{{property.block}}</td>
+                        <td class="align-middle m-width-100">{{property.road}}</td>
+                        <td class="align-middle m-width-100">{{property.house_no}}</td>
+                        <td class="align-middle m-width-100">{{property.plot_size}}</td>
+                        <td class="align-middle m-width-100">{{property.square_feet}}</td>
+                        <td class="align-middle m-width-100">{{property.bedroom}}</td>
+                        <td class="align-middle m-width-100">{{property.bathroom}}</td>
+                        <td class="align-middle m-width-100">{{property.balcony}}</td>
+                        <td class="align-middle m-width-100">{{property.servant_room}}</td>
+                        <td class="align-middle m-width-100">{{property.available_floor}}</td>
+                        <td class="align-middle m-width-100">{{property.facing}}</td>
+                        <td class="align-middle m-width-100">{{property.parking}}</td>
+                        <td class="align-middle m-width-100">{{property.total_unit_per_floor}}</td>
+                        <td class="align-middle m-width-100">{{property.building_storied}}</td>
+                        <td class="align-middle m-width-100">
+                            {{property.construction_status?property.construction_status.construction_status:''}}</td>
+                        <td class="align-middle m-width-150">{{property.developer_name}}</td>
+                        <td class="align-middle m-width-100">{{property.handover_year}}</td>
+                        <td class="align-middle m-width-100">{{property.bank_loan}}</td>
+                        <td class="align-middle m-width-100">{{property.rajuk_approval}}</td>
+                        <td class="align-middle m-width-100">
+                            {{property.price_contact?property.price_contact.offer_price:'0.00'}}</td>
+                        <td class="align-middle m-width-150">
+                            {{property.created_by?property.created_by.name:''}}<br>
+                            {{property.created_at|date:'shortDate'}}
+                        </td>
+                        <td class="align-middle m-width-150">
+                            {{property.approved_by?property.approved_by.name:''}}<br>
+                            {{property.approved_at|date:'shortDate'}}
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-template #notFound>
+                    <tr>
+                        <td colspan="100%" class="text-danger">Data Not Found ...</td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
     </div>
-  </div><br>
-    <mat-paginator
-      [length]="totalrow"
-      [pageSize]="itemPerPage"
-      [pageSizeOptions]="pageSizeOptions"
-      (page)="pageEvent($event)">
-    </mat-paginator>
-
+</div><br>
+<mat-paginator [length]="totalrow" [pageSize]="itemPerPage" [pageSizeOptions]="pageSizeOptions"
+    (page)="pageEvent($event)">
+</mat-paginator>

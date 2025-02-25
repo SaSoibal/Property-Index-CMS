@@ -21,7 +21,7 @@
           <div class="row align-items-center">
             <div class="col d-flex justify-content-between">
               <div class="">
-                <h3 class="mb-0">Task To do List</h3>
+                <h3 class="mb-0">To do List</h3>
               </div>
               <div class="">
                   <nz-select  style="width:180px;margin-right: 5px;" nzShowSearch  nzAllowClear [(ngModel)]="changeBranch" (ngModelChange)="onBranch($event)" nzPlaceHolder="Select Branch">
@@ -46,7 +46,7 @@
         </ul>
         <hr class="m-0">
 
-        <div class="card-body border-0" *ngIf="permission('read')">
+        <div class="card-body border-1" *ngIf="permission('read')">
           <div class="d-flex justify-content-between">
             <ul nz-menu nzMode="horizontal" class="shorting-menu">
               <li nz-menu-item nzSelected (click)="select_date('','all')" placement="top"  ngbTooltip="All Task">
@@ -54,25 +54,49 @@
                 ALL ( <span class="text-danger">{{day_wise_counting.all_task}}</span> )
               </li>
               <li nz-menu-item (click)="select_date('','previous')" placement="top"  ngbTooltip="Overdue">
-                <i class=""></i>
+                <i class="fa fa-exclamation-triangle todo-orange" aria-hidden="true"></i>
                 Overdue ( <span class="text-danger">{{day_wise_counting.previous_task}}</span> )
               </li>
               <li nz-menu-item (click)="select_date(day_wise_counting.today,'only')" placement="top"  ngbTooltip="{{day_wise_counting.today}}">
-                <i class=""></i>
+                <i class="fa fa-circle todo-red" aria-hidden="true"></i>
                 Today ( <span class="text-danger">{{day_wise_counting.today_task}}</span> )
               </li>
 
               <li nz-menu-item (click)="select_date(day_wise_counting.next_day,'only')" placement="top" ngbTooltip="{{day_wise_counting.next_day}}">
-                <i class=""></i>
+                <i class="fa fa-circle todo-green" aria-hidden="true"></i>
                 Tomorrow ( <span class="text-danger">{{day_wise_counting.next_day_task}}</span> )
               </li>
               <li nz-menu-item (click)="select_date(day_wise_counting.next_7_day,'between')" placement="top" ngbTooltip="{{day_wise_counting.today}} - {{day_wise_counting.next_7_day}}">
-                <i class=""></i>
+                <i class="fa fa-circle todo-blue" aria-hidden="true"></i>
                 Next 7 Days ( <span class="text-danger">{{day_wise_counting.next_7_day_task}}</span> )
               </li>
               <li nz-menu-item (click)="select_date(day_wise_counting.next_30_day,'between')"  placement="top" ngbTooltip="{{day_wise_counting.today}} - {{day_wise_counting.next_30_day}}">
-                <i class=""></i>
+                <i class="fa fa-circle todo-yellow" aria-hidden="true"></i>
                 Next 30 Days ( <span class="text-danger">{{day_wise_counting.next_30_day_task}}</span> )
+              </li>
+            </ul>
+          </div>
+
+          <!--For Instruction-->
+          <div class="d-flex justify-content-between">
+            <ul nz-menu nzMode="horizontal" class="shorting-menu">
+              <li nz-menu-item nzSelected placement="top"  ngbTooltip="Fire">
+                <i class=""></i>
+                <img class="icon-class" src="./assets/img/brand/fire.png">
+                Fire
+              </li>
+              <li nz-menu-item placement="top"  ngbTooltip="Hot">
+                <img class="icon-class" src="./assets/img/brand/Hot.png">
+                Hot
+              </li>
+              <li nz-menu-item placement="top"  ngbTooltip="Moderate">
+                <img class="icon-class" src="./assets/img/brand/Moderate.png">
+                Moderate
+              </li>
+
+              <li nz-menu-item placement="top" ngbTooltip="Cold">
+                <img class="icon-class" src="./assets/img/brand/Cold.png">
+                Cold
               </li>
             </ul>
           </div>
@@ -81,10 +105,11 @@
             <input style="width: 60%;" nz-input placement="top" ngbTooltip="Search by CLIENT, PHONE, ALLOCATED TO, INTEREST, ALLOCATED DATE, DATELINE" placeholder="SEARCH..." type="text" [(ngModel)]="searchValues" (ngModelChange)="filter($event)">
           </nz-input-group>
             <div class="table-responsive" >
-              <table class="table table-hover table-sm table-striped">
+              <table class="table table-bordered table-hover table-sm ">
                 <thead>
                   <tr>
                     <th class="m-width-150" *ngIf="permission('update') || permission('delete')">Action</th>
+                    <th class="m-width-50 text-center">Lead <br>STATUS</th>
                     <th class="m-width-100">Lead ID</th>
                     <th class="m-width-300">CLIENT</th>
                     <th class="m-width-150">Task</th>
@@ -119,10 +144,18 @@
                           <a nz-button nzType="primary" nzSize="small" (click)="detailsModel(leads)" class="mr-1" placement="top" ngbTooltip="Details" ><i class="ni ni-book-bookmark font-12 text-white"></i></a>
                           <a nz-button nzType="default" nzSize="small" class="mr-1" [routerLink]="[ '/leads/edit-lead',leads.id]"  placement="top" ngbTooltip="Lead Edit" ><i class="fas fa-edit font-12"></i></a>
                         </td>
+                        <td class="align-middle text-center">
+                            <i class="fa {{ today > leads.tasks.allocated_date ? 'fa-exclamation-triangle' : 'fa-circle' }} mr-1"
+                               [ngClass]="getTodoClass(leads.tasks.allocated_date)">
+                            </i>
+                        </td>
                         <td class="align-middle">
                           <a>
-                            <i class="fa {{today > leads.tasks.allocated_date?'fa-exclamation-triangle':'fa-thermometer-half'}} mr-1"  [ngStyle]="{'color':leads.opportunity.classification?leads.opportunity.classification.color:''}"></i>
-                            <strong class="">{{leadNoGenerate(leads.id)}}</strong>
+                            <img
+                              class="icon-class mr-1"
+                              [src]="getIconSrc(leads.opportunity.classification?.id)"
+                              alt="Classification Icon">
+                            <strong [ngStyle]="{'color':leads.opportunity.classification?leads.opportunity.classification.color:''}">{{leadNoGenerate(leads.id)}}</strong>
                           </a>
                         </td>
                         <td class="align-middle">

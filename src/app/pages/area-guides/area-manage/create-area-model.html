@@ -1,88 +1,124 @@
-<div  mat-dialog-title class="d-flex">
-  <h2>Add Area Details</h2>
-  <button type="button" class="close ml-auto" mat-dialog-close>
-    <span aria-hidden="true">&times;</span>
-  </button>
+<div mat-dialog-title class="d-flex">
+    <h2>Add Area Details</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <form #bannerForm="ngForm" (ngSubmit)="onClick()">
-  <mat-dialog-content class="mat-typography pt-3">
-    <div class="row mt-3">
-      <div class="col-md-9">
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title_en">Select Area ({{showData}})</nz-form-label>
-          <nz-form-control  nzErrorTip="Area Title ({{showData}}) is required!"  *ngIf="data.operation == 'create'; else areaTitle">
-            <nz-select nzShowSearch required nzAllowClear nzPlaceHolder="Select a Area ({{showData}})" (ngModelChange)="changeArea($event)" [(ngModel)]="data.area_id" name="area_id">
-              <nz-option *ngFor="let area of data.all_area_list" [nzLabel]="showData == 'EN'?area.title_en:area.title_bn" [nzValue]="area.id"></nz-option>
-            </nz-select>          
-          </nz-form-control>
-          <ng-template #areaTitle>
-            <p>{{showData === 'EN'?data.area_name:data.area_name_bn}}</p>
-          </ng-template>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="option_id">Select Option ({{showData}})</nz-form-label>
-          <nz-form-control  nzErrorTip="Select Option ({{showData}}) is required!"  *ngIf="data.operation == 'create'; else areaOption">
-            <nz-select nzShowSearch required nzAllowClear nzPlaceHolder="Select Option ({{showData}})" [(ngModel)]="data.option_id" name="option_id">
-              <nz-option *ngFor="let option of option_list" [nzLabel]="showData == 'EN'?option.title_en:option.title_bn" [nzValue]="option.id"></nz-option>
-            </nz-select>          
-          </nz-form-control>
-          <ng-template #areaOption>
-            <p>{{showData == 'EN'?data.option_name:data.option_name_bn}}</p>
-          </ng-template>
-        </nz-form-item>
-        <ng-container *ngIf="showData == 'EN'">
-          <nz-form-label nzRequired nzFor="description_en">Area Description (EN)</nz-form-label>
-          <nz-form-control  nzErrorTip="Area Description (EN) is required!">
-            <app-tinymce nz-input [(ngModel)]="data.description_en" #tinymce='tinymce' name="description_en" required id="description_en"  #description_en="ngModel" placeholder="Area Description (EN)"></app-tinymce>
-          </nz-form-control>
-        </ng-container>
-        <ng-container *ngIf="showData == 'BN'">
-          <nz-form-label nzRequired nzFor="description_bn">Area Description (BN)</nz-form-label>
-          <nz-form-control  nzErrorTip="Area Description (BN) is required!">
-            <app-tinymce nz-input [(ngModel)]="data.description_bn" #tinymce='tinymce' name="description_bn" required id="description_bn"  #description_bn="ngModel" placeholder="Area Description (BN)"></app-tinymce>
-          </nz-form-control>
-        </ng-container>
-      </div>
-      <div class="col-md-3">
-        <nz-form-item  class="p-0">
-          <nz-form-control  class="p-0">
-            <nz-form-label>Language</nz-form-label>
-            <nz-switch [ngModel]="false" (ngModelChange)="changeLanguage($event)" nzCheckedChildren="BN" nzUnCheckedChildren="EN"></nz-switch>
-          </nz-form-control>
-        </nz-form-item>
-        <nz-card nzHoverable  [nzCover]="coverTemplate" class="ant-img-up-card">
-          <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg' class="btn btn-sm btn-default text-white btn-block">
-            <i class="fa fa-upload mr-2"></i> Upload Image
-          </button>
-          <input style="display: none" type="file" (change)="Changed($event)" #fileInput>
-          <button type="button" (click)="fileInput.click()" *ngIf='ChangeImg' class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload" ></i> Change </button>
-          <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile" *ngIf='ChangeImg' (click)="RemoveImage()"><i class="fa fa-times"> </i> Remove</button>
-        </nz-card>
-        <ng-template #coverTemplate>
-          <img alt="image" class="p-2" height="150px" [src]="ImageFile" />
-        </ng-template>
-        <small class="text-danger"><i class="fa fa-info mr-1"></i>Dimensions ( 1920 x 1080 ) px.</small>
+    <mat-dialog-content class="mat-typography pt-3">
+        <div class="row mt-3">
+            <div class="col-md-9">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="title_en">Select Area</nz-form-label>
+                    <nz-form-control nzErrorTip="Area Title is required!"
+                        *ngIf="data.operation == 'create'; else areaTitle">
+                        <nz-select nzShowSearch required nzAllowClear nzPlaceHolder="Select a Area"
+                            (ngModelChange)="changeArea($event)" [(ngModel)]="data.area_id" name="area_id">
+                            <nz-option *ngFor="let area of data.all_area_list"
+                                [nzLabel]="showData == 'EN'?area.title_en:area.title_bn"
+                                [nzValue]="area.id"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                    <ng-template #areaTitle>
+                        <p>{{showData === 'EN'?data.area_name:data.area_name_bn}}</p>
+                    </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="option_id">Select Option</nz-form-label>
+                    <nz-form-control nzErrorTip="Select Option is required!"
+                        *ngIf="data.operation == 'create'; else areaOption">
+                        <nz-select nzShowSearch required nzAllowClear nzPlaceHolder="Select Option"
+                            [(ngModel)]="data.option_id" name="option_id">
+                            <nz-option *ngFor="let option of option_list"
+                                [nzLabel]="showData == 'EN'?option.title_en:option.title_bn"
+                                [nzValue]="option.id"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                    <ng-template #areaOption>
+                        <p>{{showData == 'EN'?data.option_name:data.option_name_bn}}</p>
+                    </ng-template>
+                </nz-form-item>
 
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 mt-3">
-        <nz-form-item>
-            <nz-form-label nzFor="status" nzRequired>Status</nz-form-label>
-             <nz-form-control  nzErrorTip="Status is required!">
-                  <nz-switch id="status" required [ngModel]="data.status" [(ngModel)]="data.status" name="status" nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
-             </nz-form-control>
-        </nz-form-item>
-      </div>
-    </div>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
-      <i class="fa fa-times mr-2"></i>Cancel
-    </button>
-    <button type="submit" [disabled]="!bannerForm.form.valid" class="btn btn-sm btn-default text-white">
-      <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
-    </button>
-  </mat-dialog-actions>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="firstVideoUrl">First Video
+                        URL</nz-form-label>
+                    <nz-form-control nzErrorTip="video url is required">
+                        <input type="text" nz-input name="first-video-url" id="firstVideoUrl"
+                            [(ngModel)]="data.first_video_url">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="secondVideoUrl">Second Video
+                        URL</nz-form-label>
+                    <nz-form-control nzErrorTip="video url is required">
+                        <input type="text" nz-input name="second-video-url" id="secondVideoUrl"
+                            [(ngModel)]="data.second_video_url">
+                    </nz-form-control>
+                </nz-form-item>
+
+                <ng-container *ngIf="showData == 'EN'">
+                    <nz-form-label nzRequired nzFor="description_en">Area Description (EN)</nz-form-label>
+                    <nz-form-control nzErrorTip="Area Description (EN) is required!">
+                        <app-tinymce nz-input [(ngModel)]="data.description_en" #tinymce='tinymce' name="description_en"
+                            required id="description_en" #description_en="ngModel"
+                            placeholder="Area Description (EN)"></app-tinymce>
+                    </nz-form-control>
+                </ng-container>
+                <ng-container *ngIf="showData == 'BN'">
+                    <nz-form-label nzRequired nzFor="description_bn">Area Description (BN)</nz-form-label>
+                    <nz-form-control nzErrorTip="Area Description (BN) is required!">
+                        <app-tinymce nz-input [(ngModel)]="data.description_bn" #tinymce='tinymce' name="description_bn"
+                            required id="description_bn" #description_bn="ngModel"
+                            placeholder="Area Description (BN)"></app-tinymce>
+                    </nz-form-control>
+                </ng-container>
+            </div>
+            <div class="col-md-3">
+                <nz-form-item class="p-0">
+                    <nz-form-control class="p-0">
+                        <nz-form-label>Language</nz-form-label>
+                        <nz-switch [ngModel]="false" (ngModelChange)="changeLanguage($event)" nzCheckedChildren="BN"
+                            nzUnCheckedChildren="EN" name="language"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-card nzHoverable [nzCover]="coverTemplate" class="ant-img-up-card">
+                    <button type="button" (click)="fileInput.click()" *ngIf='!ChangeImg'
+                        class="btn btn-sm btn-default text-white btn-block">
+                        <i class="fa fa-upload mr-2"></i> Upload Image
+                    </button>
+                    <input style="display: none" type="file" (change)="Changed($event)" #fileInput>
+                    <button type="button" (click)="fileInput.click()" *ngIf='ChangeImg'
+                        class="btn btn-primary mr-2 btn-sm btn-default text-white"><i class="fa fa-upload"></i> Change
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm text-white" data-dismiss="inputfile"
+                        *ngIf='ChangeImg' (click)="RemoveImage()"><i class="fa fa-times"> </i> Remove</button>
+                </nz-card>
+                <ng-template #coverTemplate>
+                    <img alt="image" class="p-2" height="150px" [src]="ImageFile" />
+                </ng-template>
+                <small class="text-danger"><i class="fa fa-info mr-1"></i>Dimensions ( 1920 x 1080 ) px.</small>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-3">
+                <nz-form-item>
+                    <nz-form-label nzFor="status" nzRequired>Status</nz-form-label>
+                    <nz-form-control nzErrorTip="Status is required!">
+                        <nz-switch id="status" required [ngModel]="data.status" [(ngModel)]="data.status" name="status"
+                            nzCheckedChildren="Active" nzUnCheckedChildren="In-active"></nz-switch>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+            <i class="fa fa-times mr-2"></i>Cancel
+        </button>
+        <button type="submit" [disabled]="!bannerForm.form.valid" class="btn btn-sm btn-default text-white">
+            <i class="fa fa-save mr-2"></i> {{data.operation|titlecase}}
+        </button>
+    </mat-dialog-actions>
 </form>

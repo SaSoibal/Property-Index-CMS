@@ -33,8 +33,10 @@
                 <td>Type</td><td>:</td><td>{{data.details.leads_type == 0 ?'Primary':'Secondary'}}</td>
               </tr>
               <tr>
-                <td>Rent Type</td><td>:</td><td>
-                  {{data.details.product_type == 1?'Residential':'Commercial'}} <span *ngIf="data.details.product">({{data.details.product}})</span>
+                <td>Property Type</td>
+                <td>:</td>
+                <td>
+                {{data.details.product_type == 1?'Residential':'Commercial'}} <span *ngIf="data.details.product">({{data.details.product}})</span>
                 </td>
               </tr>
               <tr>

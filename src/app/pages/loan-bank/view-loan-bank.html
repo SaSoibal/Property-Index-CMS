@@ -1,0 +1,87 @@
+<div mat-dialog-title class="d-flex">
+    <h2>Loan Bank Details</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<mat-dialog-content class="mat-typography pt-3">
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <table class="table table-sm">
+                <tr>
+                    <th>Title (EN)</th>
+                    <td>:</td>
+                    <td>{{data.title_en}}</td>
+                </tr>
+                <tr>
+                    <th>Title (BN)</th>
+                    <td>:</td>
+                    <td>{{data.title_bn}}</td>
+                </tr>
+                <tr>
+                    <th>Max loan (EN)</th>
+                    <td>:</td>
+                    <td>{{data.max_loan_en}}</td>
+                </tr>
+                <tr>
+                    <th>Max loan (BN)</th>
+                    <td>:</td>
+                    <td>{{data.max_loan_bn}}</td>
+                </tr>
+                <tr>
+                    <th>Interest rate (EN)</th>
+                    <td>:</td>
+                    <td>{{data.interest_rate_en}}</td>
+                </tr>
+                <tr>
+                    <th>Interest rate (BN)</th>
+                    <td>:</td>
+                    <td>{{data.interest_rate_bn}}</td>
+                </tr>
+                <tr>
+                    <th>Tenure (EN)</th>
+                    <td>:</td>
+                    <td>{{data.tenure_en}}</td>
+                </tr>
+                <tr>
+                    <th>Tenure (BN)</th>
+                    <td>:</td>
+                    <td>{{data.tenure_bn}}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>:</td>
+                    <td>{{data.status?'Active':'In-active' }}</td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>Thumbnail:</strong><br>
+                    <nz-card nzHoverable class="ant-img-up-card">
+                        <img alt="image" class="p-2" height="250px" width="100%" [src]="rootUrl + data.old_thumbnail" />
+                    </nz-card>
+                </div>
+
+                <div class="col-md-12">
+                    <strong>Description (EN):</strong><br>
+                    <nz-card nzHoverable class="ant-img-up-card">
+                        <div [innerHTML]="data.description_en"></div>
+                    </nz-card>
+                </div>
+                <div class="col-md-12">
+                    <strong>Description (BN):</strong><br>
+                    <nz-card nzHoverable class="ant-img-up-card">
+                        <div [innerHTML]="data.description_bn"></div>
+                    </nz-card>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+        <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+</mat-dialog-actions>

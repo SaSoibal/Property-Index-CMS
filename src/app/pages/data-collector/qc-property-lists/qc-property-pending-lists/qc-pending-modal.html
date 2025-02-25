@@ -1,110 +1,169 @@
-<div  mat-dialog-title class="d-flex">
-  <h2>Property Preview</h2>
-  <button type="button" class="close ml-auto" mat-dialog-close>
-    <span aria-hidden="true">&times;</span>
-  </button>
+<div mat-dialog-title class="d-flex">
+    <h2>Property Preview</h2>
+    <button type="button" class="close ml-auto" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
-  <mat-dialog-content class="mat-typography pt-3">
+<mat-dialog-content class="mat-typography pt-3">
     <div class="row mt-3">
-      <div class="col-md-12">
-        <table class="table table-sm">
-          <tr>
-            <td width="150">Seller name</td><td>:</td><td>{{data.details.seller_name}}</td>
-          </tr>
-          <tr>
-            <td>Seller number</td><td>:</td><td>{{data.details.seller_number}}</td>
-          </tr>
-          <tr>
-            <td>Product Type</td><td>:</td><td>
-              {{data.details.type_of_Product==1?'Residential':'Commercial'}}
-              <span *ngIf="data.details.product">({{data.details.product}})</span>
-            </td>
-          </tr>
-          <tr>
-            <td>Property Location</td><td>:</td><td>{{data.details.property_location?data.details.property_location.location:''}}</td>
-          </tr>
-          <tr>
-            <td>City</td><td>:</td><td>{{data.details.cities?data.details.cities.city:''}}</td>
-          </tr>
-          <tr>
-            <td>Area</td><td>:</td><td>{{data.details.areas?data.details.areas.area_name:''}}</td>
-          </tr>
-          <tr>
-            <td>Block</td><td>:</td><td>{{data.details.block}}</td>
-          </tr>
-          <tr>
-            <td>Sector</td><td>:</td><td>{{data.details.sector}}</td>
-          </tr>
-          <tr>
-            <td>Road</td><td>:</td><td>{{data.details.road}}</td>
-          </tr>
-          <tr>
-            <td>House No</td><td>:</td><td>{{data.details.house_no}}</td>
-          </tr>
-          <tr>
-            <td>Square Feet</td><td>:</td><td>{{data.details.square_feet}}</td>
-          </tr>
-          <tr>
-            <td>Bedroom</td><td>:</td><td>{{data.details.bedroom}}</td>
-          </tr>
-          <tr>
-            <td>Bathroom</td><td>:</td><td>{{data.details.bathroom}}</td>
-          </tr>
-          <tr>
-            <td>Balcony</td><td>:</td><td>{{data.details.balcony}}</td>
-          </tr>
-          <tr>
-            <td>Servant Room</td><td>:</td><td>{{data.details.servant_room}}</td>
-          </tr>
-          <tr>
-            <td>Available Floor</td><td>:</td><td>{{data.details.available_floor}}</td>
-          </tr>
-          <tr>
-            <td>Facing</td><td>:</td><td>{{data.details.facing}}</td>
-          </tr>
-          <tr>
-            <td>Unit Per Floor</td><td>:</td><td>{{data.details.facing}}</td>
-          </tr>
-          <tr>
-            <td>Total Unit</td><td>:</td><td>{{data.details.facing}}</td>
-          </tr>
-          <tr>
-            <td>Construction Status</td><td>:</td><td>{{data?.details?.construction_status?.construction_status}}</td>
-          </tr>
-          <tr>
-            <td>Developer name</td><td>:</td><td>{{data.details.developer_name}}</td>
-          </tr>
-          <tr>
-            <td>Description</td><td>:</td><td>{{data.details.description}}</td>
-          </tr>
-          <tr>
-            <td>Property Address</td><td>:</td><td>{{data.details.property_address}}</td>
-          </tr>
-          <tr>
-            <td>Status</td><td>:</td><td>
-            <p class="badge status_btn text-wrap mb-0 badge-info" *ngIf="data.details.status == 0">Pending</p>
-            <p class="badge status_btn text-wrap mb-0 badge-success" *ngIf="data.details.status == 1">Approve</p>
-            <p class="badge status_btn text-wrap mb-0 badge-warning" *ngIf="data.details.status == 2">Reject</p>
-            </td>
-          </tr>
-          <tr>
-            <td>Created By</td><td>:</td><td>{{data.details.created_by?data.details.created_by.name:''}} | {{data.details.created_at|date:"mediumDate"}}</td>
-          </tr>
-          <tr *ngIf="data.details.updated_by">
-            <td>Updated by</td><td>:</td><td>{{data.details.updated_by?data.details.updated_by.name:''}} | {{data.details.updated_at|date:"mediumDate"}}</td>
-          </tr>
-        </table>
-      </div>
+        <div class="col-md-12">
+            <table class="table table-sm">
+                <tr>
+                    <td width="150">Seller name</td>
+                    <td>:</td>
+                    <td>{{data.details.seller_name}}</td>
+                </tr>
+                <tr>
+                    <td>Seller number</td>
+                    <td>:</td>
+                    <td>{{data.details.seller_number}}</td>
+                </tr>
+                <tr>
+                    <td>Product Type</td>
+                    <td>:</td>
+                    <td>
+                        {{data.details.type_of_Product==1?'Residential':'Commercial'}}
+                        <span *ngIf="data.details.product">({{data.details.product}})</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Property Location</td>
+                    <td>:</td>
+                    <td>{{data.details.property_location?data.details.property_location.location:''}}</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>:</td>
+                    <td>{{data.details.cities?data.details.cities.city:''}}</td>
+                </tr>
+                <tr>
+                    <td>Area</td>
+                    <td>:</td>
+                    <td>{{data.details.areas?data.details.areas.area_name:''}}</td>
+                </tr>
+                <tr>
+                    <td>Block</td>
+                    <td>:</td>
+                    <td>{{data.details.block}}</td>
+                </tr>
+                <tr>
+                    <td>Sector</td>
+                    <td>:</td>
+                    <td>{{data.details.sector}}</td>
+                </tr>
+                <tr>
+                    <td>Road</td>
+                    <td>:</td>
+                    <td>{{data.details.road}}</td>
+                </tr>
+                <tr>
+                    <td>House No</td>
+                    <td>:</td>
+                    <td>{{data.details.house_no}}</td>
+                </tr>
+                <tr>
+                    <td>Square Feet</td>
+                    <td>:</td>
+                    <td>{{data.details.square_feet}}</td>
+                </tr>
+                <tr>
+                    <td>Bedroom</td>
+                    <td>:</td>
+                    <td>{{data.details.bedroom}}</td>
+                </tr>
+                <tr>
+                    <td>Bathroom</td>
+                    <td>:</td>
+                    <td>{{data.details.bathroom}}</td>
+                </tr>
+                <tr>
+                    <td>Balcony</td>
+                    <td>:</td>
+                    <td>{{data.details.balcony}}</td>
+                </tr>
+                <tr>
+                    <td>Servant Room</td>
+                    <td>:</td>
+                    <td>{{data.details.servant_room}}</td>
+                </tr>
+                <tr>
+                    <td>Available Floor</td>
+                    <td>:</td>
+                    <td>{{data.details.available_floor}}</td>
+                </tr>
+                <tr>
+                    <td>Facing</td>
+                    <td>:</td>
+                    <td>{{data.details.facing}}</td>
+                </tr>
+                <tr>
+                    <td>Unit Per Floor</td>
+                    <td>:</td>
+                    <td>{{data.details.unit_per_floor}}</td>
+                </tr>
+                <tr>
+                    <td>Total Unit</td>
+                    <td>:</td>
+                    <td>{{data.details.total_unit}}</td>
+                </tr>
+                <tr>
+                    <td>Construction Status</td>
+                    <td>:</td>
+                    <td>{{data?.details?.construction_status?.construction_status}}</td>
+                </tr>
+                <tr>
+                    <td>Developer name</td>
+                    <td>:</td>
+                    <td>{{data.details.developer_name}}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>:</td>
+                    <td>{{data.details.description}}</td>
+                </tr>
+                <tr>
+                    <td>Property Address</td>
+                    <td>:</td>
+                    <td>{{data.details.property_address}}</td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>:</td>
+                    <td>
+                        <p class="badge status_btn text-wrap mb-0 badge-info" *ngIf="data.details.status == 0">Pending
+                        </p>
+                        <p class="badge status_btn text-wrap mb-0 badge-success" *ngIf="data.details.status == 1">
+                            Approve</p>
+                        <p class="badge status_btn text-wrap mb-0 badge-warning" *ngIf="data.details.status == 2">Reject
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Created By</td>
+                    <td>:</td>
+                    <td>{{data.details.created_by?data.details.created_by.name:''}} |
+                        {{data.details.created_at|date:"mediumDate"}}</td>
+                </tr>
+                <tr *ngIf="data.details.updated_by">
+                    <td>Updated by</td>
+                    <td>:</td>
+                    <td>{{data.details.updated_by?data.details.updated_by.name:''}} |
+                        {{data.details.updated_at|date:"mediumDate"}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
+</mat-dialog-content>
+<mat-dialog-actions align="end">
     <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
-      <i class="fa fa-times mr-2"></i>Cancel
+        <i class="fa fa-times mr-2"></i>Cancel
     </button>
-    <button type="submit" [disabled]="submitButton" (click)="onClick(1, data.details.id)" class="btn btn-sm btn-default text-white">
-      <i class="fa fa-save mr-2"></i> Approve
+    <button type="submit" [disabled]="submitButton" (click)="onClick(1, data.details.id)"
+        class="btn btn-sm btn-default text-white">
+        <i class="fa fa-save mr-2"></i> Approve
     </button>
-    <button type="submit" [disabled]="submitButton" (click)="onClick(2, data.details.id)" class="btn btn-sm btn-default text-white">
-      <i class="fa fa-save mr-2"></i> Reject
+    <button type="submit" [disabled]="submitButton" (click)="onClick(2, data.details.id)"
+        class="btn btn-sm btn-default text-white">
+        <i class="fa fa-save mr-2"></i> Reject
     </button>
-  </mat-dialog-actions>
+</mat-dialog-actions>

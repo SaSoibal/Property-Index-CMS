@@ -11,6 +11,7 @@ export interface DialogData {
   city_id: string,
   area_name: string,
   area_name_bn: string,
+  sort_number: string,
   status: string,
   old_image: string;
   operation: string,
@@ -56,7 +57,8 @@ export class PropertyAreaComponent implements OnInit {
   }
 
   permission(type) {
-    return this.common.permission('administrator/setting',type);
+    // return this.common.permission('administrator/setting',type);
+    return this.common.permission('administrator/additional-setting',type);
   }
 
   city_list() {
@@ -89,6 +91,7 @@ export class PropertyAreaComponent implements OnInit {
         city_id: '',
         api_token: this.tokenId,
         operation: 'create',
+        sort_number: '',
         status: true,
       }
     });
@@ -111,6 +114,7 @@ export class PropertyAreaComponent implements OnInit {
         old_image: type.image,
         api_token: this.tokenId,
         operation: 'update',
+        sort_number: type.sort_number,
         status: type.status == 1?true:false,
       }
     });
@@ -239,7 +243,7 @@ export class CreatePropertyArea {
           reader.readAsDataURL(fileInput.target.files[0]);
       }
     }
-  
+
     // tslint:disable-next-line: typedef
     RemoveImage() {
       this.SelectedFile = null;

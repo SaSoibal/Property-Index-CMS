@@ -78,7 +78,7 @@
                 </nz-tab>
               </nz-tabset>
               <nz-tabset [nzTabPosition]="position" *ngIf="setMenu==2">
-                
+
                 <nz-tab  nzTitle="PREFERRED TENANTS">
                   <ng-template nz-tab>
                     <app-preferred-tenants></app-preferred-tenants>
@@ -87,6 +87,11 @@
                 <nz-tab  nzTitle="PROJECT">
                   <ng-template nz-tab>
                     <app-project></app-project>
+                  </ng-template>
+                </nz-tab>
+                <nz-tab  nzTitle="PRODUCT TYPE">
+                  <ng-template nz-tab>
+                    <app-product-type></app-product-type>
                   </ng-template>
                 </nz-tab>
                 <nz-tab  nzTitle="PROJECT TYPE">
@@ -123,12 +128,12 @@
                     <app-department></app-department>
                   </ng-template>
                 </nz-tab>
-              
+
                 <!-- <nz-tab  nzTitle="TASK TYPE">
                   <app-task-type></app-task-type>
                 </nz-tab> -->
-              
-               
+
+
               </nz-tabset>
 
             </div>

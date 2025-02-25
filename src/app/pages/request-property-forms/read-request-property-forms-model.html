@@ -1,0 +1,49 @@
+<div  mat-dialog-title class="d-flex">
+  <h2>Point Details</h2>
+  <button type="button" class="close ml-auto" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  <mat-dialog-content class="mat-typography pt-3">
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <table class="table table-sm">
+          <tr>
+            <th>Name</th>
+            <td>:</td>
+            <td>{{data.name}}</td>
+          </tr>
+          <tr>
+            <th>Email</th>
+            <td>:</td>
+            <td>{{data.email}}</td>
+          </tr>
+          <tr>
+            <th>Phone</th>
+            <td>:</td>
+            <td>{{data.phone}}</td>
+          </tr>
+          <tr>
+            <th>Property Location</th>
+            <td>:</td>
+            <td>{{data?.location?.area_name}}</td>
+          </tr>
+          <tr>
+            <th>Additional Info</th>
+            <td>:</td>
+            <td>{{data.additionalInfo}}</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            <td>:</td>
+            <td>{{data.status?'Read':'Unread' }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-sm btn-danger text-white" mat-dialog-close>
+      <i class="fa fa-times mr-2"></i>Cancel
+    </button>
+  </mat-dialog-actions>

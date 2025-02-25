@@ -33,8 +33,9 @@
                 <td>Type</td><td>:</td><td>{{data.details.leads_type == 0 ?'Primary':'Secondary'}}</td>
               </tr>
               <tr>
-                <td>Product Type</td><td>:</td><td>
-                  {{data.details.product_type==1?'Residential':'Commercial'}} <span *ngIf="data.details.product">({{data.details.product}})</span>
+                <td>Product Type</td>
+                <td>:</td>
+                <td>{{data.details.product_type==1?'Residential':'Commercial'}} <span *ngIf="data.details.product">({{data.details.product}})</span>
                 </td>
               </tr>
               <tr>
@@ -55,7 +56,7 @@
               <tr>
                 <td>Area</td><td>:</td><td>{{data.details.areas?data.details.areas.area_name:''}}</td>
               </tr>
-              
+
               <tr>
                 <td>Sector</td><td>:</td><td>{{data.details.sector}}</td>
               </tr>
@@ -489,7 +490,7 @@
               </div>
             </ng-container>
           </nz-tab>
-          
+
         </nz-tabset>
       </div>
     </div>

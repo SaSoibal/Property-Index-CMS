@@ -48,7 +48,14 @@
               <small class="text-danger"><i class="fa fa-info mr-1"></i>Dimensions ( 300 x 300 ) px.</small>
             </nz-form-control>
           </nz-form-item>
-          
+
+        <nz-form-item>
+          <nz-form-label  [nzSm]="6" [nzXs]="24" nzFor="sort_number" nzRequired>Sort Order</nz-form-label>
+          <nz-form-control nzErrorTip="Sort Number is required!">
+            <input nz-input [(ngModel)]="data.sort_number" name="sort_number" id="sort_number"  #sort_number="ngModel" required placeholder="Property Sort Number"/>
+          </nz-form-control>
+        </nz-form-item>
+
           <nz-form-item>
             <nz-form-label  [nzSm]="6" [nzXs]="24" nzFor="status" nzRequired>Status</nz-form-label>
               <nz-form-control  nzErrorTip="Status is required!">
