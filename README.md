@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # property index admin
 property index
 
