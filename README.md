@@ -1,4 +1,4 @@
-# property index admin
+# Property index admin
 property index
 
 ## Getting started
